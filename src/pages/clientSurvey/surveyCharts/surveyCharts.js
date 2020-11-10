@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../../firebase";
 
 const SurveyCharts = () => {
-  const [surveyResponses, setSurveyResponses] = useState([]);
   const email = useSelector((selector) => selector.user.email);
+  const surveys = useSelector((selector) => selector.clientSurveys);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    db.collection("survey-resposes")
+    db.collection("survey")
       .where("owner", "==", email)
       .get()
-      .then((data) => setSurveyResponses(data.docs.map((doc) => doc.data())))
+      .then((data) => {
+        const surveys = data.docs.map((doc) => doc.data());
+        dispatch({
+          type: "GET_SURVEYS",
+          payload: surveys,
+        });
+      })
       .catch((err) => console.log(err.message));
   }, [email]);
-  console.log(surveyResponses);
+
+  console.log(surveys);
   return (
     <div>
       <h1>data</h1>
