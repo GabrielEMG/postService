@@ -4,6 +4,7 @@ import Login from "./pages/login/login";
 import Home from "./pages/home/home";
 import CreateSurvey from "./pages/clientSurvey/createSurvey";
 import Survey from "./pages/userSurvey/survey";
+import SurveyCharts from "./pages/clientSurvey/surveyCharts";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Link to="/">home</Link>
       <Link to="/login">login</Link>
       <Link to="/user">user</Link>
+      <Link to="/getsurvey">getSurvey</Link>
 
       <Switch>
         <Route exact path="/">
@@ -21,6 +23,9 @@ const App = () => {
         </Route>
         <Route path="/user">
           <CreateSurvey />
+        </Route>
+        <Route path="/getsurvey">
+          <SurveyCharts />
         </Route>
         <Route path="/survey/:id">
           <Survey />

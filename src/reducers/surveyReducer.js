@@ -2,6 +2,7 @@ const initialState = {
   title: "",
   ready: "false",
   owner: "",
+  date: new Date(),
   questions: [],
 };
 
@@ -23,7 +24,7 @@ const surveyReducer = (state = initialState, action) => {
             });
             break;
           case "grade-choice":
-            ans = 0;
+            ans = 5;
             break;
           case "text-input":
             ans = "";
@@ -40,6 +41,7 @@ const surveyReducer = (state = initialState, action) => {
         };
       });
       return {
+        ...state,
         title: payload.title,
         owner: payload.owner,
         ready: true,
@@ -57,8 +59,13 @@ const surveyReducer = (state = initialState, action) => {
       mqCopy.questions[payload.questionId].answers[payload.answer] = !mqCopy
         .questions[payload.questionId].answers[payload.answer];
       return mqCopy;
-    case "UPDATE_SURVEY_OWNER":
-      return { ...state, user: payload.user, surveyId: payload.surveyId };
+    case "UPDATE_GRADE_QUESTION_ANSWER":
+      let gqCopy = { ...state };
+      gqCopy.questions[payload.questionId].answers = payload.answer;
+      return gqCopy;
+    case "UPDATE_TEXTINPUT_QUESTION_ANSWER":
+      let tqCopy = { ...state };
+      tqCopy.questions[payload.questionId].answers = payload.answer;
     default:
       return state;
   }

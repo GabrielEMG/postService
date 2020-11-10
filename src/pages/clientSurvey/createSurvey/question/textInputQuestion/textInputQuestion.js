@@ -13,7 +13,7 @@ const TextInputQuestion = (props) => {
       type: "TEXT_INPUT_QUESTION",
       payload: question,
     });
-  }, [title]);
+  }, [question.title]);
 
   return (
     <div>

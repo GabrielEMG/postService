@@ -2,17 +2,26 @@ import React, { useEffect, useState } from "react";
 import CreateQuestion from "./createQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../../firebase";
+import { useHistory } from "react-router-dom";
 
 const CreateSurvey = () => {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
   const state = useSelector((selector) => selector.createSurvey);
+  const email = useSelector((selector) => selector.user.email);
   const handleTitleChange = (e) => {
     dispatch({
       type: "UPDATE_TITLE_SURVEY",
       payload: e.target.value,
     });
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "UPDATE_OWNER_SURVEY",
+      payload: email,
+    });
+  }, [email]);
 
   useEffect(() => {
     setCount(state.questions.length);

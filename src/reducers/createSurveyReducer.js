@@ -9,6 +9,8 @@ const createSurveyReducer = (state = initialState, action) => {
   switch (type) {
     case "UPDATE_TITLE_SURVEY":
       return { ...state, title: payload };
+    case "UPDATE_OWNER_SURVEY":
+      return { ...state, owner: payload };
     case "ADD_QUESTION":
       let newArr = state.questions;
       newArr.push({});
@@ -17,7 +19,6 @@ const createSurveyReducer = (state = initialState, action) => {
       let shortArr = state.questions;
       shortArr.pop();
       return { ...state, questions: shortArr };
-
     case "SINGLE_CHOICE_QUESTION":
       let scArr = state.questions;
       scArr[payload.index] = payload;

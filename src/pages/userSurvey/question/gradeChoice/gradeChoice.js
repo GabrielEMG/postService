@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const GradeChoice = (props) => {
@@ -7,6 +7,16 @@ const GradeChoice = (props) => {
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "UPDATE_GRADE_QUESTION_ANSWER",
+      payload: {
+        questionId: props.question.index,
+        answer: inputValue,
+      },
+    });
+  }, [inputValue]);
 
   return (
     <div>

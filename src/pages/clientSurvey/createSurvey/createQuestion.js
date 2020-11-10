@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SingleChoice from "./question/singleChoice";
 import MultipleChoice from "./question/multiChoice";
 import GradeChoice from "./question/gradeChoice";
+import TextInputQuestion from "./question/textInputQuestion";
 
 const CreateQuestion = (props) => {
   const [questionType, setQuestionType] = useState("");
@@ -17,6 +18,8 @@ const CreateQuestion = (props) => {
         return <MultipleChoice count={props.count} />;
       case "grade-choice":
         return <GradeChoice count={props.count} />;
+      case "textfield-answer":
+        return <TextInputQuestion count={props.count} />;
       default:
         return true;
     }
