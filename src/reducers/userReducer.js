@@ -1,8 +1,7 @@
 import { auth } from "../firebase";
 
 const initialState = {
-  email: "",
-  id: "",
+  email: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -12,7 +11,14 @@ const userReducer = (state = initialState, action) => {
       return { ...state, email: payload };
     case "LOGOUT_USER":
       auth.signOut();
-      return { initialState };
+      return initialState;
+    case "SET_SURVEYS":
+      return { ...state, surveys: payload };
+    case "SET_DATA":
+      const surveyOrdered = state.surveys.map((survey) =>
+        payload.filter((doc) => doc.title === survey.title)
+      );
+      return { ...state, surveyData: surveyOrdered };
     default:
       return state;
   }

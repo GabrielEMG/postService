@@ -61,6 +61,7 @@ const Survey = () => {
                 key={index}
               />
             );
+          else return <p>nada</p>;
         })
       )}
 

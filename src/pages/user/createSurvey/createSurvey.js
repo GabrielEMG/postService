@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CreateQuestion from "./createQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../../firebase";
-import { useHistory } from "react-router-dom";
 
 const CreateSurvey = () => {
   const [count, setCount] = useState(0);
@@ -15,7 +14,7 @@ const CreateSurvey = () => {
       payload: e.target.value,
     });
   };
-
+  console.log(count);
   useEffect(() => {
     dispatch({
       type: "UPDATE_OWNER_SURVEY",

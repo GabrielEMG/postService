@@ -31,7 +31,10 @@ const createSurveyReducer = (state = initialState, action) => {
       let gcArr = state.questions;
       gcArr[payload.index] = payload;
       return { ...state, questions: gcArr };
-
+    case "BOOLEAN_CHOICE_QUESTION":
+      let bcArr = state.questions;
+      bcArr[payload.index] = payload;
+      return { ...state, questions: bcArr };
     default:
       return state;
   }

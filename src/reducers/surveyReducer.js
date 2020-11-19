@@ -66,6 +66,7 @@ const surveyReducer = (state = initialState, action) => {
     case "UPDATE_TEXTINPUT_QUESTION_ANSWER":
       let tqCopy = { ...state };
       tqCopy.questions[payload.questionId].answers = payload.answer;
+      return tqCopy;
     default:
       return state;
   }
