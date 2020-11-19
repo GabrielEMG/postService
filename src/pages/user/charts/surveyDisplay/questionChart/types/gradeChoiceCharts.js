@@ -3,17 +3,13 @@ import { Doughnut, Bar } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 
 const GradeChoiceCharts = (props) => {
-  console.log(props);
-
   const answers = props.data.map(
     (doc) => doc.questions.find((q) => q.title === props.question.title).answers
   );
 
   const parseAns = answers.map((a) => JSON.parse(a));
-  console.log(parseAns);
 
   const maxAcc = answers.length * 10;
-  console.log(maxAcc);
   const avrg =
     parseAns.length > 1
       ? ((10 * parseAns.reduce((acc, val) => acc + val)) / maxAcc).toFixed(1)

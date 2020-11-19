@@ -2,12 +2,23 @@ import React from "react";
 import { Bar, Pie, Line } from "react-chartjs-2";
 import { Col, Container, Row } from "react-bootstrap";
 import "chartjs-plugin-datalabels";
+import { sameDay, getDaysArray, formatDate } from "./helpers";
+
+const bgc = [
+  "rgba(255,99,132,0.6)",
+  "rgba(54,162,235,0.6)",
+  "rgba(255,206,86,0.6)",
+  "rgba(10,0,222,0.6)",
+  "rgba(153,102,255,0.6)",
+  "rgba(255,159,64,0.6)",
+  "rgba(255,99,132,0.6)",
+];
 
 const SingleChoice = (props) => {
   const answers = props.data.map(
     (doc) => doc.questions.find((q) => q.title === props.question.title).answers
   );
-
+  console.log(props);
   const newData = props.question.answers.map((ans) => {
     let count = 0;
     answers.forEach((a) => {
@@ -27,7 +38,27 @@ const SingleChoice = (props) => {
     if (!datesArr.includes(doc.date.seconds)) datesArr.push(doc.date.seconds);
   });
 
-  console.log("datesArr", datesArr);
+  const daysLabel = getDaysArray(props.date.initial, props.date.ending);
+
+  const linearDataset = labels.map((choice, ind) => {
+    const data = daysLabel.map((day) => {
+      let count = 0;
+      props.data.forEach((doc) => {
+        if (sameDay(day, new Date(doc.date.seconds * 1000))) {
+          if (doc.questions[props.question.index].answers[choice]) {
+            count = count + 1;
+          }
+        }
+      });
+      return count;
+    });
+    return { label: choice, data, borderColor: bgc[ind], fill: false };
+  });
+
+  const linearData = {
+    labels: daysLabel.map((date) => formatDate(date)),
+    datasets: linearDataset,
+  };
 
   const chartData = {
     labels: labels,
@@ -35,15 +66,7 @@ const SingleChoice = (props) => {
       {
         label: props.question.title,
         data: data,
-        backgroundColor: [
-          "rgba(255,99,132,0.6)",
-          "rgba(54,162,235,0.6)",
-          "rgba(255,206,86,0.6)",
-          "rgba(10,0,222,0.6)",
-          "rgba(153,102,255,0.6)",
-          "rgba(255,159,64,0.6)",
-          "rgba(255,99,132,0.6)",
-        ],
+        backgroundColor: bgc,
       },
     ],
   };
@@ -67,7 +90,8 @@ const SingleChoice = (props) => {
                   {
                     ticks: {
                       min: 0,
-                      max: Math.max(...data) + 1,
+                      max: Math.max(...data),
+                      stepSize: Math.ceil(Math.max(...data) / 10),
                     },
                   },
                 ],
@@ -102,7 +126,7 @@ const SingleChoice = (props) => {
           />
         </Col>
         <Col md={12}>
-          <Line />
+          <Line data={linearData} />
         </Col>
       </Row>
     </Container>

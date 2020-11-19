@@ -61,7 +61,12 @@ const SurveyDisplay = (props) => {
       <Row className="bg-light">
         <Col>
           {survey.questions.map((question, index) => (
-            <QuestionChart key={index} question={question} data={data} />
+            <QuestionChart
+              key={index}
+              question={question}
+              data={data}
+              date={filterDate}
+            />
           ))}
         </Col>
       </Row>

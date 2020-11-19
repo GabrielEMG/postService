@@ -9,15 +9,45 @@ const QuestionChart = (props) => {
   const displayCharts = (type, data) => {
     switch (type) {
       case "single-choice":
-        return <SingleChoiceCharts question={props.question} data={data} />;
+        return (
+          <SingleChoiceCharts
+            question={props.question}
+            data={data}
+            date={props.date}
+          />
+        );
       case "multi-choice":
-        return <MultiChoiceCharts question={props.question} data={data} />;
+        return (
+          <MultiChoiceCharts
+            question={props.question}
+            data={data}
+            date={props.date}
+          />
+        );
       case "grade-choice":
-        return <GradeChoiceCharts question={props.question} data={data} />;
+        return (
+          <GradeChoiceCharts
+            question={props.question}
+            data={data}
+            date={props.date}
+          />
+        );
       case "text-input":
-        return <InputTextDisplay question={props.question} data={data} />;
+        return (
+          <InputTextDisplay
+            question={props.question}
+            data={data}
+            date={props.date}
+          />
+        );
       case "boolean-choice":
-        return <BooleanChoiceCharts question={props.question} data={data} />;
+        return (
+          <BooleanChoiceCharts
+            question={props.question}
+            data={data}
+            date={props.date}
+          />
+        );
       default:
         console.log(type);
         return <p>{type}</p>;
