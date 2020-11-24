@@ -1,4 +1,5 @@
 import React from "react";
+import "./fixingDoughnutToShowText";
 import GradeChoiceCharts from "./types/gradeChoiceCharts";
 import InputTextDisplay from "./types/inputTextDisplay";
 import MultiChoiceCharts from "./types/multiChoiceCharts";
@@ -57,9 +58,7 @@ const QuestionChart = (props) => {
   console.log(props.question.type);
 
   return (
-    <div>
-      <h1>{props.question.title}</h1>
-
+    <div style={{ marginTop: 20 }}>
       {displayCharts(props.question.type, props.data)}
     </div>
   );

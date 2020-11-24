@@ -26,7 +26,17 @@ const formatDate = (date) => {
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
 
-  return [day, month, year].join("-");
+  return [day, month].join("-");
 };
 
-export { sameDay, getDaysArray, formatDate };
+const devEstHelper = (arr) => {
+  let sum = 0;
+  arr.forEach((val) => (sum += Math.pow(val - avrgHelper(arr), 2)));
+  return Math.sqrt(sum / arr.length);
+};
+
+const avrgHelper = (arr) => {
+  return arr.length > 0 ? arr.reduce((acc, val) => acc + val) / arr.length : 0;
+};
+
+export { sameDay, getDaysArray, formatDate, devEstHelper, avrgHelper };

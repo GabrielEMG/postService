@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react";
 import CreateQuestion from "./createQuestion";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../../firebase";
+import {
+  Container,
+  FormControl,
+  Row,
+  InputGroup,
+  Button,
+  Col,
+} from "react-bootstrap";
 
 const CreateSurvey = () => {
   const [count, setCount] = useState(0);
@@ -37,35 +45,51 @@ const CreateSurvey = () => {
   };
 
   return (
-    <div>
-      <p>createSurvey</p>
+    <Container className="justify-content-center">
+      <Row className="border p-4 m-3 justify-content-center">
+        <h1>Crear una encuesta</h1>
+      </Row>
+      <Row className="border p-4 m-3 justify-content-center">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Título de encuesta</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            name="title"
+            onChange={(e) => handleTitleChange(e)}
+            placeholder="Introduce el título de la encuesta acá"
+          />
+        </InputGroup>
+      </Row>
 
-      <input
-        type="text"
-        name="title"
-        onChange={(e) => handleTitleChange(e)}
-        placeholder="Título de encuesta"
-      />
-
-      <div>
+      <Row>
         {new Array(count).fill().map((e, i) => (
           <CreateQuestion key={i} count={i} />
         ))}
-      </div>
+      </Row>
 
-      <div>
-        <button onClick={() => dispatch({ type: "ADD_QUESTION" })}>
-          Agregar pregunta
-        </button>
-        <button onClick={() => dispatch({ type: "REMOVE_QUESTION" })}>
-          Borrar pregunta
-        </button>
-      </div>
+      <Row className="border p-4 m-3 justify-content-center">
+        <Button
+          className="mr-4"
+          onClick={() => dispatch({ type: "ADD_QUESTION" })}
+        >
+          Agregar una pregunta
+        </Button>
+        {count > 0 && (
+          <Button
+            className="ml-4"
+            onClick={() => dispatch({ type: "REMOVE_QUESTION" })}
+          >
+            Borrar una pregunta
+          </Button>
+        )}
+      </Row>
 
       <div>
         <button onClick={() => handleUploadSurvey()}>subir questionario</button>
       </div>
-    </div>
+    </Container>
   );
 };
 

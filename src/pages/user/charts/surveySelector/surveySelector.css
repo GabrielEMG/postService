@@ -1,0 +1,13 @@
+.selector-button {
+  background-color: rgba(150, 150, 150, 0.2);
+  cursor: pointer;
+  transition: background-color 200ms linear;
+}
+
+.selected-survey {
+  background-color: rgba(150, 150, 150, 0.8) !important;
+}
+
+.selector-button:hover {
+  background-color: rgba(150, 150, 150, 0.5);
+}

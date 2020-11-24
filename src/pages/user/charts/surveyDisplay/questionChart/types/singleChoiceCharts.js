@@ -18,7 +18,6 @@ const SingleChoice = (props) => {
   const answers = props.data.map(
     (doc) => doc.questions.find((q) => q.title === props.question.title).answers
   );
-  console.log(props);
   const newData = props.question.answers.map((ans) => {
     let count = 0;
     answers.forEach((a) => {
@@ -34,7 +33,7 @@ const SingleChoice = (props) => {
       : newData.map((doc) => doc[Object.keys(doc)]);
 
   let datesArr = [];
-  props.data.map((doc) => {
+  props.data.forEach((doc) => {
     if (!datesArr.includes(doc.date.seconds)) datesArr.push(doc.date.seconds);
   });
 
@@ -67,66 +66,110 @@ const SingleChoice = (props) => {
         label: props.question.title,
         data: data,
         backgroundColor: bgc,
+        borderColor: "black",
+        borderWidth: 0.5,
       },
     ],
   };
 
   return (
-    <Container fluid>
-      <Row>
-        <Col md={6}>
-          <Bar
-            data={chartData}
+    <Container className="border border-dark rounded bg-light p-4">
+      <Row className="justify-content-center">
+        <h3>{props.question.title}</h3>
+      </Row>
+      <Row className="mt-3">
+        <Col lg={6}>
+          <Row>
+            <Bar
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                  display: false,
+                  text: props.question.title,
+                },
+                legend: {
+                  display: false,
+                },
+                scales: {
+                  yAxes: [
+                    {
+                      ticks: {
+                        min: 0,
+                        max: Math.max(...data),
+                        stepSize: Math.ceil(Math.max(...data) / 5),
+                      },
+                    },
+                  ],
+                },
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: "black",
+                    formatter: (value, context) => {
+                      if (value === 0) return "";
+                      else return value;
+                    },
+                  },
+                },
+              }}
+            />
+          </Row>
+          <Row>
+            <Pie
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                  display: false,
+                  text: props.question.title,
+                  position: "top",
+                },
+                legend: {
+                  display: true,
+                  position: "left",
+                },
+                plugins: {
+                  datalabels: {
+                    display: true,
+                    color: "black",
+                    formatter: (value, context) => {
+                      if (value === 0) return "";
+                      else
+                        return (
+                          ((100 * value) / props.data.length).toFixed(0) + "%"
+                        );
+                    },
+                  },
+                },
+              }}
+            />
+          </Row>
+        </Col>
+        <Col lg={6} style={{ minHeight: "250px" }}>
+          <Line
+            data={linearData}
             options={{
-              title: {
-                display: true,
-                text: props.question.title,
-              },
-              legend: {
-                display: false,
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                datalabels: {
+                  display: false,
+                },
               },
               scales: {
                 yAxes: [
                   {
                     ticks: {
-                      min: 0,
-                      max: Math.max(...data),
-                      stepSize: Math.ceil(Math.max(...data) / 10),
+                      beginAtZero: true,
                     },
                   },
                 ],
               },
             }}
           />
-        </Col>
-        <Col md={6}>
-          <Pie
-            data={chartData}
-            options={{
-              title: {
-                display: true,
-                text: props.question.title,
-                position: "top",
-              },
-              legend: {
-                display: true,
-                position: "right",
-              },
-              plugins: {
-                datalabels: {
-                  display: true,
-                  color: "black",
-                  formatter: (value, context) => {
-                    if (value === 0) return "";
-                    else return (100 * value) / data.length + "%";
-                  },
-                },
-              },
-            }}
-          />
-        </Col>
-        <Col md={12}>
-          <Line data={linearData} />
         </Col>
       </Row>
     </Container>

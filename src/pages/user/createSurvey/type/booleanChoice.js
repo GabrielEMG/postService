@@ -7,6 +7,7 @@ const BooleanChoice = (props) => {
     title: "",
     type: "boolean-choice",
     index: props.count,
+    answers: ["Si", "No"],
   });
 
   const handleChange = (e) => {

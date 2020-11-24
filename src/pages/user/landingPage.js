@@ -4,23 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SurveySelector from "./charts/surveySelector";
 import CreateSurvey from "./createSurvey";
-
-const styles = {
-  menuButton: {
-    width: "100%",
-    marginBottom: "10px",
-    marginRight: 5,
-    marginLeft: 5,
-  },
-  menuContainer: {},
-};
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChartBar,
+  faPlusSquare,
+  faEdit,
+  faSignOutAlt,
+  faUserEdit,
+  faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
+import "./landingPage.css";
 
 const UserLandingPage = () => {
   const [section, setSection] = useState("data");
   const user = useSelector((selector) => selector.user);
-  const showSection = (e) => {
-    setSection(e.target.name);
-  };
+
   const history = useHistory();
   if (user.email === null) history.push("/login");
   const dispatch = useDispatch();
@@ -41,13 +39,7 @@ const UserLandingPage = () => {
   return (
     <Container fluid>
       <Row style={{ height: "100vh" }}>
-        <Col
-          md={2}
-          style={{
-            borderWidth: 10,
-            backgroundColor: "rgba(0,150,255,0.5)",
-          }}
-        >
+        <Col lg={2} style={{ backgroundColor: "rgba(150,150,150,0.2)" }}>
           <Row onClick={() => history.push("/")}>LogoEmpresa</Row>
 
           <Row
@@ -59,67 +51,54 @@ const UserLandingPage = () => {
           >
             {user.email}
           </Row>
-          <Row>
-            <Button
-              name="data"
-              onClick={(e) => showSection(e)}
-              style={{
-                ...styles.menuButton,
-                backgroundColor: section === "data" ? "red" : "blue",
-              }}
-            >
-              Revisar encuestas
-            </Button>
+          <Row
+            onClick={(e) => setSection("data")}
+            className={`sidebar-button ${section === "data" && "selected"}`}
+          >
+            <FontAwesomeIcon icon={faChartBar} />
+            <h6 className="text-container">Encuestas</h6>
+            <FontAwesomeIcon icon={faCaretRight} />
           </Row>
-          <Row>
-            <Button
-              name="createSurvey"
-              onClick={(e) => showSection(e)}
-              style={{
-                ...styles.menuButton,
-                backgroundColor: section === "createSurvey" ? "red" : "blue",
-              }}
-            >
-              Crear encuesta
-            </Button>
+          <Row
+            onClick={(e) => setSection("createSurvey")}
+            className={`sidebar-button ${
+              section === "createSurvey" && "selected"
+            }`}
+          >
+            <FontAwesomeIcon icon={faPlusSquare} />
+            <h6 className="text-container">Crear encuesta</h6>
+            <FontAwesomeIcon icon={faCaretRight} />
           </Row>
-          <Row>
-            <Button
-              name="editSurvey"
-              onClick={(e) => showSection(e)}
-              style={{
-                ...styles.menuButton,
-                backgroundColor: section === "editSurvey" ? "red" : "blue",
-              }}
-            >
-              Editar encuesta
-            </Button>
+          <Row
+            onClick={(e) => setSection("editSurvey")}
+            className={`sidebar-button ${
+              section === "editSurvey" && "selected"
+            }`}
+          >
+            <FontAwesomeIcon icon={faEdit} />
+            <h6 className="text-container">Editar encuestas</h6>
+            <FontAwesomeIcon icon={faCaretRight} />
           </Row>
-          <Row>
-            <Button
-              name="adminAccount"
-              onClick={(e) => showSection(e)}
-              style={{
-                ...styles.menuButton,
-                backgroundColor: section === "adminAccount" ? "red" : "blue",
-              }}
-            >
-              Administrar cuenta
-            </Button>
+          <Row
+            onClick={(e) => setSection("adminAccount")}
+            className={`sidebar-button ${
+              section === "adminAccount" && "selected"
+            }`}
+          >
+            <FontAwesomeIcon icon={faUserEdit} />
+            <h6 className="text-container">Cuenta</h6>
+            <FontAwesomeIcon icon={faCaretRight} />
           </Row>
-          <Row>
-            <Button
-              onClick={(e) => {
-                dispatch({ type: "LOGOUT_USER" });
-                history.push("/");
-              }}
-              style={{
-                ...styles.menuButton,
-                backgroundColor: "blue",
-              }}
-            >
-              Salir de cuenta
-            </Button>
+          <Row
+            onClick={(e) => {
+              dispatch({ type: "LOGOUT_USER" });
+              history.push("/");
+            }}
+            className="sidebar-button"
+          >
+            <FontAwesomeIcon icon={faSignOutAlt} />
+            <h6 className="text-container">Salir</h6>
+            <FontAwesomeIcon icon={faCaretRight} />
           </Row>
         </Col>
         <Col

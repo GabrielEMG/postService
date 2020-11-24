@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import SingleChoice from "./question/singleChoice";
-import MultipleChoice from "./question/multiChoice";
-import GradeChoice from "./question/gradeChoice";
-import TextInputQuestion from "./question/textInputQuestion";
-import BooleanChoice from "./question/booleanChoice";
+import SingleChoice from "./type/singleChoice";
+import MultipleChoice from "./type/multiChoice";
+import GradeChoice from "./type/gradeChoice";
+import TextInputQuestion from "./type/textInputQuestion";
+import BooleanChoice from "./type/booleanChoice";
+import { Container } from "react-bootstrap";
 
 const CreateQuestion = (props) => {
   const [questionType, setQuestionType] = useState("");
@@ -29,8 +30,13 @@ const CreateQuestion = (props) => {
   };
 
   return (
-    <div>
-      <select onChange={(e) => handleChange(e)} name="type" id="">
+    <Container className="border p-4 m-3">
+      <select
+        className="form-control"
+        onChange={(e) => handleChange(e)}
+        name="type"
+        id=""
+      >
         <option hidden value="">
           Selecciona una opción
         </option>
@@ -41,7 +47,7 @@ const CreateQuestion = (props) => {
         <option value="textfield-answer">respuesta con texto</option>
       </select>
       <div>{display()}</div>
-    </div>
+    </Container>
   );
 };
 
