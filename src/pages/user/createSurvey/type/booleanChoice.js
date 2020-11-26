@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Container, InputGroup, FormControl, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 const BooleanChoice = (props) => {
@@ -10,7 +11,7 @@ const BooleanChoice = (props) => {
     answers: ["Si", "No"],
   });
 
-  const handleChange = (e) => {
+  const handleTitleChange = (e) => {
     setQuestion((prev) => {
       return { ...prev, title: e.target.value };
     });
@@ -24,13 +25,21 @@ const BooleanChoice = (props) => {
   }, [question, dispatch]);
 
   return (
-    <div>
-      <input
-        type="text"
-        onChange={(e) => handleChange(e)}
-        placeholder="Título"
-      />
-    </div>
+    <Container className="mt-2">
+      <Row className="p-2">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Título de pregunta</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Título"
+            name="title"
+            onChange={(e) => handleTitleChange(e)}
+          />
+        </InputGroup>
+      </Row>
+    </Container>
   );
 };
 

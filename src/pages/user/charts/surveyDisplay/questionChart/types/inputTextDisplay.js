@@ -8,7 +8,7 @@ const InputTextDisplay = (props) => {
 
   const answersDisplay = answers.map((ans, ind) => <Row key={ind}>{ans}</Row>);
 
-  return <Container>{answersDisplay}</Container>;
+  return <Container>{JSON.stringify(answersDisplay)}</Container>;
 };
 
 export default InputTextDisplay;

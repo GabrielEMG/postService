@@ -18,4 +18,8 @@ const fb = firebase.initializeApp(firebaseConfig);
 const db = fb.firestore();
 const auth = fb.auth();
 
+auth.onAuthStateChanged((user) => {
+  console.log(user);
+});
+
 export { db, auth };

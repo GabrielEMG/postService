@@ -1,6 +1,5 @@
 const initialState = {
   title: "",
-  ready: "false",
   owner: "",
   date: new Date(),
   questions: [],

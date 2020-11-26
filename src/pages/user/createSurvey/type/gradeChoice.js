@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Container, InputGroup, FormControl, Row } from "react-bootstrap";
 
 const GradeChoice = (props) => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const GradeChoice = (props) => {
     index: props.count,
   });
 
-  const handleChange = (e) => {
+  const handleTitleChange = (e) => {
     setQuestion((prev) => {
       return { ...prev, title: e.target.value };
     });
@@ -23,13 +24,21 @@ const GradeChoice = (props) => {
   }, [question, dispatch]);
 
   return (
-    <div>
-      <input
-        type="text"
-        onChange={(e) => handleChange(e)}
-        placeholder="Título"
-      />
-    </div>
+    <Container className="mt-2">
+      <Row className="p-2">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Título de pregunta</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Título"
+            name="title"
+            onChange={(e) => handleTitleChange(e)}
+          />
+        </InputGroup>
+      </Row>
+    </Container>
   );
 };
 

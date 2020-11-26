@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Container, Row, InputGroup, FormControl } from "react-bootstrap";
 
 const TextInputQuestion = (props) => {
   const [question, setQuestion] = useState({
@@ -14,19 +15,27 @@ const TextInputQuestion = (props) => {
       payload: question,
     });
   }, [question.title]);
-
+  console.log(question);
   return (
-    <div>
-      <input
-        type="text"
-        onChange={(e) =>
-          setQuestion((prev) => {
-            return { ...prev, title: e.target.value };
-          })
-        }
-        placeholder="Título de la pregunta"
-      />
-    </div>
+    <Container className="mt-2">
+      <Row className="p-2">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Título de pregunta</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Título"
+            name="title"
+            onChange={(e) =>
+              setQuestion((prev) => {
+                return { ...prev, title: e.target.value };
+              })
+            }
+          />
+        </InputGroup>
+      </Row>
+    </Container>
   );
 };
 

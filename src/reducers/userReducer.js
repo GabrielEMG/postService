@@ -1,7 +1,7 @@
-import { auth } from "../firebase";
-
 const initialState = {
   email: null,
+  loading: true,
+  loginErrors: "",
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,7 +10,6 @@ const userReducer = (state = initialState, action) => {
     case "LOGIN_USER":
       return { ...state, email: payload };
     case "LOGOUT_USER":
-      auth.signOut();
       return initialState;
     case "SET_SURVEYS":
       return { ...state, surveys: payload };
@@ -19,6 +18,10 @@ const userReducer = (state = initialState, action) => {
         payload.filter((doc) => doc.title === survey.title)
       );
       return { ...state, surveyData: surveyOrdered };
+    case "START_LOADING":
+      return { ...state, loading: true };
+    case "END_LOADING":
+      return { ...state, loading: false };
     default:
       return state;
   }

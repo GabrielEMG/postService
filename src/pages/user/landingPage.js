@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SurveySelector from "./charts/surveySelector";
 import CreateSurvey from "./createSurvey";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { auth } from "../../firebase";
 import {
   faChartBar,
   faPlusSquare,
@@ -14,14 +15,13 @@ import {
   faCaretRight,
 } from "@fortawesome/free-solid-svg-icons";
 import "./landingPage.css";
+import EditSurvey from "./editSurvey/editSurvey";
 
 const UserLandingPage = () => {
   const [section, setSection] = useState("data");
   const user = useSelector((selector) => selector.user);
 
   const history = useHistory();
-  if (user.email === null) history.push("/login");
-  const dispatch = useDispatch();
   const displaySection = (type) => {
     switch (type) {
       case "data":
@@ -29,12 +29,19 @@ const UserLandingPage = () => {
       case "createSurvey":
         return <CreateSurvey />;
       case "editSurvey":
+        return <EditSurvey />;
       case "adminAccout":
         break;
       default:
         return <h1>none</h1>;
     }
   };
+
+  useEffect(() => {
+    if (user.email === null && !user.loading) {
+      history.push("/login");
+    }
+  }, [user]);
 
   return (
     <Container fluid>
@@ -89,25 +96,23 @@ const UserLandingPage = () => {
             <h6 className="text-container">Cuenta</h6>
             <FontAwesomeIcon icon={faCaretRight} />
           </Row>
-          <Row
-            onClick={(e) => {
-              dispatch({ type: "LOGOUT_USER" });
-              history.push("/");
-            }}
-            className="sidebar-button"
-          >
+          <Row onClick={(e) => auth.signOut()} className="sidebar-button">
             <FontAwesomeIcon icon={faSignOutAlt} />
             <h6 className="text-container">Salir</h6>
             <FontAwesomeIcon icon={faCaretRight} />
           </Row>
         </Col>
-        <Col
-          style={{ height: "100%", padding: 0, margin: 0 }}
-          md={10}
-          className="overflow-auto"
-        >
-          {user.email !== null && displaySection(section)}
-        </Col>
+        {user.loading ? (
+          <h1>cargando...</h1>
+        ) : (
+          <Col
+            style={{ height: "100%", padding: 0, margin: 0 }}
+            md={10}
+            className="overflow-auto"
+          >
+            {user.email !== null && displaySection(section)}
+          </Col>
+        )}
       </Row>
     </Container>
   );

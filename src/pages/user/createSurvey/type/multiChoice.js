@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Container, InputGroup, Row, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 const MultiChoice = (props) => {
@@ -41,36 +42,57 @@ const MultiChoice = (props) => {
   }, [question]);
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Título"
-        name="title"
-        onChange={(e) => handleTitleChange(e)}
-      />
-      <select
-        name="inputs-q"
-        onChange={(e) => setInputs(JSON.parse(e.target.value))}
-      >
-        <option hidden value="">
-          Selecciona la cantidad de repuestas
-        </option>
-        {new Array(5).fill().map((e, i) => (
-          <option key={i} value={i + 2}>
-            {i + 2} respuestas
-          </option>
+    <Container className="mt-2">
+      <Row className="p-2">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Título de pregunta</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            type="text"
+            placeholder="Título"
+            name="title"
+            onChange={(e) => handleTitleChange(e)}
+          />
+        </InputGroup>
+      </Row>
+
+      <Row className="p-2">
+        <InputGroup>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Cantidad de respuestas</InputGroup.Text>
+          </InputGroup.Prepend>
+          <FormControl
+            as="select"
+            custom
+            onChange={(e) => setInputs(JSON.parse(e.target.value))}
+            name="inputs-q"
+          >
+            {new Array(5).fill().map((e, i) => (
+              <option key={i} value={i + 2}>
+                {i + 2} respuestas
+              </option>
+            ))}
+          </FormControl>
+        </InputGroup>
+      </Row>
+      <Row>
+        {new Array(inputs).fill().map((e, i) => (
+          <InputGroup className="p-2">
+            <InputGroup.Prepend>
+              <InputGroup.Text>Respuesta n@{i + 1}</InputGroup.Text>
+            </InputGroup.Prepend>
+            <FormControl
+              type="text"
+              name={i}
+              key={i}
+              onChange={(e) => handleAnswerChange(e)}
+              placeholder="Introduce la respuesta acá"
+            />
+          </InputGroup>
         ))}
-      </select>
-      {new Array(inputs).fill().map((e, i) => (
-        <input
-          type="text"
-          name={i}
-          key={i}
-          onChange={(e) => handleAnswerChange(e)}
-          placeholder={`pregunta ${i + 1}`}
-        />
-      ))}
-    </div>
+      </Row>
+    </Container>
   );
 };
 

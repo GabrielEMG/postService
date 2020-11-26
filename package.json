@@ -17,6 +17,7 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "date-fns": "^2.16.1",
     "firebase": "^8.0.0",
+    "qrcode.react": "^1.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-chartjs-2": "^2.11.1",

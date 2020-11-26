@@ -8,7 +8,6 @@ import {
   Row,
   InputGroup,
   Button,
-  Col,
 } from "react-bootstrap";
 
 const CreateSurvey = () => {
@@ -85,10 +84,13 @@ const CreateSurvey = () => {
           </Button>
         )}
       </Row>
-
-      <div>
-        <button onClick={() => handleUploadSurvey()}>subir questionario</button>
-      </div>
+      <Row className="justify-content-center border p-4 m-3">
+        {count >= 2 && (
+          <Button onClick={() => handleUploadSurvey()}>
+            subir questionario
+          </Button>
+        )}
+      </Row>
     </Container>
   );
 };

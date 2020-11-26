@@ -16,6 +16,7 @@ const SurveySelector = () => {
         {user.surveys.length > 1 &&
           user.surveys.map((e, i) => (
             <Col
+              key={i}
               className={`selector-button ${
                 surveySelected === i && "selected-survey"
               }`}

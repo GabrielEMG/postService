@@ -23,16 +23,13 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(" ");
 
   useEffect(() => {
-    if (user.email !== null)
-      history.push({
-        pathname: "/user",
-        state: "loged",
-      });
-  }, []);
+    if (user.email !== null && !user.loading) history.push("/user");
+    else console.log("necesita logear");
+  }, [user]);
+
   const handleChange = (e) => {
     setSigninInfo((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
@@ -41,51 +38,14 @@ const Login = () => {
 
   const handleSignIn = async () => {
     try {
-      const login = await auth.signInWithEmailAndPassword(
+      dispatch({ type: "START_LOADING" });
+      await auth.signInWithEmailAndPassword(
         signinInfo.email,
         signinInfo.password
       );
-      dispatch({
-        type: "LOGIN_USER",
-        payload: login.user.email,
-      });
-
-      await db
-        .collection("survey")
-        .where("owner", "==", login.user.email)
-        .get()
-        .then((data) => {
-          const surveys = data.docs.map((doc) => doc.data());
-          dispatch({
-            type: "SET_SURVEYS",
-            payload: surveys,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsLoading(false);
-        });
-      await db
-        .collection("survey-responses")
-        .where("owner", "==", login.user.email)
-        .get()
-        .then((data) => {
-          const responses = data.docs.map((doc) => doc.data());
-          dispatch({
-            type: "SET_DATA",
-            payload: responses,
-          });
-        })
-        .catch((err) => {
-          console.log(err.message);
-          setIsLoading(false);
-        });
-
-      history.push("/user");
-      setIsLoading(false);
     } catch (err) {
       setError(localizeError(err.message));
-      setIsLoading(false);
+      dispatch({ type: "END_LOADING" });
     }
   };
   return (
@@ -145,6 +105,11 @@ const Login = () => {
                 placeholder="Contraseña"
                 type="password"
                 onChange={(e) => handleChange(e)}
+                onKeyDown={(e) => {
+                  if (e.code === "Enter") {
+                    handleSignIn();
+                  }
+                }}
                 name="password"
                 style={{
                   borderTopRightRadius: 10,
@@ -157,7 +122,7 @@ const Login = () => {
             className="justify-content-center my-4 mx-2"
             style={{ height: 50 }}
           >
-            {isLoading ? (
+            {user.loading ? (
               <Loader
                 type="ThreeDots"
                 color="#2BAD60"
@@ -171,7 +136,6 @@ const Login = () => {
                   size="lg"
                   onClick={() => {
                     handleSignIn();
-                    setIsLoading(true);
                   }}
                 >
                   Ingresar
