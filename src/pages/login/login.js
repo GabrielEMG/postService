@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
-import { db, auth } from "../../firebase";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loader from "react-loader-spinner";
@@ -14,21 +12,14 @@ import {
   Button,
   Col,
 } from "react-bootstrap";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const user = useSelector((selector) => selector.user);
+  const [loginState, handleSignIn] = useLogin();
   const [signinInfo, setSigninInfo] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState(" ");
-
-  useEffect(() => {
-    if (user.email !== null && !user.loading) history.push("/user");
-    else console.log("necesita logear");
-  }, [user]);
 
   const handleChange = (e) => {
     setSigninInfo((prev) => {
@@ -36,18 +27,6 @@ const Login = () => {
     });
   };
 
-  const handleSignIn = async () => {
-    try {
-      dispatch({ type: "START_LOADING" });
-      await auth.signInWithEmailAndPassword(
-        signinInfo.email,
-        signinInfo.password
-      );
-    } catch (err) {
-      setError(localizeError(err.message));
-      dispatch({ type: "END_LOADING" });
-    }
-  };
   return (
     <Container>
       <Row
@@ -122,7 +101,7 @@ const Login = () => {
             className="justify-content-center my-4 mx-2"
             style={{ height: 50 }}
           >
-            {user.loading ? (
+            {loginState.isLoading ? (
               <Loader
                 type="ThreeDots"
                 color="#2BAD60"
@@ -135,7 +114,7 @@ const Login = () => {
                   style={{ borderRadius: 10, width: "100%" }}
                   size="lg"
                   onClick={() => {
-                    handleSignIn();
+                    handleSignIn(signinInfo.email, signinInfo.password);
                   }}
                 >
                   Ingresar
@@ -150,7 +129,9 @@ const Login = () => {
             className="justify-content-center align-items-center"
             style={{ color: "red", height: "60px" }}
           >
-            <p style={{ marginLeft: 25, marginRight: 25 }}>{error}</p>
+            <p style={{ marginLeft: 25, marginRight: 25 }}>
+              {loginState.error}
+            </p>
           </Row>
         </Col>
       </Row>

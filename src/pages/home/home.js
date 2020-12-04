@@ -1,22 +1,13 @@
 import React, { useState } from "react";
 import { auth } from "../../firebase";
+import {Container} from 'react-bootstrap'
 
 const Home = () => {
-  const [data, setData] = useState({});
-  const [token, setToken] = useState("");
-
-  const handleClick = async () => {
-    const user = await auth
-      .signInWithCustomToken(token)
-      .then((decodedToken) => setData(decodedToken));
-  };
   return (
-    <div>
-      <input onChange={(e) => setToken(e.target.value)} type="text" />
-      <button onClick={() => handleClick()}>getData</button>
-      <p>{JSON.stringify(data)}</p>
-    </div>
-  );
+    <Container>
+      <h1>This is home :D</h1>
+    </Container>
+  )
 };
 
 export default Home;

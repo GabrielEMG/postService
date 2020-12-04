@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, InputGroup, FormControl } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import InputText from "../../../../components/inputText";
+import SelectForm from "../../../../components/selectForm";
 
 const SingleChoice = (props) => {
   const dispatch = useDispatch();
@@ -11,16 +13,12 @@ const SingleChoice = (props) => {
     type: "single-choice",
     index: props.count,
   });
-  console.log(question.answers);
+
   useEffect(() => {
     setQuestion((prev) => {
       let newAns = prev.answers;
-      while (newAns.length > inputs) {
-        newAns.pop();
-      }
-      while (newAns.length < inputs) {
-        newAns.push("");
-      }
+      while (newAns.length > inputs) newAns.pop();
+      while (newAns.length < inputs) newAns.push("");
       return { ...prev, answers: newAns };
     });
   }, [inputs]);
@@ -45,56 +43,32 @@ const SingleChoice = (props) => {
     });
   }, [question]);
 
+  console.log(question);
+
   return (
     <Container className="mt-2">
-      <Row className="p-2">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>Título de pregunta</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            type="text"
-            placeholder="Introduce el título de la pregunta acá"
-            name="title"
-            onChange={(e) => handleTitleChange(e)}
-          />
-        </InputGroup>
-      </Row>
-      <Row className="p-2">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>Cantidad de respuestas</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            as="select"
-            custom
-            onChange={(e) => setInputs(JSON.parse(e.target.value))}
-            name="inputs-q"
-          >
-            {new Array(5).fill().map((e, i) => (
-              <option key={i} value={i + 2}>
-                {i + 2} respuestas
-              </option>
-            ))}
-          </FormControl>
-        </InputGroup>
-      </Row>
-      <Row>
-        {new Array(inputs).fill().map((e, i) => (
-          <InputGroup className="p-2">
-            <InputGroup.Prepend>
-              <InputGroup.Text>Respuesta n@{i + 1}</InputGroup.Text>
-            </InputGroup.Prepend>
-            <FormControl
-              type="text"
-              name={i}
-              key={i}
-              onChange={(e) => handleAnswerChange(e)}
-              placeholder="Introduce la respuesta acá"
-            />
-          </InputGroup>
+      <InputText
+        label="Título de pregunta"
+        placeholder="Introduce el título de la pregunta acá"
+        name="title"
+        setState={handleTitleChange}
+      />
+      <SelectForm label="Cantidad de respuestas" setState={setInputs}>
+        {new Array(5).fill().map((e, i) => (
+          <option key={i} value={i + 2}>
+            {i + 2} respuestas
+          </option>
         ))}
-      </Row>
+      </SelectForm>
+
+      {new Array(inputs).fill().map((e, i) => (
+        <InputText
+          label={`respuesta ${i + 1}`}
+          placeholder="Introduce la respuesta acá"
+          name={i}
+          setState={handleAnswerChange}
+        />
+      ))}
     </Container>
   );
 };

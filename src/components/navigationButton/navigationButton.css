@@ -1,0 +1,26 @@
+.sidebar-button {
+  margin-bottom: 10px;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 2px;
+  padding-right: 2px;
+  height: 40px;
+  background-color: rgba(150, 150, 150, 0.2);
+  font-size: 20px;
+  transition: all 200ms linear;
+  -webkit-transition: all 200ms linear;
+  -ms-transition: all 200ms linear;
+}
+.text-container {
+  flex: auto;
+  margin: 0px;
+  margin-left: 5px;
+}
+.selected {
+  background-color: rgba(150, 150, 150, 0.8) !important;
+  height: 60px;
+  font-size: 30px;
+}
+.sidebar-button:hover {
+  background-color: rgba(150, 150, 150, 0.5);
+}

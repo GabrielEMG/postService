@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import SurveySelector from "./charts/surveySelector";
 import CreateSurvey from "./createSurvey";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { auth } from "../../firebase";
 import {
   faChartBar,
   faPlusSquare,
@@ -16,11 +15,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./landingPage.css";
 import EditSurvey from "./editSurvey/editSurvey";
+import useLogout from "../../hooks/useLogout";
+import NavigationButton from "../../components/navigationButton";
+import CompanyLogo from "../../components/companyLogo";
 
 const UserLandingPage = () => {
   const [section, setSection] = useState("data");
   const user = useSelector((selector) => selector.user);
-
+  const logoutUser = useLogout();
   const history = useHistory();
   const displaySection = (type) => {
     switch (type) {
@@ -41,65 +43,53 @@ const UserLandingPage = () => {
     if (user.email === null && !user.loading) {
       history.push("/login");
     }
-  }, [user]);
+  }, [user.loading, user.email]);
 
   return (
     <Container fluid>
       <Row style={{ height: "100vh" }}>
         <Col lg={2} style={{ backgroundColor: "rgba(150,150,150,0.2)" }}>
-          <Row onClick={() => history.push("/")}>LogoEmpresa</Row>
+          <CompanyLogo width={100} height={100} />
 
-          <Row
-            style={{
-              justifyContent: "center",
-              marginTop: 10,
-              marginBottom: 10,
-            }}
-          >
-            {user.email}
-          </Row>
-          <Row
-            onClick={(e) => setSection("data")}
-            className={`sidebar-button ${section === "data" && "selected"}`}
-          >
-            <FontAwesomeIcon icon={faChartBar} />
-            <h6 className="text-container">Encuestas</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </Row>
-          <Row
-            onClick={(e) => setSection("createSurvey")}
-            className={`sidebar-button ${
-              section === "createSurvey" && "selected"
-            }`}
-          >
-            <FontAwesomeIcon icon={faPlusSquare} />
-            <h6 className="text-container">Crear encuesta</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </Row>
-          <Row
-            onClick={(e) => setSection("editSurvey")}
-            className={`sidebar-button ${
-              section === "editSurvey" && "selected"
-            }`}
-          >
-            <FontAwesomeIcon icon={faEdit} />
-            <h6 className="text-container">Editar encuestas</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </Row>
-          <Row
-            onClick={(e) => setSection("adminAccount")}
-            className={`sidebar-button ${
-              section === "adminAccount" && "selected"
-            }`}
-          >
-            <FontAwesomeIcon icon={faUserEdit} />
-            <h6 className="text-container">Cuenta</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </Row>
-          <Row onClick={(e) => auth.signOut()} className="sidebar-button">
-            <FontAwesomeIcon icon={faSignOutAlt} />
-            <h6 className="text-container">Salir</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
+          <NavigationButton
+            setState={setSection}
+            icon={faChartBar}
+            title="Encuestas"
+            globalSection={section}
+            section="data"
+          />
+          <NavigationButton
+            setState={setSection}
+            icon={faPlusSquare}
+            title="Crear encuesta"
+            globalSection={section}
+            section="createSurvey"
+          />
+          <NavigationButton
+            setState={setSection}
+            icon={faEdit}
+            title="Editar encuestas"
+            globalSection={section}
+            section="editSurvey"
+          />
+          <NavigationButton
+            setState={setSection}
+            icon={faUserEdit}
+            title="Cuenta"
+            globalSection={section}
+            section="adminAccount"
+          />
+
+          <Row onClick={(e) => logoutUser()}>
+            <Col>
+              <NavigationButton
+                setState={setSection}
+                icon={faSignOutAlt}
+                title="Salir"
+                globalSection={section}
+                section="Logout"
+              />
+            </Col>
           </Row>
         </Col>
         {user.loading ? (

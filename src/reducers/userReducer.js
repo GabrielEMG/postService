@@ -2,6 +2,8 @@ const initialState = {
   email: null,
   loading: true,
   loginErrors: "",
+  surveys: [],
+  surveyData: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -10,7 +12,7 @@ const userReducer = (state = initialState, action) => {
     case "LOGIN_USER":
       return { ...state, email: payload };
     case "LOGOUT_USER":
-      return initialState;
+      return { ...initialState, loading: false };
     case "SET_SURVEYS":
       return { ...state, surveys: payload };
     case "SET_DATA":
@@ -22,6 +24,8 @@ const userReducer = (state = initialState, action) => {
       return { ...state, loading: true };
     case "END_LOADING":
       return { ...state, loading: false };
+    case "ERROR_DATA_DISPATCH":
+      return { ...state, loading: false, loadingErrors: payload };
     default:
       return state;
   }

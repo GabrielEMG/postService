@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Container, InputGroup, FormControl, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import InputText from "../../../../components/inputText";
 
 const GradeChoice = (props) => {
   const dispatch = useDispatch();
@@ -25,19 +26,12 @@ const GradeChoice = (props) => {
 
   return (
     <Container className="mt-2">
-      <Row className="p-2">
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>Título de pregunta</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            type="text"
-            placeholder="Título"
-            name="title"
-            onChange={(e) => handleTitleChange(e)}
-          />
-        </InputGroup>
-      </Row>
+      <InputText
+        label="Título de pregunta"
+        placeholder="Introduce el título de la pregunta acá"
+        name="title"
+        setState={handleTitleChange}
+      />
     </Container>
   );
 };

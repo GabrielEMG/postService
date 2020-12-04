@@ -5,10 +5,8 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 
 const MyNavbar = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
   const user = useSelector((selector) => selector.user);
   const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <Container fluid>
