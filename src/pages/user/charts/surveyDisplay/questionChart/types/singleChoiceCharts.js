@@ -15,6 +15,7 @@ const bgc = [
 ];
 
 const SingleChoice = (props) => {
+  console.log(props);
   const answers = props.data.map(
     (doc) => doc.questions.find((q) => q.title === props.question.title).answers
   );

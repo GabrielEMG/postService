@@ -9,6 +9,7 @@ import BooleanChoiceCharts from "./types/booleanChoiceCharts";
 const QuestionChart = (props) => {
   const displayCharts = (type, data) => {
     switch (type) {
+      case "boolean-choice":
       case "single-choice":
         return (
           <SingleChoiceCharts
@@ -36,14 +37,6 @@ const QuestionChart = (props) => {
       case "text-input":
         return (
           <InputTextDisplay
-            question={props.question}
-            data={data}
-            date={props.date}
-          />
-        );
-      case "boolean-choice":
-        return (
-          <BooleanChoiceCharts
             question={props.question}
             data={data}
             date={props.date}

@@ -16,6 +16,7 @@ const surveyReducer = (state = initialState, action) => {
       payload.questions.forEach((question) => {
         let ans;
         switch (question.type) {
+          case "boolean-choice":
           case "single-choice":
           case "multi-choice":
             question.answers.forEach((a) => {
@@ -27,9 +28,6 @@ const surveyReducer = (state = initialState, action) => {
             break;
           case "text-input":
             ans = "";
-            break;
-          case "boolean-choice":
-            ans = false;
             break;
           default:
             break;

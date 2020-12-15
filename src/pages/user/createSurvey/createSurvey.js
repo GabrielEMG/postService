@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CreateQuestion from "./createQuestion";
 import { useDispatch, useSelector } from "react-redux";
-import { db } from "../../../firebase";
+import { db, firebase } from "../../../firebase";
 import {
   Container,
   FormControl,
@@ -14,7 +14,7 @@ const CreateSurvey = () => {
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
   const state = useSelector((selector) => selector.createSurvey);
-  const email = useSelector((selector) => selector.user.email);
+  const user = useSelector((selector) => selector.user);
   const handleTitleChange = (e) => {
     dispatch({
       type: "UPDATE_TITLE_SURVEY",
@@ -25,9 +25,9 @@ const CreateSurvey = () => {
   useEffect(() => {
     dispatch({
       type: "UPDATE_OWNER_SURVEY",
-      payload: email,
+      payload: user.uid,
     });
-  }, [email]);
+  }, [user.uid]);
 
   useEffect(() => {
     setCount(state.questions.length);
@@ -36,11 +36,21 @@ const CreateSurvey = () => {
 
   const handleUploadSurvey = async () => {
     await db
-      .collection("survey")
-      .doc()
-      .set(state)
-      .then(alert("survey sended"))
-      .catch((err) => console.log(err.message));
+      .collection("user")
+      .doc(user.uid)
+      .update({
+        surveys: firebase.firestore.FieldValue.arrayUnion(state),
+      });
+    await db
+      .collection("admin")
+      .doc("LHaVyqThivcUKTBgL67e")
+      .update({
+        surveys: firebase.firestore.FieldValue.arrayUnion({
+          ...state,
+          email: user.email,
+          uid: user.uid,
+        }),
+      });
   };
 
   return (

@@ -9,6 +9,8 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
+    case "MOUNT_USER_DATA":
+      return payload;
     case "LOGIN_USER":
       return { ...state, email: payload };
     case "LOGOUT_USER":

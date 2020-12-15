@@ -6,15 +6,13 @@ import RecoverPassword from "./pages/login/recoverPassword";
 import Home from "./pages/home/home";
 import Survey from "./pages/survey/survey";
 import MyNavbar from "./components/myNavbar";
-import UserLandingPage from "./pages/user/landingPage";
+import User from "./pages/user";
 import Admin from "./pages/admin";
 import usePersistLogin from "./hooks/usePersistLogin";
-import useLoginData from "./hooks/useLoginData";
+import useFirebase from "./hooks/useFirebase";
 
 const App = () => {
-  usePersistLogin();
-  useLoginData();
-
+  useFirebase();
   return (
     <>
       <BrowserRouter>
@@ -30,7 +28,7 @@ const App = () => {
             <RecoverPassword />
           </Route>
           <Route path="/user">
-            <UserLandingPage />
+            <User />
           </Route>
           <Route path="/survey/:id/:key">
             <Survey />

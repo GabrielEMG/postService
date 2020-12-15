@@ -1,13 +1,12 @@
 import { auth } from "../firebase";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useLogin = () => {
   const dispatch = useDispatch();
   const user = useSelector((selector) => selector.user);
   const history = useHistory();
-  const location = useLocation();
   const [state, setState] = useState({
     isLoading: false,
     error: "",
@@ -27,10 +26,6 @@ const useLogin = () => {
       await auth.signInWithEmailAndPassword(email, password);
       setState((prev) => {
         return { ...prev, isLoading: false };
-      });
-      dispatch({
-        type: "LOGIN_USER",
-        payload: email,
       });
     } catch (err) {
       setState((prev) => {

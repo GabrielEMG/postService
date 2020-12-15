@@ -1,25 +1,26 @@
 import firebase from "firebase/app";
-import "firebase/firestore";
+import "firebase/database";
 import "firebase/firebase-auth";
 
-var firebaseConfig = {
-  apiKey: "AIzaSyCm8TqQTe71jI5rBxebWDS9smOiCYHbcoY",
-  authDomain: "ecommerce-react-firebase-5e0ad.firebaseapp.com",
-  databaseURL: "https://ecommerce-react-firebase-5e0ad.firebaseio.com",
-  projectId: "ecommerce-react-firebase-5e0ad",
-  storageBucket: "ecommerce-react-firebase-5e0ad.appspot.com",
-  messagingSenderId: "37999398206",
-  appId: "1:37999398206:web:52dd4b7118de0021b4706f",
-  measurementId: "G-CDXS8L7XJK",
+const firebaseConfig = {
+  apiKey: "AIzaSyDgJFQPQhWbcN4svKJesVCQIrSETrGToc0",
+  authDomain: "survey-realtime.firebaseapp.com",
+  databaseURL: "https://survey-realtime-default-rtdb.firebaseio.com",
+  projectId: "survey-realtime",
+  storageBucket: "survey-realtime.appspot.com",
+  messagingSenderId: "1061771885211",
+  appId: "1:1061771885211:web:024aabc326214bfd8ba43e",
+  measurementId: "G-D1V493Q0YF",
 };
 // Initialize Firebase
 const fb = firebase.initializeApp(firebaseConfig);
 
-const db = fb.firestore();
+const db = db.database();
 const auth = fb.auth();
 
 auth.onAuthStateChanged((user) => {
   console.log(user);
+  console.log("trigger log dis");
 });
 
-export { db, auth };
+export { db, auth, firebase };

@@ -24,6 +24,7 @@ const useSurveyData = () => {
         .doc(key)
         .get()
         .then((doc) => {
+          console.log("trigger");
           setState(() => {
             return { ...doc.data(), loadingSelf: false };
           });

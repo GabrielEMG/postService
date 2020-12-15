@@ -19,6 +19,7 @@ const useFirebaseData = (collectionName, whereLogic) => {
         .where(...whereLogic)
         .get()
         .then((data) => {
+          console.log("trigger");
           const dataResolved = data.docs.map((doc) => doc.data());
           setState((prev) => {
             return { ...prev, data: dataResolved, loading: false };

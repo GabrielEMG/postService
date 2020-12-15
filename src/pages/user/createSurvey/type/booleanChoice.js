@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container, InputGroup, FormControl, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import SelectForm from "../../../../components/selectForm";
+import InputText from "../../../../components/inputText";
 
 const BooleanChoice = (props) => {
   const dispatch = useDispatch();

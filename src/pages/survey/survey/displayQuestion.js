@@ -5,6 +5,7 @@ import TextInputQuestion from "../question/textInputQuestion";
 
 const DisplayQuestion = (props) => {
   switch (props.type) {
+    case "boolean-choice":
     case "single-choice":
       return <SingleChoice question={props.question} index={props.index} />;
     case "multi-choice":

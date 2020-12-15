@@ -1,5 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { db } from "../../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import QRCode from "qrcode.react";
+import { saveAs } from "file-saver";
 import {
   Container,
   FormControl,
@@ -8,10 +12,6 @@ import {
   Col,
   InputGroup,
 } from "react-bootstrap";
-import { db } from "../../firebase";
-import { useDispatch, useSelector } from "react-redux";
-import QRCode from "qrcode.react";
-import { saveAs } from "file-saver";
 
 const EditClient = (props) => {
   const admin = useSelector((selector) => selector.admin);
@@ -23,23 +23,11 @@ const EditClient = (props) => {
   const dispatch = useDispatch();
 
   const handleCreateKeys = async () => {
-    await new Array(JSON.parse(addKeys)).fill().forEach((e) =>
-      db
-        .collection("survey-keys")
-        .add({
-          client: client,
-          responded: false,
-          survey: survey,
-          date: new Date(),
-        })
-        .then((doc) =>
-          dispatch({
-            type: "ADD_KEY",
-            payload: { key: doc.id, email: client, survey: survey },
-          })
-        )
-    );
-    setAllowDownload(true);
+    const keys = new Array(JSON.parse(addKeys))
+      .fill()
+      .map(() => db.collection("key").doc());
+    console.log(keys);
+    console.log("trigger keys");
   };
 
   useEffect(() => {
