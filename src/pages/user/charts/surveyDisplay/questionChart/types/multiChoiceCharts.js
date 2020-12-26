@@ -100,7 +100,6 @@ const MultiChoiceCharts = (props) => {
     if (max > accc) return max;
     else return accc;
   });
-  console.log(i);
   const linearData = {
     labels: daysLabel.map((date) => formatDate(date)),
     datasets: linearDataset,

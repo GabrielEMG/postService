@@ -1,14 +1,16 @@
 import React from "react";
-import { Doughnut, Bar, Pie, Line } from "react-chartjs-2";
+import { Doughnut, Bar, Pie, Line, HorizontalBar } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 import { devEstHelper, avrgHelper } from "./helpers";
 import { Col, Row, Container } from "react-bootstrap";
 import { getDaysArray, sameDay, formatDate } from "./helpers";
 
 const GradeChoiceCharts = (props) => {
-  const answers = props.data.map(
-    (doc) => doc.questions.find((q) => q.title === props.question.title).answers
-  );
+  const answers = props.data.map((doc) => {
+    const d = doc.questions.find((q) => q.title === props.question.title);
+    if (d) return d.answers;
+    else return "0";
+  });
   const parseAns = answers.map((a) => JSON.parse(a));
   const avrg = avrgHelper(parseAns);
   const devest = devEstHelper(parseAns);

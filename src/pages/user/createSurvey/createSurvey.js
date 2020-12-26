@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CreateQuestion from "./createQuestion";
 import { useDispatch, useSelector } from "react-redux";
-import { db, firebase } from "../../../firebase";
+import { firebase } from "../../../firebase";
 import {
   Container,
   FormControl,
@@ -21,36 +21,37 @@ const CreateSurvey = () => {
       payload: e.target.value,
     });
   };
-  console.log(count);
+
   useEffect(() => {
     dispatch({
       type: "UPDATE_OWNER_SURVEY",
       payload: user.uid,
     });
-  }, [user.uid]);
+  }, [dispatch, user.uid]);
 
   useEffect(() => {
     setCount(state.questions.length);
-    console.log(state);
   }, [state]);
 
   const handleUploadSurvey = async () => {
-    await db
-      .collection("user")
-      .doc(user.uid)
-      .update({
-        surveys: firebase.firestore.FieldValue.arrayUnion(state),
+    try {
+      const key = firebase.database().ref().push().key;
+      await firebase
+        .database()
+        .ref("user/" + user.uid + "/surveys/" + key)
+        .set({ ...state, key });
+      await firebase
+        .database()
+        .ref("surveys/" + user.uid + "/" + key)
+        .set({ ...state, key });
+      dispatch({
+        type: "ADD_CREATED_SURVEY",
+        payload: { ...state, key },
       });
-    await db
-      .collection("admin")
-      .doc("LHaVyqThivcUKTBgL67e")
-      .update({
-        surveys: firebase.firestore.FieldValue.arrayUnion({
-          ...state,
-          email: user.email,
-          uid: user.uid,
-        }),
-      });
+      alert("sended");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (

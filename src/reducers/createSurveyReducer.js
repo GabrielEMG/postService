@@ -2,6 +2,7 @@ const initialState = {
   title: "",
   owner: "",
   questions: [],
+  createdAt: new Date(),
 };
 
 const createSurveyReducer = (state = initialState, action) => {

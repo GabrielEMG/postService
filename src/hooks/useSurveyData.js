@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { db } from "../firebase";
+import { firebase } from "../firebase";
 
 const useSurveyData = () => {
-  const { id, key } = useParams();
+  const { keyId } = useParams();
   const dispatch = useDispatch();
   const survey = useSelector((selector) => selector.survey);
   const [state, setState] = useState({
-    client: "",
+    owner: "",
     survey: "",
     responded: false,
+    key: "",
     loadingSelf: true,
     loadingData: true,
     loadingSend: false,
@@ -18,66 +19,41 @@ const useSurveyData = () => {
 
   //checking data from route
   useEffect(() => {
-    const getKeyInfo = async () => {
-      await db
-        .collection("survey-keys")
-        .doc(key)
-        .get()
-        .then((doc) => {
-          console.log("trigger");
-          setState(() => {
-            return { ...doc.data(), loadingSelf: false };
-          });
-        });
-    };
-    getKeyInfo();
-  }, [id, key]);
+    firebase
+      .database()
+      .ref("keys/" + keyId)
+      .once("value", (snapshot) => {
+        setState((prev) => ({
+          ...prev,
+          ...snapshot.val(),
+          loadingSelf: false,
+        }));
+      });
+  }, [keyId]);
 
   //getting survey from route data
   useEffect(() => {
-    const getSurvey = async () => {
-      if (state.survey === id) {
-        db.collection("survey")
-          .doc(id)
-          .get()
-          .then((doc) => {
-            dispatch({ type: "SET_SURVEY_STATE", payload: doc.data() });
-            setState((prev) => {
-              return { ...prev, loadingData: false };
-            });
-          })
-          .catch((err) => console.log(err.message));
-      } else {
-        console.log("key error");
-      }
-    };
-    getSurvey();
-  }, [state.loadingSelf]);
+    if (!state.loadingSelf) {
+      firebase
+        .database()
+        .ref(`surveys/${state.owner}/${state.survey}`)
+        .once("value", (snapshot) => {
+          dispatch({ type: "SET_SURVEY_STATE", payload: snapshot.val() });
+        });
+      setState((prev) => ({ ...prev, loadingData: false }));
+    }
+  }, [state.loadingSelf, dispatch, state.owner, state.survey]);
 
   const sendSurvey = async () => {
-    setState((prev) => {
-      return { ...prev, loadingSend: true };
-    });
-    await db
-      .collection("survey-responses")
-      .doc()
-      .set(survey)
-      .then(() => {
-        setState((prev) => {
-          return { ...prev, loadingSend: false };
-        });
-      })
-      .catch((err) => console.log(err.message));
-    await db
-      .collection("survey-keys")
-      .doc(key)
-      .update({ responded: true })
-      .then(() =>
-        setState((prev) => {
-          return { ...prev, responded: true };
-        })
-      )
-      .catch((err) => console.log(err.message));
+    firebase
+      .database()
+      .ref(`responses/${state.owner}/${state.survey}/${state.key}`)
+      .set({
+        ...survey,
+        survey: state.survey,
+        date: new Date().toString(),
+      });
+    firebase.database().ref(`keys/${state.key}`).update({ responded: true });
   };
   return [state, sendSurvey];
 };

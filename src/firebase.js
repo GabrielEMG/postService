@@ -15,12 +15,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const fb = firebase.initializeApp(firebaseConfig);
 
-const db = db.database();
+const db = fb.database();
 const auth = fb.auth();
-
-auth.onAuthStateChanged((user) => {
-  console.log(user);
-  console.log("trigger log dis");
-});
 
 export { db, auth, firebase };

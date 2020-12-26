@@ -27,7 +27,7 @@ const MultiChoice = (props) => {
             onClick={() => handleClick(props.question.index, key)}
           >
             <input
-              class="form-check-input my-0"
+              className="form-check-input my-0"
               onChange={() => {}}
               checked={props.question.answers[key]}
               type="checkbox"

@@ -1,6 +1,6 @@
 const initialState = {
   loading: false,
-  clients: [],
+  users: [],
   keys: [],
   survey: {},
 };
@@ -8,12 +8,13 @@ const initialState = {
 const adminReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "LOAD_CLIENTS":
-      return { ...state, clients: payload };
-    case "ADD_KEY":
-      let newState = state;
-      newState.keys.push(payload);
-      return { ...newState };
+    case "ADMIN_GET_USERS":
+      let surveys = [];
+      if (payload.surveys) {
+        surveys = Object.keys(payload.surveys).map((o) => payload.surveys[o]);
+      }
+      return { ...state, users: [...state.users, { ...payload, surveys }] };
+
     default:
       return state;
   }

@@ -13,7 +13,7 @@ const Survey = () => {
 
   return (
     <Container>
-      {surveyState.loadingData ? (
+      {survey.questions.length === 0 ? (
         <LoadingFullScreen />
       ) : (
         <Col>

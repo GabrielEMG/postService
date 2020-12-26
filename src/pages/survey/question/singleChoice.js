@@ -27,7 +27,7 @@ const SingleChoice = (props) => {
             onClick={() => handleClick(props.question.index, key)}
           >
             <input
-              class="form-check-input my-0"
+              className="form-check-input my-0"
               type="checkbox"
               onChange={() => {}}
               checked={props.question.answers[key]}

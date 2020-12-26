@@ -1,33 +1,45 @@
 const initialState = {
   email: null,
-  loading: true,
+  uid: null,
+  isLoading: true,
+  isDataLoading: true,
+  isLogin: false,
   loginErrors: "",
   surveys: [],
-  surveyData: [],
+  surveyData: [{ data: [] }],
 };
 
 const userReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case "MOUNT_USER_DATA":
-      return payload;
     case "LOGIN_USER":
-      return { ...state, email: payload };
+      const surveys = payload.surveys
+        ? Object.keys(payload.surveys).map((o) => payload.surveys[o])
+        : [];
+      return {
+        ...state,
+        email: payload.email,
+        uid: payload.uid,
+        isLogin: true,
+        isLoading: false,
+        surveys: surveys,
+      };
     case "LOGOUT_USER":
-      return { ...initialState, loading: false };
-    case "SET_SURVEYS":
-      return { ...state, surveys: payload };
-    case "SET_DATA":
-      const surveyOrdered = state.surveys.map((survey) =>
-        payload.filter((doc) => doc.title === survey.title)
-      );
-      return { ...state, surveyData: surveyOrdered };
-    case "START_LOADING":
-      return { ...state, loading: true };
-    case "END_LOADING":
-      return { ...state, loading: false };
-    case "ERROR_DATA_DISPATCH":
-      return { ...state, loading: false, loadingErrors: payload };
+      return { ...initialState, isLoading: false, isDataLoading: false };
+    case "ADD_CREATED_SURVEY":
+      return { ...state, surveys: [payload, ...state.surveys] };
+    case "SURVEYDATA_SLOT":
+      let sd = state.surveyData;
+      sd[payload.index] = {
+        survey: payload.survey,
+        data: [],
+      };
+      return { ...state, surveyData: sd };
+    case "LOAD_RESPONSES":
+      let od = state.surveyData;
+      od[payload.index].data = payload.data;
+      return { ...state, surveyData: od, isDataLoading: false };
+
     default:
       return state;
   }

@@ -41,9 +41,7 @@ const SingleChoice = (props) => {
       type: "SINGLE_CHOICE_QUESTION",
       payload: question,
     });
-  }, [question]);
-
-  console.log(question);
+  }, [question, dispatch]);
 
   return (
     <Container className="mt-2">
@@ -63,6 +61,7 @@ const SingleChoice = (props) => {
 
       {new Array(inputs).fill().map((e, i) => (
         <InputText
+          key={i}
           label={`respuesta ${i + 1}`}
           placeholder="Introduce la respuesta acá"
           name={i}

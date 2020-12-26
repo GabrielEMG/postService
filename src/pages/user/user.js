@@ -6,6 +6,7 @@ import SurveySelector from "./charts/surveySelector";
 import CreateSurvey from "./createSurvey";
 import UserSidebar from "./userSidebar";
 import EditSurvey from "./editSurvey/editSurvey";
+import Loader from "react-loader-spinner";
 
 const User = () => {
   const [section, setSection] = useState("data");
@@ -27,21 +28,35 @@ const User = () => {
   };
 
   useEffect(() => {
-    if (user.email === null && !user.loading) {
+    if (!user.isLoading && !user.isLogin) {
       history.push("/login");
     }
-  }, [user.loading, user.email]);
+  }, [user.isLoading, user.isLogin, history]);
 
   return (
-    <Container fluid>
+    <Container fluid style={{ backgroundColor: "#F3F3F3" }}>
       <Row>
         <UserSidebar section={section} setSection={setSection} />
-        <Col
-          style={{ height: "100vh", padding: 0, margin: 0 }}
-          className="overflow-auto"
-        >
-          {user.loading ? (
-            <h1>cargando...</h1>
+        <Col>
+          {user.isLoading ? (
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                width: "100%",
+                height: "100vh",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Loader
+                type="TailSpin"
+                color="#3C1874"
+                width="100"
+                height="100"
+                style={{ transform: "translate(-50%,-50%)" }}
+              />
+            </div>
           ) : (
             user.email !== null && displaySection(section)
           )}

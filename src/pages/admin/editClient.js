@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { db } from "../../firebase";
+import { firebase } from "../../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "qrcode.react";
 import { saveAs } from "file-saver";
@@ -15,35 +15,49 @@ import {
 
 const EditClient = (props) => {
   const admin = useSelector((selector) => selector.admin);
-  const [client, setClient] = useState(null);
+  const [user, setUser] = useState(null);
   const [surveys, setSurveys] = useState([]);
   const [survey, setSurvey] = useState("");
   const [addKeys, setAddKeys] = useState(100);
-  const [allowDownload, setAllowDownload] = useState(false);
-  const dispatch = useDispatch();
+  const [keys, setKeys] = useState([]);
 
   const handleCreateKeys = async () => {
-    const keys = new Array(JSON.parse(addKeys))
-      .fill()
-      .map(() => db.collection("key").doc());
-    console.log(keys);
-    console.log("trigger keys");
+    const k = new Array(JSON.parse(addKeys)).fill().map(
+      () =>
+        firebase
+          .database()
+          .ref("keys/" + user)
+          .push().key
+    );
+    setKeys(k);
+  };
+
+  const uploadKeys = async () => {
+    try {
+      await keys.forEach((key) =>
+        firebase
+          .database()
+          .ref("keys/" + key)
+          .set({
+            key: key,
+            owner: user,
+            survey: survey,
+            responded: false,
+            createdAt: new Date(),
+          })
+      );
+      alert("success");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   useEffect(() => {
-    setSurveys([]);
-    if (client !== null) {
-      db.collection("survey")
-        .where("owner", "==", client)
-        .get()
-        .then((data) => {
-          const surveys = data.docs.map((doc) => {
-            return { title: doc.data().title, id: doc.id };
-          });
-          setSurveys(surveys);
-        });
+    const x = admin.users.find((u) => u.uid === user);
+    if (x) {
+      setSurveys(x.surveys);
     }
-  }, [client]);
+  }, [admin.users, admin.surveys, user]);
 
   const handleDownloadQRCodes = () => {
     const qrCodes = document.getElementsByClassName("qr-code");
@@ -63,22 +77,19 @@ const EditClient = (props) => {
             <InputGroup.Prepend>
               <InputGroup.Text style={{ width: 100 }}>Cliente</InputGroup.Text>
             </InputGroup.Prepend>
-            <FormControl
-              as="select"
-              onChange={(e) => setClient(e.target.value)}
-            >
+            <FormControl as="select" onChange={(e) => setUser(e.target.value)}>
               <option value="" hidden>
                 selecciona un cliente
               </option>
-              {admin.clients.map((client, id) => (
-                <option value={client} key={id}>
-                  {client}
+              {admin.users.map((user, id) => (
+                <option value={user.uid} key={id}>
+                  {user.email}
                 </option>
               ))}
             </FormControl>
           </InputGroup>
         </Row>
-        {client && (
+        {user && (
           <Row>
             <InputGroup className="my-4">
               <InputGroup.Prepend>
@@ -94,7 +105,7 @@ const EditClient = (props) => {
                   selecciona una encuesta
                 </option>
                 {surveys.map((svy, key) => (
-                  <option value={svy.id} key={key}>
+                  <option value={svy.key} key={key}>
                     {svy.title}
                   </option>
                 ))}
@@ -119,27 +130,28 @@ const EditClient = (props) => {
             <Button onClick={() => handleCreateKeys()}>Crear llaves</Button>
           </Row>
         )}
-        {admin.keys.length > 0 && (
+        {keys.length > 0 && (
           <Row className="justify-content-center">
-            {admin.keys.map((key, id) => (
+            {keys.map((key, id) => (
               <Col key={key} className="m-4">
                 <Row>
                   <QRCode
                     className="qr-code"
-                    value={`http://192.168.43.37:3000/survey/${key.survey}/${key.key}`}
+                    value={`http://192.168.43.37:3000/survey/${key}`}
                   />
                 </Row>
               </Col>
             ))}
           </Row>
         )}
-        {allowDownload && (
+        {
           <Row className="justify-content-center mt-4">
+            <Button onClick={(e) => uploadKeys()}>Subir llaves</Button>
             <Button onClick={(e) => handleDownloadQRCodes()}>
               Descargar códigos
             </Button>
           </Row>
-        )}
+        }
       </Col>
     </Container>
   );

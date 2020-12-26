@@ -43,12 +43,9 @@ const QuestionChart = (props) => {
           />
         );
       default:
-        console.log(type);
         return <p>{type}</p>;
     }
   };
-
-  console.log(props.question.type);
 
   return (
     <div style={{ marginTop: 20 }}>

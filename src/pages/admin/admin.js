@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { auth, db } from "../../firebase";
+import { auth, firebase } from "../../firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { faSignOutAlt, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,11 +16,16 @@ const Admin = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    db.collection("Admin-data")
-      .get()
-      .then((data) => {
-        const doc = data.docs[0].data();
-        dispatch({ type: "LOAD_CLIENTS", payload: doc.users });
+    firebase
+      .database()
+      .ref("user")
+      .on("value", (snapshot) => {
+        snapshot.forEach((childSnap) => {
+          dispatch({
+            type: "ADMIN_GET_USERS",
+            payload: childSnap.val(),
+          });
+        });
       });
   }, []);
 

@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
-import Loader from "react-loader-spinner";
-import localizeError from "./localizeError";
-import { Row, Button, Col } from "react-bootstrap";
-import { auth } from "../../firebase";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Col, Row, Button } from "react-bootstrap";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import LoginInputGroup from "./loginInputGroup";
+import RegisterInputGroup from "./registerInputGroup";
+import { faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { auth, firebase } from "../../firebase";
+import localizeError from "./localizeError";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Loader from "react-loader-spinner";
 
-const Login = () => {
-  const user = useSelector((selector) => selector.user);
+const Register = () => {
   const history = useHistory();
+  const user = useSelector((selector) => selector.user);
+  const wd = useWindowDimensions();
   const [state, setState] = useState({
     email: "",
     password: "",
+    passwordVerification: "",
+    name: "",
     isLoading: false,
-    error: null,
+    error: "",
   });
-  const wd = useWindowDimensions();
 
   useEffect(() => {
     if (user.isLogin && !user.isLoading) {
@@ -27,12 +29,31 @@ const Login = () => {
     }
   }, [user.isLogin, user.isLoading, history]);
 
-  const handleSignin = async () => {
+  const handleSignin = () => {
+    if (state.password !== state.passwordVerification) {
+      setState((prev) => ({
+        ...prev,
+        error: "La contraseña y la verificacion de contraseña no son iguales",
+      }));
+    } else {
+      createUser();
+    }
+  };
+
+  const createUser = async () => {
     try {
-      setState((prev) => ({ ...prev, isLoading: true, error: null }));
-      await auth.signInWithEmailAndPassword(state.email, state.password);
+      setState((prev) => ({ ...prev, isLoading: true }));
+      const doc = await auth.createUserWithEmailAndPassword(
+        state.email,
+        state.password
+      );
+      await firebase.database().ref(`user/${doc.user.uid}`).set({
+        email: state.email,
+        uid: doc.user.uid,
+        surveyCap: 0,
+      });
     } catch (err) {
-      setState((prev) => ({ ...prev, error: err.message, isLoading: false }));
+      setState((prev) => ({ ...prev, isLoading: false, error: err.message }));
     }
   };
 
@@ -68,27 +89,32 @@ const Login = () => {
           className="justify-content-center align-items-center"
           style={{ color: "#3C1874", textAlign: "center" }}
         >
-          <h2>Iniciar sesion con tu cuenta</h2>
+          <h2>Crear una cuenta</h2>
         </Row>
 
-        <LoginInputGroup
+        <RegisterInputGroup
           icon={faEnvelope}
           placeholder="Correo electronico"
           type="email"
           onChange={setState}
           name="email"
         />
-
-        <LoginInputGroup
+        <RegisterInputGroup
           icon={faLock}
           placeholder="Contraseña"
           type="password"
           onChange={setState}
           name="password"
+        />
+        <RegisterInputGroup
+          icon={faLock}
+          placeholder="Verificar Contraseña"
+          type="password"
+          onChange={setState}
+          name="passwordVerification"
           activateFromKeyboard={true}
           action={handleSignin}
         />
-
         <Row className="justify-content-center mt-4 mx-2">
           {state.isLoading ? (
             <Loader type="TailSpin" color="#3C1874" width="100" height="50" />
@@ -107,7 +133,7 @@ const Login = () => {
                   handleSignin();
                 }}
               >
-                Iniciar sesion
+                Crear cuenta
               </Button>
             </div>
           )}
@@ -120,11 +146,8 @@ const Login = () => {
             textAlign: "center",
           }}
         >
-          <Link style={{ marginTop: 20 }} to="/register">
-            No tienes una cuenta? crea una aquí
-          </Link>
-          <Link style={{ marginTop: 10 }} to="/recuperar_contraseña">
-            Olvidaste tu contraseña? recupérala aquí
+          <Link style={{ marginTop: 20 }} to="/login">
+            Ya posees una cuenta? ingresa aqui
           </Link>
         </div>
         <Row
@@ -153,4 +176,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

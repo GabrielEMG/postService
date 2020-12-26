@@ -1,0 +1,23 @@
+.navbar-button {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 25px;
+  cursor: pointer;
+  color: #3c1874;
+  transition: color 0.5s ease-out;
+  font-weight: 400;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.navbar-button:hover {
+  color: #8a49f3;
+}
+
+.is-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #8a49f3;
+  font-weight: 600;
+}

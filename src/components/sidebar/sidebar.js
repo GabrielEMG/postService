@@ -1,18 +1,17 @@
-import { Col } from "react-bootstrap";
-
 const Sidebar = (props) => {
   return (
-    <Col
-      lg={2}
+    <div
       style={{
+        position: "sticky",
         height: "100vh",
         left: 0,
         top: 0,
-        backgroundColor: "rgba(50,200,100,0.3)",
+        width: `${props.width}px`,
+        ...props.style,
       }}
     >
       {props.children}
-    </Col>
+    </div>
   );
 };
 

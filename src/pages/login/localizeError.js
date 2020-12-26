@@ -9,7 +9,7 @@ const localizeError = (errMessage) => {
     case "A network error (such as timeout, interrupted connection or unreachable host) has occurred.":
       return "Error de conexión (timeout, conexión interrumpida o host inalcanzable) ha ocurrido";
     case "Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.":
-      return "Temporalmente la cuenta se ha deshabilitado debudo a varios intentos fallidos de entrar a esta cuenta. Puedes inmediatamente desbloquear la cuenta reiniciando tu contraseña o puedes intentar luego";
+      return "La cuenta se ha deshabilitado temporalmente debido a varios intentos fallos de ingresar";
     default:
       return errMessage;
   }

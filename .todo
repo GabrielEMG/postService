@@ -1,1 +1,19 @@
-fix loading to work with only the useFirebase hook
+Fix login page:
+    missing recover password
+    everything else is up and running
+
+
+
+
+
+
+colors:
+Deep Red: #932432
+
+Pure Purple: #3C1874
+
+Purple Tinged Grey: #283747
+
+Cloud: #F3F3F3
+
+Bright Red: #DE354C

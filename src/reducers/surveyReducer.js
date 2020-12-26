@@ -12,7 +12,6 @@ const surveyReducer = (state = initialState, action) => {
       let arr = [];
       while (arr < payload.questions.length) arr.push("");
       while (arr > payload.questions.length) arr.pop();
-      console.log(payload);
       payload.questions.forEach((question) => {
         let ans;
         switch (question.type) {

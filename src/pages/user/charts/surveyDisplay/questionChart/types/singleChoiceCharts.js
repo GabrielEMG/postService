@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar, Pie, Line, HorizontalBar } from "react-chartjs-2";
 import { Col, Container, Row } from "react-bootstrap";
 import "chartjs-plugin-datalabels";
 import { sameDay, getDaysArray, formatDate } from "./helpers";
@@ -15,15 +15,17 @@ const bgc = [
 ];
 
 const SingleChoice = (props) => {
-  console.log(props);
-  const answers = props.data.map(
-    (doc) => doc.questions.find((q) => q.title === props.question.title).answers
-  );
+  const answers = props.data.map((doc) => {
+    const d = doc.questions.find((q) => q.title === props.question.title);
+    if (d) return d.answers;
+    else return [];
+  });
   const newData = props.question.answers.map((ans) => {
     let count = 0;
     answers.forEach((a) => {
       if (a[ans]) count = count + 1;
     });
+
     return { [ans]: count };
   });
 
@@ -35,7 +37,8 @@ const SingleChoice = (props) => {
 
   let datesArr = [];
   props.data.forEach((doc) => {
-    if (!datesArr.includes(doc.date.seconds)) datesArr.push(doc.date.seconds);
+    if (!datesArr.includes(new Date(doc.date)))
+      datesArr.push(new Date(doc.date));
   });
 
   const daysLabel = getDaysArray(props.date.initial, props.date.ending);
@@ -44,7 +47,7 @@ const SingleChoice = (props) => {
     const data = daysLabel.map((day) => {
       let count = 0;
       props.data.forEach((doc) => {
-        if (sameDay(day, new Date(doc.date.seconds * 1000))) {
+        if (sameDay(day, new Date(doc.date))) {
           if (doc.questions[props.question.index].answers[choice]) {
             count = count + 1;
           }
@@ -79,7 +82,7 @@ const SingleChoice = (props) => {
         <h3>{props.question.title}</h3>
       </Row>
       <Row className="mt-3">
-        <Col lg={6}>
+        <Col>
           <Row>
             <Bar
               data={chartData}
@@ -129,7 +132,7 @@ const SingleChoice = (props) => {
                   position: "top",
                 },
                 legend: {
-                  display: true,
+                  display: false,
                   position: "left",
                 },
                 plugins: {
