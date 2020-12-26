@@ -1,8 +1,11 @@
 import React from "react";
-import { Bar, Pie, Line, HorizontalBar } from "react-chartjs-2";
 import { Col, Container, Row } from "react-bootstrap";
 import "chartjs-plugin-datalabels";
-import { sameDay, getDaysArray, formatDate } from "./helpers";
+import {
+  CustomBar,
+  CustomLinear,
+  CustomPie,
+} from "../../../../../../components/charts";
 
 const bgc = [
   "rgba(255,99,132,0.6)",
@@ -25,7 +28,6 @@ const SingleChoice = (props) => {
     answers.forEach((a) => {
       if (a[ans]) count = count + 1;
     });
-
     return { [ans]: count };
   });
 
@@ -35,47 +37,6 @@ const SingleChoice = (props) => {
       ? newData.map((doc) => 0)
       : newData.map((doc) => doc[Object.keys(doc)]);
 
-  let datesArr = [];
-  props.data.forEach((doc) => {
-    if (!datesArr.includes(new Date(doc.date)))
-      datesArr.push(new Date(doc.date));
-  });
-
-  const daysLabel = getDaysArray(props.date.initial, props.date.ending);
-
-  const linearDataset = labels.map((choice, ind) => {
-    const data = daysLabel.map((day) => {
-      let count = 0;
-      props.data.forEach((doc) => {
-        if (sameDay(day, new Date(doc.date))) {
-          if (doc.questions[props.question.index].answers[choice]) {
-            count = count + 1;
-          }
-        }
-      });
-      return count;
-    });
-    return { label: choice, data, borderColor: bgc[ind], fill: false };
-  });
-
-  const linearData = {
-    labels: daysLabel.map((date) => formatDate(date)),
-    datasets: linearDataset,
-  };
-
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: props.question.title,
-        data: data,
-        backgroundColor: bgc,
-        borderColor: "black",
-        borderWidth: 0.5,
-      },
-    ],
-  };
-
   return (
     <Container className="border border-dark rounded bg-light p-4">
       <Row className="justify-content-center">
@@ -84,95 +45,28 @@ const SingleChoice = (props) => {
       <Row className="mt-3">
         <Col>
           <Row>
-            <Bar
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                },
-                legend: {
-                  display: false,
-                },
-                scales: {
-                  yAxes: [
-                    {
-                      ticks: {
-                        min: 0,
-                        max: Math.max(...data),
-                        stepSize: Math.ceil(Math.max(...data) / 5),
-                      },
-                    },
-                  ],
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else return value;
-                    },
-                  },
-                },
-              }}
+            <CustomBar
+              labels={labels}
+              data={data}
+              bgc={bgc}
+              title={props.question.title}
             />
-          </Row>
-          <Row>
-            <Pie
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                  position: "top",
-                },
-                legend: {
-                  display: false,
-                  position: "left",
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else
-                        return (
-                          ((100 * value) / props.data.length).toFixed(0) + "%"
-                        );
-                    },
-                  },
-                },
-              }}
+            <CustomPie
+              labels={labels}
+              title={props.question.title}
+              bgc={bgc}
+              data={data}
+              propsData={props.data}
             />
           </Row>
         </Col>
-        <Col lg={6} style={{ minHeight: "250px" }}>
-          <Line
-            data={linearData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                datalabels: {
-                  display: false,
-                },
-              },
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
-                  },
-                ],
-              },
-            }}
+        <Col style={{ minHeight: "300px" }}>
+          <CustomLinear
+            date={props.date}
+            labels={labels}
+            data={props.data}
+            bgc={bgc}
+            index={props.question.index}
           />
         </Col>
       </Row>

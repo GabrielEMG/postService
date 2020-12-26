@@ -7,8 +7,7 @@
   cursor: pointer;
   padding-left: 5px;
   padding-right: 5px;
-  border-radius: 5px;
-  height: 40px;
+  height: 30px;
   transition: all 200ms linear;
   -webkit-transition: all 200ms linear;
   -ms-transition: all 200ms linear;
@@ -25,10 +24,10 @@
 }
 
 .isSelected {
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  height: 60px;
+  background-color: rgba(150, 150, 150, 0.5) !important;
+  height: 40px;
 }
 
 .sidebarButton:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(150, 150, 150, 0.1);
 }

@@ -2,7 +2,11 @@ import React from "react";
 import { Bar, Pie, Doughnut, Line } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 import { Col, Container, Row } from "react-bootstrap";
-import { getDaysArray, sameDay, formatDate } from "./helpers";
+import {
+  getDaysArray,
+  sameDay,
+  formatDate,
+} from "../.../../../../../../../helpers/dateHelper";
 
 const MultiChoiceCharts = (props) => {
   const answers = props.data.map(

@@ -8,6 +8,8 @@ const Sidebar = (props) => {
         top: 0,
         width: `${props.width}px`,
         ...props.style,
+        backgroundColor: "#283747",
+        color: "#F3F3F3",
       }}
     >
       {props.children}
