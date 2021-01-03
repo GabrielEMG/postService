@@ -15,7 +15,7 @@ const UserSidebar = (props) => {
   const logoutUser = useLogout();
   const { section, setSection } = props;
   return (
-    <Sidebar width={150} style={{ color: "#3C1874" }}>
+    <Sidebar>
       <CompanyLogo
         height={50}
         width={50}

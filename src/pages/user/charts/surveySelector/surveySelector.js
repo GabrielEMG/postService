@@ -12,41 +12,41 @@ const SurveySelector = () => {
 
   return (
     <Container>
-      <Row className="justify-content-center">
-        {user.surveys.length > 1 &&
-          user.surveys.map((e, i) => (
-            <Col
-              key={i}
-              className={`selector-button ${
-                surveySelected === i && "selected-survey"
-              }`}
-              onClick={() => setSurveySelected(i)}
-            >
-              <Row
-                className="justify-content-center"
-                style={{ height: "40px", alignItems: "center" }}
+      <Col>
+        <Row className="justify-content-center">
+          {user.surveys.length > 0 &&
+            user.surveys.map((e, i) => (
+              <Col
+                key={i}
+                className={`selector-button ${
+                  surveySelected === i && "selected-survey"
+                }`}
+                onClick={() => setSurveySelected(i)}
               >
-                <FontAwesomeIcon icon={faChartPie} />
-                <h6
-                  style={{
-                    margin: 0,
-                    marginLeft: 5,
-                  }}
+                <Row
+                  className="justify-content-center"
+                  style={{ height: "40px", alignItems: "center" }}
                 >
-                  {e.title}
-                </h6>
-              </Row>
-            </Col>
-          ))}
+                  <FontAwesomeIcon icon={faChartPie} />
+                  <h6
+                    style={{
+                      margin: 0,
+                      marginLeft: 5,
+                    }}
+                  >
+                    {e.title}
+                  </h6>
+                </Row>
+              </Col>
+            ))}
 
-        {user.surveys.length === 0 ? (
-          <h1>no tienes encuestas creadas</h1>
-        ) : (
-          <Container>
+          {user.surveys.length === 0 ? (
+            <h1>no tienes encuestas creadas</h1>
+          ) : (
             <SurveyDisplay ind={surveySelected} />
-          </Container>
-        )}
-      </Row>
+          )}
+        </Row>
+      </Col>
     </Container>
   );
 };

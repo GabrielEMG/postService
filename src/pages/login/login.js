@@ -38,8 +38,8 @@ const Login = () => {
 
   return (
     <div
+      className="app-colors"
       style={{
-        backgroundColor: "#F3F3F3",
         position: "absolute",
         width: "100%",
         height: "100vh",
@@ -50,7 +50,6 @@ const Login = () => {
     >
       <Col
         style={{
-          backgroundColor: "#F3F3F3",
           position: "relative",
           width: wd.width > 1024 ? "40%" : wd.width > 600 ? "66%" : "85%",
           top: "50%",
@@ -88,7 +87,6 @@ const Login = () => {
           activateFromKeyboard={true}
           action={handleSignin}
         />
-
         <Row className="justify-content-center mt-4 mx-2">
           {state.isLoading ? (
             <Loader type="TailSpin" color="#3C1874" width="100" height="50" />

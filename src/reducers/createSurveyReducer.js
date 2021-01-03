@@ -36,6 +36,11 @@ const createSurveyReducer = (state = initialState, action) => {
       let bcArr = state.questions;
       bcArr[payload.index] = payload;
       return { ...state, questions: bcArr };
+    case "TEXT_INPUT_QUESTION":
+      console.log(payload);
+      let tiArr = state.questions;
+      tiArr[payload.index] = payload;
+      return { ...state, questions: tiArr };
     default:
       return state;
   }

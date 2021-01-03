@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 
 const GradeChoice = (props) => {
-  const [inputValue, setInputValue] = useState(5);
+  const [inputValue, setInputValue] = useState(6);
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -17,31 +17,28 @@ const GradeChoice = (props) => {
         answer: inputValue,
       },
     });
-  }, [inputValue]);
+  }, [inputValue, dispatch, props.question.index]);
 
   return (
-    <Container
-      className="border rounded px-3 pb-3 mt-3"
-      style={{ backgroundColor: "rgba(150,150,150,0.2)" }}
-    >
+    <Container style={{ height: "100%" }}>
       <Col>
-        <Row className="justify-content-center">
+        <Row className="mb-4">
           <h4>{props.question.title}</h4>
         </Row>
-        <Row>
-          <Col xs={11}>
-            <input
-              style={{ width: "100%" }}
-              type="range"
-              min={1}
-              max={10}
-              defaultValue={5}
-              onChange={(e) => handleChange(e)}
-            />
-          </Col>
-          <Col xs={1}>
-            <h6>{inputValue}</h6>
-          </Col>
+        <Row className="my-4" style={{ height: "45vh" }}>
+          <input
+            style={{
+              width: "100%",
+            }}
+            type="range"
+            min={1}
+            max={10}
+            defaultValue={6}
+            onChange={(e) => handleChange(e)}
+          />
+        </Row>
+        <Row className="justify-content-center mt-4">
+          <h1>{inputValue}</h1>
         </Row>
       </Col>
     </Container>

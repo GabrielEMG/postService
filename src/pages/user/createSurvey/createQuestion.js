@@ -20,7 +20,7 @@ const CreateQuestion = (props) => {
         return <MultipleChoice count={props.count} />;
       case "grade-choice":
         return <GradeChoice count={props.count} />;
-      case "textfield-answer":
+      case "textfield-input":
         return <TextInputQuestion count={props.count} />;
       case "boolean-choice":
         return <BooleanChoice count={props.count} />;
@@ -55,7 +55,7 @@ const CreateQuestion = (props) => {
           <option value="multiple-choice">selección multiple</option>
           <option value="grade-choice">nota de 1 a 10</option>
           <option value="boolean-choice">si o no</option>
-          <option value="textfield-answer">respuesta con texto</option>
+          <option value="textfield-input">respuesta con texto</option>
         </FormControl>
       </InputGroup>
 

@@ -134,6 +134,7 @@ const EditClient = (props) => {
           <Row className="justify-content-center">
             {keys.map((key, id) => (
               <Col key={key} className="m-4">
+                <Row>{`http://192.168.43.37:3000/survey/${key}`}</Row>
                 <Row>
                   <QRCode
                     className="qr-code"

@@ -4,24 +4,26 @@ import { Container } from "react-bootstrap";
 import InputText from "../../../../components/inputText";
 
 const TextInputQuestion = (props) => {
+  const dispatch = useDispatch();
   const [question, setQuestion] = useState({
     title: "",
-    type: "text-input",
-    index: props.index,
+    type: "textfield-input",
+    index: props.count,
   });
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch({
       type: "TEXT_INPUT_QUESTION",
       payload: question,
     });
-  }, [question.title]);
+  }, [question, dispatch]);
 
   const handleTitleChange = (e) => {
     setQuestion((prev) => {
       return { ...prev, title: e.target.value };
     });
   };
+  console.log(question);
 
   return (
     <Container className="mt-2">

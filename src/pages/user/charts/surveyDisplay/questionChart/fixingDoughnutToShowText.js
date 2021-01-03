@@ -10,7 +10,7 @@ Chart.helpers.extend(Chart.controllers.doughnut.prototype, {
     var width = chart.width;
     var height = chart.height;
 
-    var fontSize = (height / 135).toFixed(2);
+    var fontSize = (height / 100).toFixed(2);
     ctx.font = fontSize + "em Verdana";
     ctx.textBaseline = "middle";
 

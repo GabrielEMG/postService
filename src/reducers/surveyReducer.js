@@ -9,40 +9,45 @@ const surveyReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case "SET_SURVEY_STATE":
-      let arr = [];
-      while (arr < payload.questions.length) arr.push("");
-      while (arr > payload.questions.length) arr.pop();
-      payload.questions.forEach((question) => {
-        let ans;
-        switch (question.type) {
-          case "boolean-choice":
-          case "single-choice":
-          case "multi-choice":
-            question.answers.forEach((a) => {
-              ans = { ...ans, [a]: false };
-            });
-            break;
-          case "grade-choice":
-            ans = 5;
-            break;
-          case "text-input":
-            ans = "";
-            break;
-          default:
-            break;
-        }
-        arr[question.index] = {
-          ...question,
-          answers: ans,
+      try {
+        let arr = [];
+        while (arr < payload.questions.length) arr.push("");
+        while (arr > payload.questions.length) arr.pop();
+        payload.questions.forEach((question) => {
+          let ans;
+          switch (question.type) {
+            case "boolean-choice":
+            case "single-choice":
+            case "multi-choice":
+              question.answers.forEach((a) => {
+                ans = { ...ans, [a]: false };
+              });
+              break;
+            case "grade-choice":
+              ans = 5;
+              break;
+            case "text-input":
+              ans = "";
+              break;
+            default:
+              break;
+          }
+          arr[question.index] = {
+            ...question,
+            answers: ans,
+          };
+        });
+        return {
+          ...state,
+          title: payload.title,
+          owner: payload.owner,
+          ready: true,
+          questions: arr,
         };
-      });
-      return {
-        ...state,
-        title: payload.title,
-        owner: payload.owner,
-        ready: true,
-        questions: arr,
-      };
+      } catch (err) {
+        console.log(err.message);
+        return state;
+      }
     case "UPDATE_SINGLE_QUESTION_ANSWER":
       let sqCopy = { ...state };
       Object.keys(state.questions[payload.questionId].answers).forEach(

@@ -16,10 +16,8 @@ const SurveyDisplay = (props) => {
   });
 
   useEffect(() => {
-    if (!user.isDataLoading) {
-      setFilterDate((prev) => ({ ...prev, ending: new Date() }));
-    }
-  }, [user.surveyData, user.isDataLoading]);
+    setFilterDate((prev) => ({ ...prev, ending: new Date() }));
+  }, [surveyData, user.isDataLoading]);
 
   useEffect(() => {
     if (!user.isDataLoading) {
@@ -53,17 +51,15 @@ const SurveyDisplay = (props) => {
 
           <DateSelector date={filterDate} onChange={setFilterDate} />
 
-          <Row className="bg-light">
-            <Col>
-              {survey.questions.map((question, index) => (
-                <QuestionChart
-                  key={index}
-                  question={question}
-                  data={data ? data : []}
-                  date={filterDate}
-                />
-              ))}
-            </Col>
+          <Row style={{ marginBottom: 40 }}>
+            {survey.questions.map((question, index) => (
+              <QuestionChart
+                key={index}
+                question={question}
+                data={data ? data : []}
+                date={filterDate}
+              />
+            ))}
           </Row>
         </>
       )}

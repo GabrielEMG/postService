@@ -1,4 +1,5 @@
 import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 
 const TextInputQuestion = (props) => {
@@ -15,14 +16,30 @@ const TextInputQuestion = (props) => {
   };
 
   return (
-    <div>
-      <h1>{props.question.title}</h1>
-      <input
-        type="text"
-        placeholder="Escribe una respuesta"
-        onChange={(e) => handleChange(e)}
-      />
-    </div>
+    <Container style={{ height: "100%" }}>
+      <Row style={{ height: "100%" }}>
+        <Col>
+          <Row>
+            <h4>{props.question.title}</h4>
+          </Row>
+          <Row style={{ height: "90%" }}>
+            <textarea
+              style={{
+                width: "100%",
+                resize: "none",
+                height: "80%",
+                borderRadius: 10,
+                padding: 5,
+                borderColor: "rgba(0,0,0,0.2)",
+              }}
+              type="text"
+              placeholder="Escribe una respuesta"
+              onChange={(e) => handleChange(e)}
+            />
+          </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

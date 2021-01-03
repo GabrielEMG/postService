@@ -11,18 +11,15 @@ const SingleChoice = (props) => {
     });
   };
   return (
-    <Container
-      className="border rounded px-3 pb-3 mt-3"
-      style={{ backgroundColor: "rgba(150,150,150,0.2)" }}
-    >
+    <Container>
       <Col>
-        <Row className="justify-content-center">
+        <Row className="mb-4">
           <h4>{props.question.title}</h4>
         </Row>
 
         {Object.keys(props.question.answers).map((key, id) => (
           <Row
-            className="py-2 px-4 align-items-center border-bottom border-dark"
+            className="py-3 px-4 align-items-center border-bottom border-dark"
             key={id}
             onClick={() => handleClick(props.question.index, key)}
           >

@@ -1,5 +1,5 @@
 import React from "react";
-import { Doughnut, Bar, Pie, Line, HorizontalBar } from "react-chartjs-2";
+import { Doughnut, Bar, Pie, Line } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 import { Col, Row, Container } from "react-bootstrap";
 import {
@@ -35,12 +35,20 @@ const GradeChoiceCharts = (props) => {
     const data = daysLabel.map((day) => {
       let count = 0;
       props.data.forEach((doc) => {
-        if (sameDay(day, new Date(doc.date.seconds * 1000))) {
-          if (
-            doc.questions[props.question.index].answers ===
-            JSON.stringify(choice)
-          ) {
-            count = count + 1;
+        if (sameDay(day, new Date(doc.date))) {
+          try {
+            if (
+              doc.questions[props.question.index].answers ===
+              JSON.stringify(choice)
+            ) {
+              count = count + 1;
+            }
+          } catch (err) {
+            console.log({
+              error: err.message,
+              doc: doc.questions,
+              ind: props.question.index,
+            });
           }
         }
       });
@@ -67,101 +75,145 @@ const GradeChoiceCharts = (props) => {
   };
 
   return (
-    <Container className="border border-dark rounded bg-light p-4">
+    <Container className="p-4">
       <Row className="justify-content-center">
         <h3>{props.question.title}</h3>
       </Row>
 
-      <Row className="my-4">
-        <Col lg={6}>
+      <Row>
+        <Col>
           <Row>
-            <Bar
-              data={chartData}
+            <Line
+              height={null}
+              width={null}
+              data={linearData}
               options={{
                 responsive: true,
                 maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                },
+                aspectRatio: 4,
                 legend: {
-                  display: false,
+                  display: true,
+                },
+                plugins: {
+                  datalabels: {
+                    display: false,
+                  },
                 },
                 scales: {
                   yAxes: [
                     {
                       ticks: {
-                        min: 0,
-                        max: Math.max(...barData),
-                        stepSize: Math.ceil(Math.max(...barData) / 5),
+                        beginAtZero: true,
+                        userCallback: function (label, index, labels) {
+                          // when the floored value is the same as the value we have a whole number
+                          if (Math.floor(label) === label) {
+                            return label;
+                          }
+                        },
                       },
                     },
                   ],
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else return value;
+                  xAxes: [
+                    {
+                      gridLines: {
+                        display: false,
+                      },
                     },
-                  },
+                  ],
                 },
               }}
             />
           </Row>
           <Row>
-            <Pie
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                  position: "top",
-                },
-                legend: {
-                  display: true,
-                  position: "right",
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else return (100 * value) / barData.length + "%";
+            <Col md={6}>
+              <Bar
+                width={null}
+                height={null}
+                data={chartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  aspectRatio: 2,
+                  title: {
+                    display: false,
+                    text: props.question.title,
+                  },
+                  legend: {
+                    display: false,
+                  },
+                  scales: {
+                    xAxes: [
+                      {
+                        gridLines: {
+                          display: false,
+                        },
+                      },
+                    ],
+                    yAxes: [
+                      {
+                        ticks: {
+                          min: 0,
+                          max: Math.max(...barData),
+                          stepSize: Math.ceil(Math.max(...barData) / 5),
+                        },
+                      },
+                    ],
+                  },
+                  plugins: {
+                    datalabels: {
+                      display: true,
+                      color: "black",
+                      formatter: (value, context) => {
+                        if (value === 0) return "";
+                        else return value;
+                      },
                     },
                   },
-                },
-              }}
-            />
+                  tooltips: {
+                    callbacks: {
+                      label: function (tooltipItem) {
+                        return tooltipItem.yLabel;
+                      },
+                    },
+                  },
+                }}
+              />
+            </Col>
+            <Col md={6}>
+              <Pie
+                height={null}
+                width={null}
+                data={chartData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  aspectRatio: 2,
+                  title: {
+                    display: false,
+                    text: props.question.title,
+                    position: "top",
+                  },
+                  legend: {
+                    display: false,
+                    position: "right",
+                  },
+                  plugins: {
+                    datalabels: {
+                      display: true,
+                      color: "black",
+                      formatter: (value, context) => {
+                        if (value === 0) return "";
+                        else
+                          return (
+                            ((100 * value) / props.data.length).toFixed(0) + "%"
+                          );
+                      },
+                    },
+                  },
+                }}
+              />
+            </Col>
           </Row>
-        </Col>
-        <Col lg={6} style={{ minHeight: "250px" }}>
-          <Line
-            data={linearData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                datalabels: {
-                  display: false,
-                },
-              },
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
-                  },
-                ],
-              },
-            }}
-          />
         </Col>
       </Row>
 
@@ -169,9 +221,12 @@ const GradeChoiceCharts = (props) => {
         <Col sm={6}>
           <h6 style={{ textAlign: "center" }}>Nota Promedio</h6>
           <Doughnut
+            height={null}
+            width={null}
             options={{
               responsive: true,
               maintainAspectRatio: true,
+              aspectRatio: 3,
               title: {
                 display: false,
               },
@@ -204,9 +259,12 @@ const GradeChoiceCharts = (props) => {
         <Col sm={6}>
           <h6 style={{ textAlign: "center" }}>Desviación estandar</h6>
           <Doughnut
+            height={null}
+            width={null}
             options={{
               responsive: true,
               maintainAspectRatio: true,
+              aspectRatio: 3,
               title: {
                 display: false,
               },

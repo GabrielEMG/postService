@@ -38,36 +38,40 @@ const SingleChoice = (props) => {
       : newData.map((doc) => doc[Object.keys(doc)]);
 
   return (
-    <Container className="border border-dark rounded bg-light p-4">
+    <Container className="p-4">
       <Row className="justify-content-center">
         <h3>{props.question.title}</h3>
       </Row>
-      <Row className="mt-3">
+      <Row className="p-3">
         <Col>
           <Row>
-            <CustomBar
+            <CustomLinear
+              date={props.date}
               labels={labels}
-              data={data}
+              data={props.data}
               bgc={bgc}
-              title={props.question.title}
-            />
-            <CustomPie
-              labels={labels}
-              title={props.question.title}
-              bgc={bgc}
-              data={data}
-              propsData={props.data}
+              index={props.question.index}
             />
           </Row>
-        </Col>
-        <Col style={{ minHeight: "300px" }}>
-          <CustomLinear
-            date={props.date}
-            labels={labels}
-            data={props.data}
-            bgc={bgc}
-            index={props.question.index}
-          />
+          <Row className="mt-2">
+            <Col md={6}>
+              <CustomBar
+                labels={labels}
+                data={data}
+                bgc={bgc}
+                title={props.question.title}
+              />
+            </Col>
+            <Col md={6}>
+              <CustomPie
+                labels={labels}
+                title={props.question.title}
+                bgc={bgc}
+                data={data}
+                propsData={props.data}
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>

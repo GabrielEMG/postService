@@ -1,17 +1,16 @@
 import React from "react";
-import { Bar, Pie, Doughnut, Line } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 import "chartjs-plugin-datalabels";
 import { Col, Container, Row } from "react-bootstrap";
-import {
-  getDaysArray,
-  sameDay,
-  formatDate,
-} from "../.../../../../../../../helpers/dateHelper";
+
+import { CustomBar, CustomLinear } from "../../../../../../components/charts";
 
 const MultiChoiceCharts = (props) => {
-  const answers = props.data.map(
-    (doc) => doc.questions.find((q) => q.title === props.question.title).answers
-  );
+  const answers = props.data.map((doc) => {
+    const d = doc.questions.find((q) => q.title === props.question.title);
+    if (d) return d.answers;
+    else return [];
+  });
 
   const newData = props.question.answers.map((ans) => {
     let count = 0;
@@ -22,9 +21,10 @@ const MultiChoiceCharts = (props) => {
   });
 
   const labels = newData.map((doc) => Object.keys(doc)[0]);
-  const data = newData.map((doc) => doc[Object.keys(doc)]);
-
-  const reducedData = data.reduce((acc, val) => acc + val);
+  const data =
+    answers.length === 0
+      ? newData.map((doc) => 0)
+      : newData.map((doc) => doc[Object.keys(doc)]);
 
   const votes = answers.length;
   const percentageVote = data.map((d) => Math.round((100 * d) / votes));
@@ -40,12 +40,15 @@ const MultiChoiceCharts = (props) => {
   ];
 
   const allcharts = percentageVote.map((val, ind) => (
-    <Col lg={2} sm={3} xs={6}>
+    <Col md={4} xs={6} key={ind}>
       <h6 style={{ textAlign: "center" }}>{labels[ind]}</h6>
       <Doughnut
+        height={null}
+        width={null}
         options={{
           responsive: true,
           maintainAspectRatio: true,
+          aspectRatio: 2,
           legend: {
             display: false,
           },
@@ -82,145 +85,38 @@ const MultiChoiceCharts = (props) => {
     </Col>
   ));
 
-  const daysLabel = getDaysArray(props.date.initial, props.date.ending);
-
-  const linearDataset = labels.map((choice, ind) => {
-    const data = daysLabel.map((day) => {
-      let count = 0;
-      props.data.forEach((doc) => {
-        if (sameDay(day, new Date(doc.date.seconds * 1000))) {
-          if (doc.questions[props.question.index].answers[choice]) {
-            count = count + 1;
-          }
-        }
-      });
-      return count;
-    });
-    return { label: choice, data, borderColor: bgc[ind], fill: false };
-  });
-
-  const i = linearDataset.reduce((accc, doc) => {
-    const max = Math.max(...doc.data);
-    if (max > accc) return max;
-    else return accc;
-  });
-  const linearData = {
-    labels: daysLabel.map((date) => formatDate(date)),
-    datasets: linearDataset,
-  };
-
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: props.question.title,
-        data: data,
-        backgroundColor: bgc,
-        borderColor: "black",
-        borderWidth: 0.5,
-      },
-    ],
-  };
-
   return (
-    <Container className="border border-dark rounded bg-light p-4">
+    <Container className="p-4">
       <Row className="justify-content-center ">
         <h3>{props.question.title}</h3>
       </Row>
-      <Row className="my-4">
-        <Col lg={6}>
-          <Row>
-            <Bar
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                },
-                legend: {
-                  display: false,
-                },
-                scales: {
-                  yAxes: [
-                    {
-                      ticks: {
-                        min: 0,
-                        max: Math.max(...data),
-                        stepSize: Math.ceil(Math.max(...data) / 5),
-                      },
-                    },
-                  ],
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else return value;
-                    },
-                  },
-                },
-              }}
-            />
-          </Row>
-          <Row>
-            <Pie
-              data={chartData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: true,
-                title: {
-                  display: false,
-                  text: props.question.title,
-                  position: "top",
-                },
-                legend: {
-                  display: true,
-                  position: "left",
-                },
-                plugins: {
-                  datalabels: {
-                    display: true,
-                    color: "black",
-                    formatter: (value, context) => {
-                      if (value === 0) return "";
-                      else return Math.round((100 * value) / reducedData) + "%";
-                    },
-                  },
-                },
-              }}
-            />
-          </Row>
-        </Col>
 
-        <Col lg={6} style={{ minHeight: "250px" }}>
-          <Line
-            data={linearData}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                datalabels: {
-                  display: false,
-                },
-              },
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
-                  },
-                ],
-              },
-            }}
-          />
+      <Row className="p-3">
+        <Col>
+          <Row>
+            <CustomLinear
+              date={props.date}
+              labels={labels}
+              data={props.data}
+              bgc={bgc}
+              index={props.question.index}
+            />
+          </Row>
+          <Row className="mt-2">
+            <Col md={6}>
+              <CustomBar
+                labels={labels}
+                data={data}
+                bgc={bgc}
+                title={props.question.title}
+              />
+            </Col>
+            <Col md={6}>
+              <Row>{allcharts}</Row>
+            </Col>
+          </Row>
         </Col>
       </Row>
-      <Row className="justify-content-center">{allcharts}</Row>
     </Container>
   );
 };

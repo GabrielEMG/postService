@@ -18,10 +18,13 @@ const CustomBar = (props) => {
 
   return (
     <Bar
+      height={null}
+      width={null}
       data={chartData}
       options={{
         responsive: true,
         maintainAspectRatio: true,
+        aspectRatio: 2,
         title: {
           display: false,
           text: title,

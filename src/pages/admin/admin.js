@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router-dom";
 import "./admin.css";
 import EditClient from "./editClient";
+import Sidebar from "../../components/sidebar";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const Admin = (props) => {
   const user = useSelector((selector) => selector.user);
@@ -14,6 +16,7 @@ const Admin = (props) => {
   const [section, setSection] = useState("data");
   const history = useHistory();
   const dispatch = useDispatch();
+  const wdim = useWindowDimensions();
 
   useEffect(() => {
     firebase
@@ -30,19 +33,21 @@ const Admin = (props) => {
   }, []);
 
   return (
-    <Container fluid>
-      <Row style={{ height: "100vh" }}>
-        <Col lg={2} style={{ backgroundColor: "rgba(150,150,150,0.2)" }}>
-          <Row onClick={() => history.push("/")}>LogoEmpresa</Row>
-
-          <Row>{user.email}</Row>
-
-          <Row onClick={(e) => auth.signOut()} className="sidebar-button">
-            <FontAwesomeIcon icon={faSignOutAlt} />
-            <h6 className="text-container">Salir</h6>
-            <FontAwesomeIcon icon={faCaretRight} />
-          </Row>
-        </Col>
+    <div
+      className="app-colors"
+      style={{
+        display: "inline-flex",
+        width: "100%",
+      }}
+    >
+      <div style={{ width: 150 }}>
+        <Sidebar />
+      </div>
+      <div
+        style={{
+          width: wdim.width - 150,
+        }}
+      >
         <Col
           style={{ height: "100%", padding: 0, margin: 0 }}
           md={10}
@@ -50,8 +55,8 @@ const Admin = (props) => {
         >
           <EditClient />
         </Col>
-      </Row>
-    </Container>
+      </div>
+    </div>
   );
 };
 

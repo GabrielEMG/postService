@@ -12,12 +12,12 @@ const DisplayQuestion = (props) => {
       return <MultiChoice question={props.question} index={props.index} />;
     case "grade-choice":
       return <GradeChoice question={props.question} index={props.index} />;
-    case "text-input":
+    case "textfield-input":
       return (
         <TextInputQuestion question={props.question} index={props.index} />
       );
     default:
-      return <h1>hello</h1>;
+      return <h1>No existe el tipo {props.type}</h1>;
   }
 };
 

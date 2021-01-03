@@ -8,9 +8,11 @@ const FullScreenMessage = (props) => {
           height: "100vh",
           alignContent: "center",
           justifyContent: "center",
+          maringRight: 10,
+          marginLeft: 10,
         }}
       >
-        <h6 style={{ backgroundColor: "white" }}>{props.message}</h6>
+        <h4>{props.message}</h4>
       </Row>
     </Container>
   );

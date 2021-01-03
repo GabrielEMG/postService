@@ -1,0 +1,13 @@
+.app-colors {
+  background-color: #f3f3f3;
+  color: #3c1874;
+}
+
+.app-dark {
+  background-color: #283747;
+  color: "#F3F3F3";
+}
+
+.app-err {
+  color: #de354c;
+}

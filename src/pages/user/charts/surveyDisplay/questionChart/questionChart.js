@@ -4,7 +4,6 @@ import GradeChoiceCharts from "./types/gradeChoiceCharts";
 import InputTextDisplay from "./types/inputTextDisplay";
 import MultiChoiceCharts from "./types/multiChoiceCharts";
 import SingleChoiceCharts from "./types/singleChoiceCharts";
-import BooleanChoiceCharts from "./types/booleanChoiceCharts";
 
 const QuestionChart = (props) => {
   const displayCharts = (type, data) => {
@@ -34,7 +33,7 @@ const QuestionChart = (props) => {
             date={props.date}
           />
         );
-      case "text-input":
+      case "textfield-input":
         return (
           <InputTextDisplay
             question={props.question}
@@ -48,7 +47,15 @@ const QuestionChart = (props) => {
   };
 
   return (
-    <div style={{ marginTop: 20 }}>
+    <div
+      style={{
+        marginTop: 20,
+        position: "relative",
+        width: "100%",
+        boxShadow: "4px 4px 8px 1px rgba(0,0,0,0.4)",
+        borderRadius: 10,
+      }}
+    >
       {displayCharts(props.question.type, props.data)}
     </div>
   );
