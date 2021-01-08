@@ -138,7 +138,7 @@ const EditClient = (props) => {
                 <Row>
                   <QRCode
                     className="qr-code"
-                    value={`http://192.168.43.37:3000/survey/${key}`}
+                    value={`https://survey-realtime.web.app//survey/${key}`}
                   />
                 </Row>
               </Col>
