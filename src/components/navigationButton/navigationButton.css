@@ -11,6 +11,7 @@
   transition: all 200ms linear;
   -webkit-transition: all 200ms linear;
   -ms-transition: all 200ms linear;
+  color: #f3f3f3;
 }
 
 .textContainer {

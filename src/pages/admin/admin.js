@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import { auth, firebase } from "../../firebase";
 import { useSelector, useDispatch } from "react-redux";
-import { faSignOutAlt, faCaretRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useHistory } from "react-router-dom";
 import "./admin.css";
 import EditClient from "./editClient";
@@ -11,7 +10,6 @@ import Sidebar from "../../components/sidebar";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const Admin = (props) => {
-  const user = useSelector((selector) => selector.user);
   const admin = useSelector((selector) => selector.admin);
   const [section, setSection] = useState("data");
   const history = useHistory();
