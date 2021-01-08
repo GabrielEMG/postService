@@ -34,7 +34,7 @@ const GradeChoice: React.FC<Props> = (props): JSX.Element => {
 
   return (
     <Container style={{ height: "100%" }}>
-      <Col style={{ backgroundColor: "green", height: "100%" }}>
+      <Col style={{ height: "100%" }}>
         <Row className="mb-4">
           <h4>{props.question.title}</h4>
         </Row>
