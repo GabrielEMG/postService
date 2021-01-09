@@ -64,7 +64,7 @@ const useFirebase: Function = (): void => {
           });
       });
     }
-  }, [user.uid, user.surveys]);
+  }, [user.uid, user.surveys, dispatch]);
 };
 
 export default useFirebase;

@@ -54,7 +54,7 @@ const MultiChoice: React.FC<{ count: number }> = (props): JSX.Element => {
       type: "MULTI_CHOICE_QUESTION",
       payload: question,
     });
-  }, [question]);
+  }, [question, dispatch]);
 
   return (
     <Container className="mt-2">

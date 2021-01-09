@@ -32,7 +32,7 @@ const BooleanChoice: React.FC<{ count: number }> = (props): JSX.Element => {
       type: "BOOLEAN_CHOICE_QUESTION",
       payload: question,
     });
-  }, [question]);
+  }, [question, dispatch]);
 
   return (
     <Container className="mt-2">

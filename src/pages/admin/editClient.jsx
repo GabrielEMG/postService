@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { firebase } from "../../firebase";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import QRCode from "qrcode.react";
 import { saveAs } from "file-saver";
 import {

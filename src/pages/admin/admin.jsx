@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Col } from "react-bootstrap";
-import { auth, firebase } from "../../firebase";
-import { useSelector, useDispatch } from "react-redux";
+import { firebase } from "../../firebase";
+import { useDispatch } from "react-redux";
 
-import { useHistory } from "react-router-dom";
 import "./admin.css";
 import EditClient from "./editClient";
 import Sidebar from "../../components/sidebar";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const Admin = (props) => {
-  const admin = useSelector((selector) => selector.admin);
-  const [section, setSection] = useState("data");
-  const history = useHistory();
   const dispatch = useDispatch();
   const wdim = useWindowDimensions();
 
-  useEffect(() => {
+  React.useEffect(() => {
     firebase
       .database()
       .ref("user")
@@ -28,7 +24,7 @@ const Admin = (props) => {
           });
         });
       });
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

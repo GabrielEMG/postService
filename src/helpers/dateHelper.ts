@@ -20,8 +20,7 @@ export const sameDay: Function = (d1: Date, d2: Date): boolean => {
 export const formatDate: Function = (date: Date): string => {
   var d: Date = new Date(date),
     month: string = "" + (d.getMonth() + 1),
-    day: string = "" + d.getDate(),
-    year = d.getFullYear();
+    day: string = "" + d.getDate()
 
   if (month.length < 2) month = "0" + month;
   if (day.length < 2) day = "0" + day;
