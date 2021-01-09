@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import ChartSelector from "./charts";
 import CreateSurvey from "./createSurvey";
 import EditSurvey from "./editSurvey/editSurvey";
@@ -31,7 +31,13 @@ const User: React.FC = (): JSX.Element => {
   return (
     <div style={{ display: "flex" }}>
       {user.isLoading || !user.isLogin ? (
-        <div style={{ width: "100%", height: "100vh" }}>
+        <div
+          style={{
+            width: "100%",
+            height: "100vh",
+            display: "flex",
+          }}
+        >
           <FullscreenLoading height={100} width={100} />
         </div>
       ) : (
@@ -39,7 +45,7 @@ const User: React.FC = (): JSX.Element => {
           <div
             className="app-dark"
             style={{
-              width: 200,
+              flex: "0 0 200px",
               position: "sticky",
               top: 0,
               left: 0,
@@ -74,17 +80,15 @@ const User: React.FC = (): JSX.Element => {
               action={logout}
             />
           </div>
-          <Switch>
-            <div
-              className="app-colors"
-              style={{ display: "flex", width: "100%" }}
-            >
-              <Route exact path="/user" children={<ChartSelector />} />
-              <Route path="/user/crear-encuesta" children={<CreateSurvey />} />
-              <Route path="/user/editar-encuesta" children={<EditSurvey />} />
-              <Route path="/user/perfil" children={<Profile />} />
-            </div>
-          </Switch>
+          <div
+            className="app-colors"
+            style={{ display: "flex", width: "100%" }}
+          >
+            <Route exact path="/user" children={<ChartSelector />} />
+            <Route path="/user/crear-encuesta" children={<CreateSurvey />} />
+            <Route path="/user/editar-encuesta" children={<EditSurvey />} />
+            <Route path="/user/perfil" children={<Profile />} />
+          </div>
         </>
       )}
     </div>

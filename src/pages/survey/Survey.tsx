@@ -52,7 +52,7 @@ const Survey = () => {
         );
       }
     }
-  }, [ind, survey]);
+  }, [ind, survey, surveyState.isLoading]);
 
   return (
     <Container
@@ -78,19 +78,20 @@ const Survey = () => {
         ) : surveyState.error === "ERROR 404" ? (
           <FullScreenMessage message="El enlace no esta anexado a ninguna encuesta" />
         ) : (
-          <Col>
+          <Col style={{ display: "flex", flexDirection: "column" }}>
             <Row
-              style={{ height: "10vh" }}
+              style={{ flex: 1 }}
               className="justify-content-center align-items-center"
             >
               <h3>{survey.title}</h3>
             </Row>
-            <Row className="justify-content-center pb-2">{`${ind + 1}/${
-              survey.questions.length
-            }`}</Row>
+            <Row
+              style={{ flex: 1 }}
+              className="justify-content-center align-items-end pb-2"
+            >{`${ind + 1}/${survey.questions.length}`}</Row>
             <Row
               style={{
-                height: "70vh",
+                flex: 10,
                 position: "relative",
                 marginLeft: "5%",
                 marginRight: "5%",
@@ -122,7 +123,7 @@ const Survey = () => {
             </Row>
             <Row
               style={{
-                height: "10vh",
+                flex: 3,
                 alignItems: "center",
                 marginLeft: "10%",
                 marginRight: "10%",

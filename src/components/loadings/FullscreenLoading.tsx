@@ -11,6 +11,7 @@ const FullscreenLoading: React.FC<Props> = (props): JSX.Element => {
       style={{
         height: "100%",
         display: "flex",
+        width: "100%",
         justifyContent: "center",
         alignItems: "center",
       }}
