@@ -65,7 +65,6 @@ const Survey = () => {
             style={{
               width: "100%",
               minHeight: "100vh -webkit-fill-available",
-              height: "-webkit-fill-available",
               justifyContent: "center",
               alignItems: "center",
               display: "flex",
