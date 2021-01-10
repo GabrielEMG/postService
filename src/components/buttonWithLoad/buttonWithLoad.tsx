@@ -22,6 +22,7 @@ const ButtonWithLoad: React.FC<Props> = (props): JSX.Element => {
         <Loader type="TailSpin" color="#3C1874" width="100" height="50" />
       ) : (
         <Button
+          className="app-button"
           disabled={props.isDisabled || false}
           style={{
             borderRadius: 10,

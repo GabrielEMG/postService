@@ -9,6 +9,9 @@ import {
   faPlusSquare,
   faEdit,
   faSignOutAlt,
+  faUser,
+  faExclamationTriangle,
+  faTasks,
 } from "@fortawesome/free-solid-svg-icons";
 import CompanyLogo from "../../components/companyLogo";
 import useLogout from "../../hooks/useLogout";
@@ -16,11 +19,16 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import FullscreenLoading from "../../components/loadings/FullscreenLoading";
 import Profile from "./profile";
+import BugReport from "./bugReport";
+import Sidebar from "../../components/sidebar";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
+import Request from "./request";
 
 const User: React.FC = (): JSX.Element => {
   const history = useHistory();
   const user = useSelector((selector: any) => selector.user);
   const logout: Function = useLogout();
+  const wdim = useWindowDimensions();
 
   React.useEffect(() => {
     if (!user.isLoading && !user.isLogin) {
@@ -42,16 +50,7 @@ const User: React.FC = (): JSX.Element => {
         </div>
       ) : (
         <>
-          <div
-            className="app-dark"
-            style={{
-              flex: "0 0 200px",
-              position: "sticky",
-              top: 0,
-              left: 0,
-              height: "100vh",
-            }}
-          >
+          <Sidebar>
             <CompanyLogo width={50} height={50} />
             <NavigationButton
               path="/user"
@@ -70,8 +69,18 @@ const User: React.FC = (): JSX.Element => {
             />
             <NavigationButton
               path="/user/perfil"
-              icon={faEdit}
+              icon={faUser}
               label="Usuario"
+            />
+            <NavigationButton
+              path="/user/solicitar"
+              icon={faTasks}
+              label="Enviar solicitud"
+            />
+            <NavigationButton
+              path="/user/reportar-error"
+              icon={faExclamationTriangle}
+              label="Reportar un error"
             />
             <NavigationButton
               path="/"
@@ -79,15 +88,21 @@ const User: React.FC = (): JSX.Element => {
               label="Salir"
               action={logout}
             />
-          </div>
+          </Sidebar>
           <div
             className="app-colors"
-            style={{ display: "flex", width: "100%" }}
+            style={{
+              paddingLeft: wdim.width <= 768 ? 0 : 200,
+              width: "100%",
+              minHeight: "100vh",
+            }}
           >
             <Route exact path="/user" children={<ChartSelector />} />
             <Route path="/user/crear-encuesta" children={<CreateSurvey />} />
             <Route path="/user/editar-encuesta" children={<EditSurvey />} />
             <Route path="/user/perfil" children={<Profile />} />
+            <Route path="/user/solicitar" children={<Request />} />
+            <Route path="/user/reportar-error" children={<BugReport />} />
           </div>
         </>
       )}

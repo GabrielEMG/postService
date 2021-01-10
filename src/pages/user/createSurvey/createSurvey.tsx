@@ -21,7 +21,7 @@ const CreateSurvey: React.FC = (): JSX.Element => {
 
   React.useEffect(() => {
     while (state.questions.length < count) dispatch({ type: "ADD_QUESTION" });
-  }, []);
+  }, [state.questions.length, count, dispatch]);
 
   React.useEffect(() => {
     dispatch({

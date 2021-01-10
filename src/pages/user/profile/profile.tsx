@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { firebase } from "../../../firebase";
 import ChangeInput from "../../../components/changeInput";
+import { Container, Row } from "react-bootstrap";
 
 type User = {
   email: string;
@@ -56,51 +57,62 @@ const Profile: React.FC = (): JSX.Element => {
   };
 
   return (
-    <div>
-      <p>Profile</p>
-      <ChangeInput
-        title="Email"
-        name="email"
-        value={userProfile.email}
-        action={saveChanges}
-        canChange={false}
-      />
-      <ChangeInput
-        title="Nombre de usuario"
-        name="name"
-        value={userProfile.name}
-        action={saveChanges}
-        canChange={true}
-      />
-      <ChangeInput
-        title="Nombre de empresa"
-        name="business"
-        value={userProfile.business}
-        action={saveChanges}
-        canChange={true}
-      />
-      <ChangeInput
-        title="Región"
-        name="region"
-        value={userProfile.region}
-        action={saveChanges}
-        canChange={true}
-      />
-      <ChangeInput
-        title="Comuna"
-        name="comuna"
-        value={userProfile.comuna}
-        action={saveChanges}
-        canChange={true}
-      />
-      <ChangeInput
-        title="Dirección"
-        name="location"
-        value={userProfile.location}
-        action={saveChanges}
-        canChange={true}
-      />
-    </div>
+    <Container>
+      <Row className="justify-content-center my-4">
+        <h4>Perfil de usuario</h4>
+      </Row>
+      <Row>
+        <ChangeInput
+          title="Email"
+          name="email"
+          value={userProfile.email}
+          action={saveChanges}
+          canChange={false}
+        />
+        <ChangeInput
+          title="Código de usuario"
+          name="uid"
+          value={userProfile.uid}
+          action={saveChanges}
+          canChange={false}
+        />
+        <ChangeInput
+          title="Nombre de usuario"
+          name="name"
+          value={userProfile.name}
+          action={saveChanges}
+          canChange={true}
+        />
+        <ChangeInput
+          title="Nombre de empresa"
+          name="business"
+          value={userProfile.business}
+          action={saveChanges}
+          canChange={true}
+        />
+        <ChangeInput
+          title="Región"
+          name="region"
+          value={userProfile.region}
+          action={saveChanges}
+          canChange={true}
+        />
+        <ChangeInput
+          title="Comuna"
+          name="comuna"
+          value={userProfile.comuna}
+          action={saveChanges}
+          canChange={true}
+        />
+        <ChangeInput
+          title="Dirección"
+          name="location"
+          value={userProfile.location}
+          action={saveChanges}
+          canChange={true}
+        />
+      </Row>
+    </Container>
   );
 };
 

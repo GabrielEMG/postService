@@ -11,6 +11,7 @@ type Survey = {
   date: Date;
   questions: Question[];
   ready?: boolean;
+  key: string;
 }
 
 type User = {
@@ -25,8 +26,9 @@ type User = {
   surveyCap?: number;
   name: string;
   business: string;
-  location: string;
+  region: string;
   comuna: string;
+  location: string;
   surveyCount: number;
   emailConfirmed: boolean;
 }
@@ -43,6 +45,7 @@ const initialState: User = {
   surveyCap: 0,
   name: "",
   business: "",
+  region: "",
   location: "",
   comuna: "",
   surveyCount: 0,

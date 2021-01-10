@@ -1,0 +1,25 @@
+.selector {
+  height: 30px;
+  border: 0px;
+  font-size: 14px;
+  color: #371893;
+  border-radius: 5px;
+  box-shadow: 2px 4px 8px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+.selector:focus {
+  outline: none;
+}
+
+.txtarea {
+  box-shadow: 2px 4px 8px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0px;
+}
+
+.txtarea:focus {
+  outline: none;
+}

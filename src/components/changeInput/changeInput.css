@@ -1,0 +1,22 @@
+.inputchange {
+  border-top-style: hidden;
+  border-left-style: hidden;
+  border-right-style: hidden;
+  border-bottom-style: groove;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.inputchange:focus {
+  outline: none;
+}
+
+.editbutton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
+}

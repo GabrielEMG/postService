@@ -1,4 +1,7 @@
 import React from "react";
+import { Col, Row } from "react-bootstrap";
+import PaperBG from "../paperBG";
+import "./changeInput.css";
 
 type Props = {
   title: string;
@@ -65,31 +68,56 @@ const ChangeInput: React.FC<Props> = (props): JSX.Element => {
   };
 
   return (
-    <div>
-      <p>{props.title}</p>
-      {state.onFocus ? (
-        <input
-          ref={inputRef}
-          value={state.newValue}
-          onChange={(e) => handleChange(e)}
-          name={props.name}
-          type="text"
-          onBlur={() => handleBlur()}
-          onKeyDown={(e) => handleKeyDown(e)}
-        />
-      ) : (
-        <p
-          onClick={() => props.canChange && handleClick()}
-          style={{ cursor: "pointer" }}
-        >
-          {props.value
-            ? props.value
-            : props.canChange
-            ? "Agregar información"
-            : "null"}
-        </p>
-      )}
-    </div>
+    <Col xs={12} sm={6} md={6} lg={4} xl={3}>
+      <PaperBG>
+        <Col>
+          {props.canChange && (
+            <div onClick={() => handleClick()} className="editbutton">
+              <p>editar</p>
+            </div>
+          )}
+          <Row style={{ marginTop: 5, marginBottom: 5 }}>
+            <h6>{props.title}</h6>
+          </Row>
+          <Row
+            style={{
+              width: "100%",
+              height: 60,
+            }}
+          >
+            {state.onFocus ? (
+              <input
+                className="inputchange app-colors"
+                ref={inputRef}
+                value={state.newValue}
+                onChange={(e) => handleChange(e)}
+                name={props.name}
+                type="text"
+                onBlur={() => handleBlur()}
+                onKeyDown={(e) => handleKeyDown(e)}
+              />
+            ) : (
+              <p
+                onClick={() => props.canChange && handleClick()}
+                style={{
+                  cursor: props.canChange ? "pointer" : "auto",
+                  width: "100%",
+                  height: "100%",
+                  paddingTop: 20,
+                  paddingLeft: 1,
+                }}
+              >
+                {props.value
+                  ? props.value
+                  : props.canChange
+                  ? "Agregar información"
+                  : "null"}
+              </p>
+            )}
+          </Row>
+        </Col>
+      </PaperBG>
+    </Col>
   );
 };
 

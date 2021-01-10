@@ -1,18 +1,59 @@
 import React from "react";
+import { Container, Col, Row } from "react-bootstrap";
+import CustomSelector from "../../../components/customSelector";
+import { useSelector } from "react-redux";
 
-/*
-  peticiones que solo el admin puede realizar
+type Survey = {
+  title: string;
+  owner: string;
+  key: string;
+};
 
-  -pedir mas tarjetas / elegir cuantas tarjetas necesita
-  -pedir slot de nueva encuesta
-
-*/
+type User = {
+  email: string;
+  uid: string;
+  surveys: Survey[];
+  business: string;
+  region: string;
+  comuna: string;
+  location: string;
+};
 
 const Request: React.FC = (): JSX.Element => {
+  const [state, setState] = React.useState({
+    survey: "",
+  });
+  const user: User = useSelector((selector: any): User => selector.user);
+
+  const selectSurvey: Function = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    setState((prev) => ({ ...prev, survey: e.target.value }));
+  };
+
   return (
-    <div>
-      <p>request to admin</p>
-    </div>
+    <Container>
+      <Col>
+        <Row className="justify-content-center">
+          <h4>Solicitar tarjetas</h4>
+        </Row>
+        <Row>
+          <Col>
+            <CustomSelector
+              onChange={selectSurvey}
+              value={state.survey}
+              label="Seleccionar encuesta"
+            >
+              {user.surveys.map(
+                (survey: Survey): JSX.Element => (
+                  <option value={survey.key}>{survey.title}</option>
+                )
+              )}
+            </CustomSelector>
+          </Col>
+        </Row>
+      </Col>
+    </Container>
   );
 };
 

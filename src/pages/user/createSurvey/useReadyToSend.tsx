@@ -46,7 +46,6 @@ const useReadyToSend: Function = (): boolean => {
           questionReady += 1;
       }
     });
-    console.log(questionsCount, questionReady);
     setIsReadyToSend(
       questionsCount === questionReady && survey.title.length >= 10
     );
