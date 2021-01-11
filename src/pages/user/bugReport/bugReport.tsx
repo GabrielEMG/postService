@@ -8,19 +8,23 @@ import CustomSelector from "../../../components/customSelector";
 
 type Report = {
   user: string;
+  uid: string;
   type: string;
   text: string;
   anonymous: boolean;
   isSending: boolean;
+  isSended: boolean;
   error: string;
 };
 
 const initialState: Report = {
   user: "",
+  uid: "",
   type: "",
   text: "",
   anonymous: false,
   isSending: false,
+  isSended: false,
   error: "",
 };
 
@@ -28,10 +32,18 @@ const BugReport: React.FC = (): JSX.Element => {
   const [report, setReport] = React.useState<Report>(initialState);
 
   const user = useSelector((selector: any): string => selector.user.email);
+  const uid = useSelector((selector: any): string => selector.user.uid);
 
   React.useEffect(() => {
-    setReport((prev) => ({ ...prev, user }));
-  }, [user]);
+    setReport((prev) => ({ ...prev, user, uid }));
+  }, [user, uid]);
+
+  React.useEffect(() => {
+    if (report.isSended) {
+      setReport(initialState);
+      alert("Report enviado exitosamente! muchas gracias :)");
+    }
+  }, [report.isSended]);
 
   const handleSelect: Function = (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -69,27 +81,30 @@ const BugReport: React.FC = (): JSX.Element => {
         setReport((prev) => ({ ...prev, user: "Anonimo" }));
       }
       setReport((prev) => ({ ...prev, isSending: true }));
-      await firebase
-        .database()
-        .ref("reports")
-        .push({
-          anonymous: report.anonymous,
-          read: false,
-          solved: false,
-          text: report.text,
-          type: report.type,
-          user: report.user,
-        })
-        .then(() => setReport(initialState));
-
-      alert("Report enviado exitosamente! muchas gracias :)");
+      await firebase.database().ref(`user/${report.uid}/bugReports`).push({
+        read: false,
+        solved: false,
+        text: report.text,
+        type: report.type,
+        response: "",
+        date: new Date(),
+      });
+      await firebase.database().ref("reports").push({
+        anonymous: report.anonymous,
+        read: false,
+        solved: false,
+        text: report.text,
+        type: report.type,
+        user: report.user,
+        response: "",
+        date: new Date(),
+      });
+      setReport((prev) => ({ ...prev, isSending: false, isSended: true }));
     } catch (err) {
       alert(err.message);
       setReport((prev) => ({ ...prev, error: err.message, isSending: false }));
     }
   };
-
-  console.log(report);
 
   return (
     <Container>

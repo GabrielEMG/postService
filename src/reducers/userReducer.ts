@@ -25,6 +25,7 @@ type User = {
   surveyData: any[];
   surveyCap?: number;
   name: string;
+  fono: string;
   business: string;
   region: string;
   comuna: string;
@@ -44,6 +45,7 @@ const initialState: User = {
   surveyData: [{ data: [] }],
   surveyCap: 0,
   name: "",
+  fono: "",
   business: "",
   region: "",
   location: "",

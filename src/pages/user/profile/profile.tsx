@@ -8,6 +8,7 @@ type User = {
   email: string;
   uid: string;
   name: string;
+  fono: string;
   business: string;
   region: string;
   comuna: string;
@@ -21,6 +22,7 @@ const initialStateProfile: User = {
   email: "",
   uid: "",
   name: "",
+  fono: "",
   business: "",
   region: "",
   comuna: "",
@@ -80,6 +82,13 @@ const Profile: React.FC = (): JSX.Element => {
           title="Nombre de usuario"
           name="name"
           value={userProfile.name}
+          action={saveChanges}
+          canChange={true}
+        />
+        <ChangeInput
+          title="Número de contacto"
+          name="fono"
+          value={userProfile.fono}
           action={saveChanges}
           canChange={true}
         />
