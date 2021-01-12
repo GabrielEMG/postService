@@ -39,7 +39,11 @@ const BugReport: React.FC = (): JSX.Element => {
 
   React.useEffect(() => {
     if (report.isSended) {
-      setReport(initialState);
+      setReport((prev) => ({
+        ...initialState,
+        user: prev.user,
+        uid: prev.uid,
+      }));
       alert("Report enviado exitosamente! muchas gracias :)");
     }
   }, [report.isSended]);
@@ -59,7 +63,6 @@ const BugReport: React.FC = (): JSX.Element => {
   const handleTextarea: Function = (e: any): void => {
     setReport((prev) => ({ ...prev, text: e.target.value, error: "" }));
   };
-
   const handleSendReport: Function = async (): Promise<any> => {
     try {
       if (report.type === "") {
@@ -80,7 +83,6 @@ const BugReport: React.FC = (): JSX.Element => {
         setReport((prev) => ({ ...prev, user: "Anonimo" }));
       }
       setReport((prev) => ({ ...prev, isSending: true }));
-      console.log(`user/${report.uid}/bugReports`, new Date());
       const key = firebase.database().ref("bugReports").push().key;
       await firebase
         .database()

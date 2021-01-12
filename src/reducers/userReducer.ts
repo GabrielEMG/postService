@@ -32,6 +32,17 @@ type User = {
   location: string;
   surveyCount: number;
   emailConfirmed: boolean;
+  bugReports: any;
+};
+
+type Report = {
+  read: boolean;
+  response: string;
+  solved: boolean;
+  text: string;
+  type: string;
+  date: Date;
+  key?: string;
 };
 
 const initialState: User = {
@@ -52,6 +63,7 @@ const initialState: User = {
   comuna: "",
   surveyCount: 0,
   emailConfirmed: false,
+  bugReports: [],
 };
 
 const userReducer = (state: User = initialState, action: any) => {
@@ -61,12 +73,22 @@ const userReducer = (state: User = initialState, action: any) => {
       const surveys: Survey[] = payload.surveys
         ? Object.keys(payload.surveys).map((o): Survey => payload.surveys[o])
         : [];
+      const bugReports: Report[] = payload.bugReports
+        ? Object.keys(payload.bugReports).map(
+            (o): Report => {
+              let report = payload.bugReports[o];
+              report.key = o;
+              return report;
+            }
+          )
+        : [];
       return {
         ...state,
         ...payload,
         isLogin: true,
         isLoading: false,
         surveys: surveys,
+        bugReports: bugReports,
       };
     case "LOGOUT_USER":
       return { ...initialState, isLoading: false, isDataLoading: false };
