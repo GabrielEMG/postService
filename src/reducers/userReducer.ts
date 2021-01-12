@@ -3,7 +3,7 @@ type Question = {
   index: number;
   title: string;
   type: string;
-}
+};
 
 type Survey = {
   title: string;
@@ -12,7 +12,7 @@ type Survey = {
   questions: Question[];
   ready?: boolean;
   key: string;
-}
+};
 
 type User = {
   email: string;
@@ -32,7 +32,7 @@ type User = {
   location: string;
   surveyCount: number;
   emailConfirmed: boolean;
-}
+};
 
 const initialState: User = {
   email: "",
@@ -51,7 +51,7 @@ const initialState: User = {
   location: "",
   comuna: "",
   surveyCount: 0,
-  emailConfirmed: false
+  emailConfirmed: false,
 };
 
 const userReducer = (state: User = initialState, action: any) => {
@@ -63,7 +63,7 @@ const userReducer = (state: User = initialState, action: any) => {
         : [];
       return {
         ...state,
-        ...payload,        
+        ...payload,
         isLogin: true,
         isLoading: false,
         surveys: surveys,

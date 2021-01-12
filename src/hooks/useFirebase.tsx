@@ -23,10 +23,12 @@ const useFirebase: Function = (): void => {
           .database()
           .ref(`user/${u.uid}`)
           .on("value", (snapshot) => {
-            dispatch({
-              type: "LOGIN_USER",
-              payload: snapshot.val(),
-            });
+            const newPayload = snapshot.val();
+            newPayload &&
+              dispatch({
+                type: "LOGIN_USER",
+                payload: newPayload,
+              });
           });
       } else {
         dispatch({

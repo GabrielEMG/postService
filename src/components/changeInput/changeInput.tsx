@@ -9,6 +9,7 @@ type Props = {
   name: string;
   action: Function;
   canChange: boolean;
+  fontSize?: number;
 };
 
 type State = {
@@ -105,6 +106,7 @@ const ChangeInput: React.FC<Props> = (props): JSX.Element => {
                   height: "100%",
                   paddingTop: 20,
                   paddingLeft: 1,
+                  fontSize: props.fontSize ? props.fontSize : 16,
                 }}
               >
                 {props.value

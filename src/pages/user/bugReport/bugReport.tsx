@@ -5,6 +5,7 @@ import { firebase } from "../../../firebase";
 import { useSelector } from "react-redux";
 import ButtonWithLoad from "../../../components/buttonWithLoad";
 import CustomSelector from "../../../components/customSelector";
+import StatusReport from "./statusReport";
 
 type Report = {
   user: string;
@@ -30,13 +31,11 @@ const initialState: Report = {
 
 const BugReport: React.FC = (): JSX.Element => {
   const [report, setReport] = React.useState<Report>(initialState);
-
-  const user = useSelector((selector: any): string => selector.user.email);
-  const uid = useSelector((selector: any): string => selector.user.uid);
+  const user = useSelector((selector: any): any => selector.user);
 
   React.useEffect(() => {
-    setReport((prev) => ({ ...prev, user, uid }));
-  }, [user, uid]);
+    setReport((prev) => ({ ...prev, user: user.email, uid: user.uid }));
+  }, [user.email, user.uid]);
 
   React.useEffect(() => {
     if (report.isSended) {
@@ -81,15 +80,20 @@ const BugReport: React.FC = (): JSX.Element => {
         setReport((prev) => ({ ...prev, user: "Anonimo" }));
       }
       setReport((prev) => ({ ...prev, isSending: true }));
-      await firebase.database().ref(`user/${report.uid}/bugReports`).push({
-        read: false,
-        solved: false,
-        text: report.text,
-        type: report.type,
-        response: "",
-        date: new Date(),
-      });
-      await firebase.database().ref("reports").push({
+      console.log(`user/${report.uid}/bugReports`, new Date());
+      const key = firebase.database().ref("bugReports").push().key;
+      await firebase
+        .database()
+        .ref(`user/${report.uid}/bugReports/${key}`)
+        .set({
+          read: false,
+          solved: false,
+          text: report.text,
+          type: report.type,
+          response: "",
+          date: new Date().toString(),
+        });
+      await firebase.database().ref(`bugReports/${key}`).set({
         anonymous: report.anonymous,
         read: false,
         solved: false,
@@ -97,8 +101,9 @@ const BugReport: React.FC = (): JSX.Element => {
         type: report.type,
         user: report.user,
         response: "",
-        date: new Date(),
+        date: new Date().toString(),
       });
+      console.log("subidos");
       setReport((prev) => ({ ...prev, isSending: false, isSended: true }));
     } catch (err) {
       alert(err.message);
@@ -154,7 +159,7 @@ const BugReport: React.FC = (): JSX.Element => {
               <textarea
                 value={report.text}
                 onChange={(e) => handleTextarea(e)}
-                rows={15}
+                rows={10}
                 className="txtarea"
                 placeholder="Escribe lo que quieres enviar acá"
               />
@@ -171,6 +176,9 @@ const BugReport: React.FC = (): JSX.Element => {
               <p style={{ color: "#932432" }}>{report.error}</p>
             </Row>
           </Col>
+        </Row>
+        <Row>
+          <StatusReport />
         </Row>
       </Col>
     </Container>

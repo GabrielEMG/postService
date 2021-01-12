@@ -65,7 +65,7 @@ const Request: React.FC = (): JSX.Element => {
     }));
   }, [user]);
 
-  console.log(user, state);
+  console.log(state);
 
   const selectSurvey: Function = (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -142,6 +142,9 @@ const Request: React.FC = (): JSX.Element => {
               Cantidad de tarjetas: {state.quantity}
             </Row>
             <Row className="justify-content-center">
+              (min {requestRange.min}, max {requestRange.max})
+            </Row>
+            <Row className="justify-content-center">
               <input
                 style={{
                   width: "100%",
@@ -158,9 +161,6 @@ const Request: React.FC = (): JSX.Element => {
                 max={requestRange.max}
                 onChange={(e) => handleSetNumber(e)}
               />
-            </Row>
-            <Row className="justify-content-center">
-              (min {requestRange.min}, max {requestRange.max})
             </Row>
             <Row className="mt-4">
               <ButtonWithLoad

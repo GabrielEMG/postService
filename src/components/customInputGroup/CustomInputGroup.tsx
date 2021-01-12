@@ -15,7 +15,6 @@ type Props = {
 const CustomInputGroup: React.FC<Props> = (props) => {
   const handleChange = (e: any): void => {
     props.onChange((prev: any): any => {
-      console.log(prev);
       return {
         ...prev,
         error: null,

@@ -77,6 +77,7 @@ const Profile: React.FC = (): JSX.Element => {
           value={userProfile.uid}
           action={saveChanges}
           canChange={false}
+          fontSize={13}
         />
         <ChangeInput
           title="Nombre de usuario"
