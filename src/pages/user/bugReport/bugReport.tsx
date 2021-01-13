@@ -114,7 +114,7 @@ const BugReport: React.FC = (): JSX.Element => {
   };
 
   return (
-    <Container>
+    <Container fluid>
       <Col style={{ minHeight: "100vh" }}>
         <Row className="justify-content-center my-4">
           <h4>Reporta un error</h4>
@@ -125,7 +125,7 @@ const BugReport: React.FC = (): JSX.Element => {
           hasta un "buenos días". Nos interesa lo que piensas
         </Row>
         <Row className="justify-content-center">
-          <Col xs={12} sm={10} md={8} lg={6} xl={4}>
+          <Col xs={12} sm={10} md={8} lg={7} xl={4}>
             <Row className="mt-4">
               <CustomSelector
                 onChange={handleSelect}
@@ -179,7 +179,7 @@ const BugReport: React.FC = (): JSX.Element => {
             </Row>
           </Col>
         </Row>
-        <Row>
+        <Row className="my-2 mb-4">
           <StatusReport />
         </Row>
       </Col>

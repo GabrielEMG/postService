@@ -6,6 +6,7 @@ import "../../../components/customSelector/customSelector.css";
 import ButtonWithLoad from "../../../components/buttonWithLoad";
 import { firebase } from "../../../firebase";
 import { Link } from "react-router-dom";
+import RequestStatus from "./requestStatus";
 
 const requestRange = {
   min: 100,
@@ -38,10 +39,11 @@ const initialState = {
   comuna: "",
   location: "",
   quantity: requestRange.min,
-  read: false,
+  starting: false,
   solved: false,
   responseComment: "",
-  date: new Date(),
+  cardSended: false,
+  date: new Date().toString(),
 };
 
 const Request: React.FC = (): JSX.Element => {
@@ -89,18 +91,39 @@ const Request: React.FC = (): JSX.Element => {
     try {
       setAppState((prev) => ({ ...prev, isLoading: true }));
       const key = firebase.database().ref("requests").push().key;
-      await firebase.database().ref("requests").push(state);
-      await firebase.database().ref(`user/${state.uid}/requests/${key}`).push({
+      await firebase.database().ref(`requests/${key}`).set(state);
+      await firebase.database().ref(`user/${state.uid}/requests/${key}`).set({
         quantity: state.quantity,
         survey: state.key,
-        read: false,
+        starting: false,
         solved: false,
         responseComment: "",
+        cardSended: state.cardSended,
+        date: state.date,
       });
-      setState((prev) => ({ ...prev, key: "" }));
+      setState(() => ({
+        ...initialState,
+        email: user.email,
+        uid: user.uid,
+        business: user.business,
+        region: user.region,
+        comuna: user.comuna,
+        location: user.location,
+      }));
       setAppState((prev) => ({ error: "", isLoading: false }));
+      alert("La peticion se ha enviado satisfactoriamente");
     } catch (err) {
+      setState(() => ({
+        ...initialState,
+        email: user.email,
+        uid: user.uid,
+        business: user.business,
+        region: user.region,
+        comuna: user.comuna,
+        location: user.location,
+      }));
       setAppState((prev) => ({ ...prev, error: err.message }));
+      alert("Un error ha ocurrido al enviar solicitud");
     }
   };
 
@@ -168,6 +191,9 @@ const Request: React.FC = (): JSX.Element => {
                 action={handleSendRequest}
                 condition={appState.isLoading}
               />
+            </Row>
+            <Row>
+              <RequestStatus />
             </Row>
           </Col>
         </Row>

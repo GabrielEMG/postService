@@ -7,7 +7,9 @@ import { formatDate } from "../../../helpers/dateHelper";
 import {
   faCheckCircle,
   faExclamationTriangle,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import PaperBG from "../../../components/paperBG";
 
 type Report = {
   read: boolean;
@@ -21,7 +23,6 @@ type Report = {
 
 const StatusReport: React.FC = (): JSX.Element => {
   const user = useSelector((selector: any) => selector.user);
-  const uid = useSelector((selector: any) => selector.user.uid);
   const [arrDisplay, setArrDisplay] = React.useState<Report[]>([]);
 
   React.useEffect(() => {
@@ -36,28 +37,66 @@ const StatusReport: React.FC = (): JSX.Element => {
     });
   }, [user.bugReports]);
 
-  const handleDeleteReport: Function = (key: string): void => {
-    firebase.database().ref(`user/${uid}/bugReports/${key}`).remove();
-    firebase.database().ref(`bugReports/${key}`).remove();
+  const handleDeleteReport: Function = async (key: string): Promise<void> => {
+    try {
+      await firebase
+        .database()
+        .ref(`user/${user.uid}/bugReports/${key}`)
+        .remove();
+      await firebase.database().ref(`bugReports/${key}`).remove();
+      alert("El reporte se ha eliminado exitosamente");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const display: JSX.Element[] | JSX.Element =
     arrDisplay.length > 0 ? (
       arrDisplay.map(
         (r: Report, i: number): JSX.Element => (
-          <Row key={i}>
-            <FontAwesomeIcon
-              icon={r.solved ? faCheckCircle : faExclamationTriangle}
-              style={{ color: r.solved ? "green" : "yellow" }}
-            />
-            <p>{formatDate(new Date(r.date))}</p>
-            <p>Leido: {r.read ? "Si" : "No"}</p>
-            <p>Resuelto: {r.solved ? "Si" : "No"}</p>
-            <p>{r.response && r.response}</p>
-            <p>Reporte: {r.text.substring(0, 200)}</p>
-            <p onClick={() => handleDeleteReport(r.key)}>eliminar</p>
-            {JSON.stringify(r)}
-          </Row>
+          <PaperBG key={i}>
+            <Col xs={12} className="p-2">
+              <FontAwesomeIcon
+                onClick={() => handleDeleteReport(r.key)}
+                icon={faTrash}
+                style={{
+                  cursor: "pointer",
+                  height: 30,
+                  width: 30,
+                  position: "absolute",
+                  top: -20,
+                  right: -20,
+                  color: "grey",
+                }}
+              />
+              <FontAwesomeIcon
+                icon={r.solved ? faCheckCircle : faExclamationTriangle}
+                style={{
+                  color: r.solved ? "green" : "yellowgreen",
+                  position: "absolute",
+                  top: -30,
+                  left: -30,
+                  height: 40,
+                  width: 40,
+                }}
+              />
+              <Row>
+                <Col>
+                  <p>Codigo: {r.key}</p>
+                  <p>Fecha: {formatDate(new Date(r.date))}</p>
+                  <p>Leido: {r.read ? "Si" : "No"}</p>
+                  <p>Resuelto: {r.solved ? "Si" : "No"}</p>
+                  <p>{r.response && r.response}</p>
+                  <p>
+                    Reporte:
+                    {` ${r.text.substring(0, 200)}${
+                      r.text.length > 200 && "..."
+                    }`}
+                  </p>
+                </Col>
+              </Row>
+            </Col>
+          </PaperBG>
         )
       )
     ) : (

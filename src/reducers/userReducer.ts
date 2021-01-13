@@ -33,6 +33,7 @@ type User = {
   surveyCount: number;
   emailConfirmed: boolean;
   bugReports: any;
+  requests: any;
 };
 
 type Report = {
@@ -43,6 +44,17 @@ type Report = {
   type: string;
   date: Date;
   key?: string;
+};
+
+type Request = {
+  quantity: number;
+  survey: string;
+  read: boolean;
+  starting: boolean;
+  solved: boolean;
+  responseComment: string;
+  cardSended: boolean;
+  date: Date;
 };
 
 const initialState: User = {
@@ -64,6 +76,7 @@ const initialState: User = {
   surveyCount: 0,
   emailConfirmed: false,
   bugReports: [],
+  requests: [],
 };
 
 const userReducer = (state: User = initialState, action: any) => {
@@ -82,6 +95,16 @@ const userReducer = (state: User = initialState, action: any) => {
             }
           )
         : [];
+      const requests: Request[] = payload.requests
+        ? Object.keys(payload.requests).map(
+            (o): Request => {
+              let request = payload.requests[o];
+              request.key = o;
+              request.date = new Date(request.date);
+              return request;
+            }
+          )
+        : [];
       return {
         ...state,
         ...payload,
@@ -89,6 +112,7 @@ const userReducer = (state: User = initialState, action: any) => {
         isLoading: false,
         surveys: surveys,
         bugReports: bugReports,
+        requests: requests,
       };
     case "LOGOUT_USER":
       return { ...initialState, isLoading: false, isDataLoading: false };
