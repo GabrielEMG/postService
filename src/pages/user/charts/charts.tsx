@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import QuestionChart from "./questionChart";
 import DateSelector from "../../../components/dateSelector";
+import PaperBG from "../../../components/paperBG";
 
 type Question = {
   answers: any;
@@ -73,30 +74,28 @@ const Charts: React.FC<{ ind: number }> = (props): JSX.Element => {
     <Container>
       {survey.questions && (
         <>
-          <Row className="p-4 my-2 border">
-            <Col>
-              <Row className="justify-content-center">
-                <h1>Título: {survey.title}</h1>
-              </Row>
-            </Col>
-            <Col className="justify-content-center">
-              <Row className="justify-content-center">
-                <h1>Votos: {data ? data.length : 0}</h1>
-              </Row>
-            </Col>
-          </Row>
-
-          <DateSelector date={filterDate} onChange={setFilterDate} />
+          <PaperBG>
+            <Row>
+              <Col>
+                <h4>Votos durante fechas: {data ? data.length : 0}</h4>
+              </Col>
+              <Col>
+                <DateSelector date={filterDate} onChange={setFilterDate} />
+              </Col>
+            </Row>
+          </PaperBG>
 
           <Row style={{ marginBottom: 40 }}>
-            {survey.questions.map((question, index) => (
-              <QuestionChart
-                key={index}
-                question={question}
-                data={data ? data : []}
-                date={filterDate}
-              />
-            ))}
+            <Col>
+              {survey.questions.map((question, index) => (
+                <QuestionChart
+                  key={index}
+                  question={question}
+                  data={data ? data : []}
+                  date={filterDate}
+                />
+              ))}
+            </Col>
           </Row>
         </>
       )}
