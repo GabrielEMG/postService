@@ -124,7 +124,7 @@ const Request: React.FC = (): JSX.Element => {
         location: user.location,
       }));
       setAppState((prev) => ({ ...prev, error: err.message }));
-      alert("Un error ha ocurrido al enviar solicitud");
+      alert(err.message);
     }
   };
 
