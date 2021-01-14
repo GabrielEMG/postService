@@ -63,22 +63,15 @@ const BugReport: React.FC = (): JSX.Element => {
   const handleTextarea: Function = (e: any): void => {
     setReport((prev) => ({ ...prev, text: e.target.value, error: "" }));
   };
-  const handleSendReport: Function = async (): Promise<any> => {
+
+  const handleSendReport: Function = async (): Promise<void> => {
     try {
-      if (report.type === "") {
-        setReport((prev) => ({
-          ...prev,
-          error: "debes elegir un tipo de reporte",
-        }));
-        return null;
-      }
-      if (report.text.length < 10) {
-        setReport((prev) => ({
-          ...prev,
-          error: "El texto que quieres enviar es muy corto",
-        }));
-        return null;
-      }
+      if (report.type === "")
+        throw new Error("debes elegir un tipo de reporte");
+
+      if (report.text.length < 10)
+        throw new Error("El texto que quieres enviar es muy corto");
+
       if (report.anonymous) {
         setReport((prev) => ({ ...prev, user: "Anonimo" }));
       }
@@ -105,7 +98,6 @@ const BugReport: React.FC = (): JSX.Element => {
         response: "",
         date: new Date().toString(),
       });
-      console.log("subidos");
       setReport((prev) => ({ ...prev, isSending: false, isSended: true }));
     } catch (err) {
       alert(err.message);
