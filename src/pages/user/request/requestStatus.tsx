@@ -52,6 +52,7 @@ const RequestStatus: React.FC = (): JSX.Element => {
       alert(err.message);
     }
   };
+  console.log(arrDisplay);
 
   const display: JSX.Element[] | JSX.Element = arrDisplay.map(
     (r: Request, i: number): JSX.Element => (

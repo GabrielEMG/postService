@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { firebase } from "../../firebase";
+import { firebase } from "../../../firebase";
 import { useSelector } from "react-redux";
 import QRCode from "qrcode.react";
 import { saveAs } from "file-saver";
@@ -13,7 +13,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 
-const EditClient = (props) => {
+const EditUser = (props) => {
   const admin = useSelector((selector) => selector.admin);
   const [user, setUser] = useState(null);
   const [surveys, setSurveys] = useState([]);
@@ -158,4 +158,4 @@ const EditClient = (props) => {
   );
 };
 
-export default EditClient;
+export default EditUser;

@@ -36,12 +36,12 @@ const GradeChoiceCharts = (props) => {
       let count = 0;
       props.data.forEach((doc) => {
         if (sameDay(day, new Date(doc.date))) {
-          if (doc.questions[props.question.index].answers === choice) {
+          const docChoice = doc.questions[props.question.index].answers;
+          if (docChoice === choice || docChoice === JSON.stringify(choice)) {
             count = count + 1;
           }
         }
       });
-      console.log(count);
       return count;
     });
     return { label: choice, data, borderColor: bgc[ind], fill: false };
