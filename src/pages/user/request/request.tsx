@@ -94,7 +94,8 @@ const Request: React.FC = (): JSX.Element => {
       await firebase.database().ref(`requests/${key}`).set(state);
       await firebase.database().ref(`user/${state.uid}/requests/${key}`).set({
         quantity: state.quantity,
-        survey: state.key,
+        surveyCode: state.key,
+        surveyTitle: state.title,
         starting: false,
         solved: false,
         responseComment: "",
@@ -192,10 +193,10 @@ const Request: React.FC = (): JSX.Element => {
                 condition={appState.isLoading}
               />
             </Row>
-            <Row>
-              <RequestStatus />
-            </Row>
           </Col>
+        </Row>
+        <Row>
+          <RequestStatus />
         </Row>
       </Col>
     </Container>

@@ -21,7 +21,7 @@ const GradeChoiceCharts = (props) => {
   const devest = devEstHelper(parseAns);
   const notAvrg = 10 - avrg;
 
-  const barLabel = new Array(10).fill().map((x, i) => i + 1);
+  const barLabel = new Array(10).fill().map((_, i) => i + 1);
   const barData = barLabel.map((i) => {
     let count = 0;
     parseAns.forEach((e) => {
@@ -36,22 +36,12 @@ const GradeChoiceCharts = (props) => {
       let count = 0;
       props.data.forEach((doc) => {
         if (sameDay(day, new Date(doc.date))) {
-          try {
-            if (
-              doc.questions[props.question.index].answers ===
-              JSON.stringify(choice)
-            ) {
-              count = count + 1;
-            }
-          } catch (err) {
-            console.log({
-              error: err.message,
-              doc: doc.questions,
-              ind: props.question.index,
-            });
+          if (doc.questions[props.question.index].answers === choice) {
+            count = count + 1;
           }
         }
       });
+      console.log(count);
       return count;
     });
     return { label: choice, data, borderColor: bgc[ind], fill: false };
@@ -60,6 +50,8 @@ const GradeChoiceCharts = (props) => {
     labels: daysLabel.map((date) => formatDate(date)),
     datasets: linearDataset,
   };
+
+  console.log(linearData);
 
   const chartData = {
     labels: barLabel,
@@ -201,12 +193,13 @@ const GradeChoiceCharts = (props) => {
                     datalabels: {
                       display: true,
                       color: "black",
-                      formatter: (value, context) => {
-                        if (value === 0) return "";
-                        else
-                          return (
-                            ((100 * value) / props.data.length).toFixed(0) + "%"
-                          );
+                      formatter: (value) => {
+                        const percentage = (
+                          (100 * value) /
+                          props.data.length
+                        ).toFixed(0);
+                        if (percentage <= 5) return "";
+                        else return percentage + "%";
                       },
                     },
                   },

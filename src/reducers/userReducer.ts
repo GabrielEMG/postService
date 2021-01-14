@@ -48,7 +48,8 @@ type Report = {
 
 type Request = {
   quantity: number;
-  survey: string;
+  surveyCode: string;
+  surveyTitle: string;
   read: boolean;
   starting: boolean;
   solved: boolean;
