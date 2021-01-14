@@ -67,8 +67,6 @@ const Request: React.FC = (): JSX.Element => {
     }));
   }, [user]);
 
-  console.log(state);
-
   const selectSurvey: Function = (
     e: React.ChangeEvent<HTMLSelectElement>
   ): void => {
@@ -89,6 +87,8 @@ const Request: React.FC = (): JSX.Element => {
 
   const handleSendRequest: Function = async (): Promise<void> => {
     try {
+      if (!state.title || !state.key)
+        throw new Error("No haz seleccionado una encuesta");
       setAppState((prev) => ({ ...prev, isLoading: true }));
       const key = firebase.database().ref("requests").push().key;
       await firebase.database().ref(`requests/${key}`).set(state);
