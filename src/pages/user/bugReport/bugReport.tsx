@@ -81,6 +81,7 @@ const BugReport: React.FC = (): JSX.Element => {
         .database()
         .ref(`user/${report.uid}/bugReports/${key}`)
         .set({
+          key: key,
           read: false,
           solved: false,
           text: report.text,
@@ -97,6 +98,7 @@ const BugReport: React.FC = (): JSX.Element => {
         user: report.user,
         response: "",
         date: new Date().toString(),
+        key: key,
       });
       setReport((prev) => ({ ...prev, isSending: false, isSended: true }));
     } catch (err) {

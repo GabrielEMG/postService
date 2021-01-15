@@ -22,6 +22,7 @@ type BugReport = {
   text: string;
   type: string;
   user: string;
+  key: string;
 };
 
 type Admin = {
