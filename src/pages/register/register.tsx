@@ -61,6 +61,7 @@ const Register: React.FC = (): JSX.Element => {
           email: state.email,
           uid: doc.user.uid,
           surveyCap: 0,
+          isAdmin: false,
         });
     } catch (err) {
       setState(

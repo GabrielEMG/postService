@@ -34,6 +34,7 @@ type User = {
   emailConfirmed: boolean;
   bugReports: any;
   requests: any;
+  isAdmin?: boolean;
 };
 
 type Report = {
@@ -78,6 +79,7 @@ const initialState: User = {
   emailConfirmed: false,
   bugReports: [],
   requests: [],
+  isAdmin: false,
 };
 
 const userReducer = (state: User = initialState, action: any) => {
@@ -106,6 +108,7 @@ const userReducer = (state: User = initialState, action: any) => {
             }
           )
         : [];
+      console.log(payload);
       return {
         ...state,
         ...payload,

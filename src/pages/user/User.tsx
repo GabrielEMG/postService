@@ -33,8 +33,8 @@ const User: React.FC = (): JSX.Element => {
   React.useEffect(() => {
     if (!user.isLoading && !user.isLogin) {
       history.push("/login");
-    }
-  }, [user.isLoading, user.isLogin, history]);
+    } else if (user.isAdmin) history.push("/admin");
+  }, [user.isLoading, user.isLogin, user.isAdmin, history]);
 
   return (
     <div style={{ display: "flex" }}>

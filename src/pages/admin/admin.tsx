@@ -11,6 +11,7 @@ import Sidebar from "../../components/sidebar";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import EditUser from "./editUser";
 import AdminPanel from "./adminPanel";
+import BugReports from "./bugReports";
 
 const User: React.FC = (): JSX.Element => {
   const history = useHistory();
@@ -21,8 +22,10 @@ const User: React.FC = (): JSX.Element => {
   React.useEffect(() => {
     if (!user.isLoading && !user.isLogin) {
       history.push("/login");
+    } else if (!user.isAdmin) {
+      history.push("/user");
     }
-  }, [user.isLoading, user.isLogin, history]);
+  }, [user.isLoading, user.isLogin, history, user.isAdmin]);
 
   return (
     <div style={{ display: "flex" }}>
@@ -46,6 +49,11 @@ const User: React.FC = (): JSX.Element => {
               label="Editar usuarios"
             />
             <NavigationButton
+              path="/admin/bug_reports"
+              icon={faSignOutAlt}
+              label="Bugs reportados"
+            />
+            <NavigationButton
               path="/admin/editar_usuario"
               icon={faSignOutAlt}
               label="Editar usuarios"
@@ -66,6 +74,7 @@ const User: React.FC = (): JSX.Element => {
             }}
           >
             <Route exact path="/admin" children={<AdminPanel />} />
+            <Route exact path="/admin/bug_reports" children={<BugReports />} />
             <Route exact path="/admin/editar_usuario" children={<EditUser />} />
           </div>
         </>

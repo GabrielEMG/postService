@@ -17,10 +17,13 @@ type UserLogin = {
   error: string | null;
 };
 
+type User = {
+  isLogin: boolean;
+  isAdmin: boolean;
+};
+
 const Login: React.FC = (): JSX.Element => {
-  const isLogin = useSelector(
-    (selector: any): boolean => selector.user.isLogin
-  );
+  const user: User = useSelector((selector: any): User => selector.user);
   const history = useHistory();
   const [state, setState] = React.useState<UserLogin>({
     email: "",
@@ -31,10 +34,10 @@ const Login: React.FC = (): JSX.Element => {
   const wd: { width: number; height: number } = useWindowDimensions();
 
   React.useEffect(() => {
-    if (isLogin) {
-      history.push("/user");
+    if (user.isLogin) {
+      history.push(user.isAdmin ? "/admin" : "/user");
     }
-  }, [isLogin, history]);
+  }, [user.isLogin, user.isAdmin, history]);
 
   const handleSignin: Function = async (): Promise<any> => {
     try {

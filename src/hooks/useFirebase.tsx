@@ -8,6 +8,7 @@ type User = {
   isLoading: boolean;
   isDataLoading: boolean;
   loadingErrors: string;
+  isAdmin: boolean;
   surveys: any[];
   surveyData: any[];
 };
@@ -24,6 +25,7 @@ const useFirebase: Function = (): void => {
           .ref(`user/${u.uid}`)
           .on("value", (snapshot) => {
             const newPayload = snapshot.val();
+            console.log(newPayload);
             newPayload &&
               dispatch({
                 type: "LOGIN_USER",
@@ -67,6 +69,36 @@ const useFirebase: Function = (): void => {
       });
     }
   }, [user.uid, user.surveys, dispatch]);
+
+  React.useEffect(() => {
+    if (user.isAdmin)
+      firebase
+        .database()
+        .ref(`requests`)
+        .on("value", (snapshot) => {
+          let data: any[] = [];
+          snapshot.forEach((key) => {
+            data.push(key.val());
+          });
+          dispatch({
+            type: "ADMIN_GET_REQUESTS",
+            payload: data,
+          });
+        });
+    firebase
+      .database()
+      .ref(`bugReports`)
+      .on("value", (snapshot) => {
+        let data: any[] = [];
+        snapshot.forEach((key) => {
+          data.push(key.val());
+        });
+        dispatch({
+          type: "ADMIN_GET_BUGREPORTS",
+          payload: data,
+        });
+      });
+  }, [user.isAdmin]);
 };
 
 export default useFirebase;

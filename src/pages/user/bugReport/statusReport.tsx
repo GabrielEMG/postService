@@ -54,7 +54,7 @@ const StatusReport: React.FC = (): JSX.Element => {
     arrDisplay.length > 0 ? (
       arrDisplay.map(
         (r: Report, i: number): JSX.Element => (
-          <PaperBG key={i}>
+          <PaperBG style={{ marginTop: 40, marginBottom: 40 }} key={i}>
             <Col xs={12} className="p-2">
               <FontAwesomeIcon
                 onClick={() => handleDeleteReport(r.key)}
@@ -90,7 +90,7 @@ const StatusReport: React.FC = (): JSX.Element => {
                   <p>
                     Reporte:
                     {` ${r.text.substring(0, 200)}${
-                      r.text.length > 200 && "..."
+                      r.text.length > 200 ? "..." : ""
                     }`}
                   </p>
                 </Col>

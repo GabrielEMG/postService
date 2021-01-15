@@ -100,7 +100,6 @@ const BugReport: React.FC = (): JSX.Element => {
       });
       setReport((prev) => ({ ...prev, isSending: false, isSended: true }));
     } catch (err) {
-      alert(err.message);
       setReport((prev) => ({ ...prev, error: err.message, isSending: false }));
     }
   };
