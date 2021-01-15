@@ -92,9 +92,9 @@ const Survey = () => {
               style={{
                 flex: 10,
                 position: "relative",
-                marginLeft: "5%",
-                marginRight: "5%",
-                width: "90%",
+                marginLeft: "2%",
+                marginRight: "2%",
+                width: "96%",
                 overflowX: "hidden",
                 boxShadow: "2px 4px 8px 1px rgba(0,0,0,0.2)",
                 borderRadius: 10,
