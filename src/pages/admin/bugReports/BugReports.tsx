@@ -50,17 +50,11 @@ const BugReports: React.FC = (): JSX.Element => {
         <PaperBG>
           <Col>
             <Row>Fecha: {dateFormat(new Date(report.date))}</Row>
-            <Row>tipo: {report.type}</Row>
+            <Row>Tipo: {report.type}</Row>
             <Row>Codigo: {report.key}</Row>
-            <Row>
-              leido: {report.read ? "Si" : "No"}
-              <p
-                style={{ marginLeft: 100 }}
-                onClick={() => handleRead(report.key)}
-              >
-                marcar como leido
-              </p>
-            </Row>
+            <Row>Leido: {report.read ? "Si" : "No"}</Row>
+            <Row>Resuelto: {report.solved ? "Si" : "No"}</Row>
+            <Row>Mensaje: {report.text}</Row>
           </Col>
         </PaperBG>
       </Col>
@@ -70,7 +64,7 @@ const BugReports: React.FC = (): JSX.Element => {
   return (
     <Container>
       <Col>
-        <Row className="justify-content-center">
+        <Row className="justify-content-center my-4">
           <h4>bugReports</h4>
         </Row>
         <Row>Reportes</Row>

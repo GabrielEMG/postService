@@ -46,7 +46,7 @@ const Charts: React.FC<{ ind: number }> = (props): JSX.Element => {
 
   const [data, setData] = React.useState<any[]>([]);
   const [filterDate, setFilterDate] = React.useState<DateRange>({
-    initial: new Date(new Date().setDate(new Date().getDate() - 7)),
+    initial: new Date(new Date().setDate(new Date().getDate() - 30)),
     ending: new Date(),
   });
 
