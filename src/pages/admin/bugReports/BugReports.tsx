@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import PaperBG from "../../../components/paperBG";
+import { firebase } from "../../../firebase";
 
 type BugReport = {
   anonymous: boolean;
@@ -31,7 +32,17 @@ const BugReports: React.FC = (): JSX.Element => {
     (selector: any): BugReport[] => selector.admin.bugReports
   );
 
-  const handleRead: Function = async (key: string): Promise<void> => {};
+  const handleRead: Function = async (
+    user: string,
+    key: string,
+    isRead: boolean
+  ): Promise<void> => {
+    firebase.database().ref(`bugReports/${key}`).update({ read: isRead });
+    firebase
+      .database()
+      .ref(`users/${user}/bugReports/${key}`)
+      .update({ read: isRead });
+  };
 
   const display: JSX.Element[] = reports.map(
     (report: BugReport): JSX.Element => (
@@ -40,9 +51,15 @@ const BugReports: React.FC = (): JSX.Element => {
           <Col>
             <Row>Fecha: {dateFormat(new Date(report.date))}</Row>
             <Row>tipo: {report.type}</Row>
+            <Row>Codigo: {report.key}</Row>
             <Row>
-              leido: {report.read}
-              <p onClick={() => handleRead(report.key)}>marcar como leido</p>
+              leido: {report.read ? "Si" : "No"}
+              <p
+                style={{ marginLeft: 100 }}
+                onClick={() => handleRead(report.key)}
+              >
+                marcar como leido
+              </p>
             </Row>
           </Col>
         </PaperBG>

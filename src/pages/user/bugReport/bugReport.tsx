@@ -81,6 +81,7 @@ const BugReport: React.FC = (): JSX.Element => {
         .database()
         .ref(`user/${report.uid}/bugReports/${key}`)
         .set({
+          uid: report.uid,
           key: key,
           read: false,
           solved: false,
@@ -90,6 +91,7 @@ const BugReport: React.FC = (): JSX.Element => {
           date: new Date().toString(),
         });
       await firebase.database().ref(`bugReports/${key}`).set({
+        uid: report.uid,
         anonymous: report.anonymous,
         read: false,
         solved: false,
