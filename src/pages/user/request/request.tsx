@@ -44,6 +44,7 @@ const initialState = {
   responseComment: "",
   cardSended: false,
   date: new Date().toString(),
+  paid: false,
 };
 
 const Request: React.FC = (): JSX.Element => {
@@ -101,7 +102,6 @@ const Request: React.FC = (): JSX.Element => {
         responseComment: "",
         cardSended: state.cardSended,
         date: state.date,
-        paid: false,
       });
       setState(() => ({
         ...initialState,
@@ -111,7 +111,6 @@ const Request: React.FC = (): JSX.Element => {
         region: user.region,
         comuna: user.comuna,
         location: user.location,
-        paid: false,
       }));
       setAppState((prev) => ({ error: "", isLoading: false }));
       alert("La peticion se ha enviado satisfactoriamente");
