@@ -3,6 +3,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import PaperBG from "../../../components/paperBG";
 import { firebase } from "../../../firebase";
+import "./bugReports.css";
+import Comment from "./comment";
 
 type BugReport = {
   anonymous: boolean;
@@ -14,6 +16,7 @@ type BugReport = {
   type: string;
   user: string;
   key: string;
+  uid: string;
 };
 
 const dateFormat: Function = (date: Date): string => {
@@ -33,15 +36,70 @@ const BugReports: React.FC = (): JSX.Element => {
   );
 
   const handleRead: Function = async (
-    user: string,
+    uid: string,
     key: string,
     isRead: boolean
   ): Promise<void> => {
-    firebase.database().ref(`bugReports/${key}`).update({ read: isRead });
-    firebase
-      .database()
-      .ref(`users/${user}/bugReports/${key}`)
-      .update({ read: isRead });
+    try {
+      await firebase
+        .database()
+        .ref(`bugReports/${key}`)
+        .update({ read: !isRead });
+      await firebase
+        .database()
+        .ref(`user/${uid}/bugReports/${key}`)
+        .update({ read: !isRead });
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleSolved: Function = async (
+    uid: string,
+    key: string,
+    isSolved: boolean,
+    isRead: boolean
+  ): Promise<void> => {
+    try {
+      if (isRead === false && isSolved === false) {
+        handleRead(uid, key, isRead);
+      }
+      await firebase
+        .database()
+        .ref(`bugReports/${key}`)
+        .update({ solved: !isSolved });
+      await firebase
+        .database()
+        .ref(`user/${uid}/bugReports/${key}`)
+        .update({ solved: !isSolved });
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const sendCommentary: Function = async (
+    uid: string,
+    key: string,
+    isRead: boolean,
+    isSolved: boolean,
+    text: string
+  ): Promise<void> => {
+    try {
+      if (isSolved === false) {
+        await handleSolved(uid, key, isSolved, isRead);
+      }
+      await firebase
+        .database()
+        .ref(`bugReports/${key}`)
+        .update({ response: text });
+      await firebase
+        .database()
+        .ref(`user/${uid}/bugReports/${key}`)
+        .update({ response: text });
+      alert("Comentario se ha enviado");
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   const display: JSX.Element[] = reports.map(
@@ -50,11 +108,31 @@ const BugReports: React.FC = (): JSX.Element => {
         <PaperBG>
           <Col>
             <Row>Fecha: {dateFormat(new Date(report.date))}</Row>
-            <Row>Tipo: {report.type}</Row>
             <Row>Codigo: {report.key}</Row>
-            <Row>Leido: {report.read ? "Si" : "No"}</Row>
-            <Row>Resuelto: {report.solved ? "Si" : "No"}</Row>
+            <Row
+              style={{ cursor: "pointer" }}
+              onClick={() => handleRead(report.uid, report.key, report.read)}
+            >
+              Leido: {report.read ? "Si" : "No"}
+            </Row>
+            <Row
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                handleSolved(report.uid, report.key, report.solved, report.read)
+              }
+            >
+              Resuelto: {report.solved ? "Si" : "No"}
+            </Row>
+            <Row>Tipo: {report.type}</Row>
             <Row>Mensaje: {report.text}</Row>
+            <Row>
+              Comentario:
+              <Comment
+                action={sendCommentary}
+                value={report.response}
+                report={report}
+              />
+            </Row>
           </Col>
         </PaperBG>
       </Col>

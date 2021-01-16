@@ -1,7 +1,11 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import NavigationButton from "../../components/navigationButton";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSignOutAlt,
+  faBug,
+  faIdCard,
+} from "@fortawesome/free-solid-svg-icons";
 import CompanyLogo from "../../components/companyLogo";
 import useLogout from "../../hooks/useLogout";
 import { useSelector } from "react-redux";
@@ -45,12 +49,12 @@ const User: React.FC = (): JSX.Element => {
             <CompanyLogo width={50} height={50} />
             <NavigationButton
               path="/admin"
-              icon={faSignOutAlt}
-              label="Editar usuarios"
+              icon={faIdCard}
+              label="Crear tarjetas"
             />
             <NavigationButton
               path="/admin/bug_reports"
-              icon={faSignOutAlt}
+              icon={faBug}
               label="Bugs reportados"
             />
             <NavigationButton

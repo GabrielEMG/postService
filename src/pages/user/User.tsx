@@ -10,7 +10,7 @@ import {
   faEdit,
   faSignOutAlt,
   faUser,
-  faExclamationTriangle,
+  faBug,
   faTasks,
 } from "@fortawesome/free-solid-svg-icons";
 import CompanyLogo from "../../components/companyLogo";
@@ -79,7 +79,7 @@ const User: React.FC = (): JSX.Element => {
             />
             <NavigationButton
               path="/user/reportar-error"
-              icon={faExclamationTriangle}
+              icon={faBug}
               label="Reportar un error"
             />
             <NavigationButton

@@ -1,0 +1,8 @@
+.txtarea {
+  box-shadow: 2px 4px 8px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  resize: none;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0px;
+}

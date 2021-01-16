@@ -75,7 +75,7 @@ const Login: React.FC = (): JSX.Element => {
       <Col
         style={{
           position: "relative",
-          width: wd.width > 1024 ? "40%" : wd.width > 600 ? "66%" : "85%",
+          width: wd.width > 1024 ? "50%" : wd.width > 600 ? "70%" : "95%",
           top: "50%",
           left: "50%",
           transform: "translate(-50%,-50%)",
