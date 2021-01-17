@@ -21,7 +21,6 @@ type Request = {
   title: string;
   uid: string;
   paid: boolean;
-  code: string;
 };
 
 const AdminPanel: React.FC = (): JSX.Element => {
@@ -30,18 +29,18 @@ const AdminPanel: React.FC = (): JSX.Element => {
 
   const handleStart: Function = async (
     uid: string,
-    code: string,
+    key: string,
     starting: boolean
   ): Promise<void> => {
     try {
-      console.log(code);
+      console.log(key);
       await firebase
         .database()
-        .ref(`requests/${code}`)
+        .ref(`requests/${key}`)
         .update({ starting: !starting });
       await firebase
         .database()
-        .ref(`user/${uid}/requests/${code}`)
+        .ref(`user/${uid}/requests/${key}`)
         .update({ starting: !starting });
       if (starting) {
         alert("Se ha cancelado el inicio de la peticion");
@@ -59,7 +58,7 @@ const AdminPanel: React.FC = (): JSX.Element => {
         <PaperBG key={key}>
           <Col>
             <Row>fecha: {r.date}</Row>
-            <Row>codigo de compra: {r.code}</Row>
+            <Row>codigo de compra: {r.key}</Row>
             <Row>email: {r.email}</Row>
             <Row>uid: {r.uid}</Row>
             <Row>empresa: {r.business}</Row>
@@ -72,7 +71,7 @@ const AdminPanel: React.FC = (): JSX.Element => {
               pagado: <BooleanIcons value={r.paid} />
             </Row>
             <Row
-              onClick={() => handleStart(r.uid, r.code, r.starting)}
+              onClick={() => handleStart(r.uid, r.key, r.starting)}
               className="align-items-center"
             >
               Iniciado: <BooleanIcons value={r.starting} />

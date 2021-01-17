@@ -40,6 +40,7 @@ const initialState = {
   location: "",
   quantity: requestRange.min,
   starting: false,
+  ready: false,
   solved: false,
   responseComment: "",
   cardSended: false,
@@ -106,6 +107,7 @@ const Request: React.FC = (): JSX.Element => {
         cardSended: state.cardSended,
         date: state.date,
         key: key,
+        ready: false,
       });
       setState(() => ({
         ...initialState,
