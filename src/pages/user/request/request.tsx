@@ -41,7 +41,6 @@ const initialState = {
   quantity: requestRange.min,
   starting: false,
   ready: false,
-  solved: false,
   responseComment: "",
   cardSended: false,
   date: new Date().toString(),

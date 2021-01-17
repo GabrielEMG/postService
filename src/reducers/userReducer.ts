@@ -45,7 +45,6 @@ type Report = {
   type: string;
   date: Date;
   key?: string;
-  ready: boolean;
 };
 
 type Request = {
@@ -54,9 +53,9 @@ type Request = {
   surveyTitle: string;
   read: boolean;
   starting: boolean;
-  solved: boolean;
-  responseComment: string;
+  ready: boolean;
   cardSended: boolean;
+  responseComment: string;
   date: Date;
 };
 

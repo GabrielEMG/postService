@@ -6,8 +6,8 @@ import PaperBG from "../../../components/paperBG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { formatDate } from "../../../helpers/dateHelper";
 import {
-  faCheckCircle,
-  faEye,
+  faCheckDouble,
+  faCheck,
   faPaperPlane,
   faClock,
   faStop,
@@ -81,15 +81,7 @@ const RequestStatus: React.FC = (): JSX.Element => {
             }}
           />
           <FontAwesomeIcon
-            icon={
-              r.solved
-                ? faCheckCircle
-                : r.cardSended
-                ? faPaperPlane
-                : r.ready
-                ? faEye
-                : faClock
-            }
+            icon={r.cardSended ? faCheckDouble : r.ready ? faCheck : faClock}
             style={{
               color: "green",
               position: "absolute",
