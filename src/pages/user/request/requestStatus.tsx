@@ -24,6 +24,7 @@ type Request = {
   cardSended: boolean;
   date: Date;
   key: string;
+  ready: boolean;
 };
 
 const RequestStatus: React.FC = (): JSX.Element => {
@@ -96,6 +97,7 @@ const RequestStatus: React.FC = (): JSX.Element => {
               <p>Codigo de Pedido: {r.key}</p>
               <p>Nombre de encuesta: {r.surveyTitle}</p>
               <p>En produccion: {r.starting ? "Si" : "No"}</p>
+              <p>Listo para envio: {r.ready ? "Si" : "No"}</p>
               <p>Enviado: {r.cardSended ? "Si" : "No"}</p>
               {r.responseComment && <p>{`Comentario: ${r.responseComment}`}</p>}
             </Col>

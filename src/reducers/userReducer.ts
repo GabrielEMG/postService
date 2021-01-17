@@ -45,6 +45,7 @@ type Report = {
   type: string;
   date: Date;
   key?: string;
+  ready: boolean;
 };
 
 type Request = {
