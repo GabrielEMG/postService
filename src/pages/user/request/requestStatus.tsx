@@ -56,7 +56,16 @@ const RequestStatus: React.FC = (): JSX.Element => {
 
   const display: JSX.Element[] | JSX.Element = arrDisplay.map(
     (r: Request, i: number): JSX.Element => (
-      <PaperBG key={i}>
+      <PaperBG
+        key={i}
+        style={{
+          backgroundColor: r.cardSended
+            ? "rgba(0,255,0,0.1)"
+            : r.ready
+            ? "rgba(50,200,0,0.1)"
+            : "rgba(100,100,0,0.1)",
+        }}
+      >
         <Col xs={12} className="p-2">
           <FontAwesomeIcon
             onClick={() => handleDeleteRequest(r.key)}
@@ -77,7 +86,7 @@ const RequestStatus: React.FC = (): JSX.Element => {
                 ? faCheckCircle
                 : r.cardSended
                 ? faPaperPlane
-                : r.read
+                : r.ready
                 ? faEye
                 : faClock
             }

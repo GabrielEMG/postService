@@ -18,6 +18,7 @@ type Request = {
   responseComment: string;
   solved: boolean;
   starting: boolean;
+  ready: boolean;
   title: string;
   uid: string;
   paid: boolean;
@@ -52,6 +53,53 @@ const AdminPanel: React.FC = (): JSX.Element => {
     }
   };
 
+  const handleFinish: Function = async (
+    uid: string,
+    key: string,
+    starting: boolean,
+    ready: boolean
+  ) => {
+    try {
+      if (!starting) handleStart(uid, key, starting);
+      await firebase
+        .database()
+        .ref(`requests/${key}`)
+        .update({ ready: !ready });
+      await firebase
+        .database()
+        .ref(`user/${uid}/requests/${key}`)
+        .update({ ready: !ready });
+      if (ready) alert("Se ha cancelado el pedido LISTO");
+      else alert("Se ha notificado el pedido a LISTO");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleSend: Function = async (
+    uid: string,
+    key: string,
+    starting: boolean,
+    ready: boolean,
+    cardSended: boolean
+  ) => {
+    try {
+      if (!ready) handleFinish(uid, key, starting, ready);
+      await firebase
+        .database()
+        .ref(`requests/${key}`)
+        .update({ cardSended: !cardSended });
+      await firebase
+        .database()
+        .ref(`user/${uid}/requests/${key}`)
+        .update({ cardSended: !cardSended });
+      if (ready) alert("Se ha cancelado el pedido LISTO");
+      else alert("Se ha notificado el pedido a LISTO");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
   const requestDisplay: JSX.Element[] = requests.map(
     (r: Request, key: number): JSX.Element => {
       return (
@@ -71,12 +119,27 @@ const AdminPanel: React.FC = (): JSX.Element => {
               pagado: <BooleanIcons value={r.paid} />
             </Row>
             <Row
-              onClick={() => handleStart(r.uid, r.key, r.starting)}
+              onClick={() =>
+                handleStart(r.uid, r.key, r.starting, r.ready, r.cardSended)
+              }
               className="align-items-center"
             >
               Iniciado: <BooleanIcons value={r.starting} />
             </Row>
-            <Row className="align-items-center">
+            <Row
+              onClick={() =>
+                handleFinish(r.uid, r.key, r.starting, r.ready, r.cardSended)
+              }
+              className="align-items-center"
+            >
+              Finalizado: <BooleanIcons value={r.ready} />
+            </Row>
+            <Row
+              onClick={() =>
+                handleSend(r.uid, r.key, r.starting, r.ready, r.cardSended)
+              }
+              className="align-items-center"
+            >
               enviado: <BooleanIcons value={r.cardSended} />
             </Row>
           </Col>
