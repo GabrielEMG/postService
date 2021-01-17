@@ -92,7 +92,10 @@ const Request: React.FC = (): JSX.Element => {
         throw new Error("No haz seleccionado una encuesta");
       setAppState((prev) => ({ ...prev, isLoading: true }));
       const key = firebase.database().ref("requests").push().key;
-      await firebase.database().ref(`requests/${key}`).set(state);
+      await firebase
+        .database()
+        .ref(`requests/${key}`)
+        .set({ ...state, key });
       await firebase.database().ref(`user/${state.uid}/requests/${key}`).set({
         quantity: state.quantity,
         surveyCode: state.key,
@@ -102,6 +105,7 @@ const Request: React.FC = (): JSX.Element => {
         responseComment: "",
         cardSended: state.cardSended,
         date: state.date,
+        key: key,
       });
       setState(() => ({
         ...initialState,
