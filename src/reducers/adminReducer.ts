@@ -56,7 +56,7 @@ const adminReducer = (state: Admin = initialState, action: any) => {
       }
       return { ...state, users: [...state.users, { ...payload, surveys }] };
     case "ADMIN_GET_REQUESTS":
-      return { ...state, requests: payload };
+      return { ...state, requests: payload, date: new Date(payload.date) };
     case "ADMIN_GET_BUGREPORTS":
       return { ...state, bugReports: payload, date: new Date(payload.date) };
     default:
