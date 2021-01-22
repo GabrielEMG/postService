@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import PaperBG from "../../../components/paperBG";
 import BooleanIcons from "../../../components/booleanIcons";
 import { firebase } from "../../../firebase";
+import { dateFormat } from "../../../helpers/dateFormat";
 
 type Request = {
   business: string;
@@ -38,16 +39,11 @@ const AdminPanel: React.FC = (): JSX.Element => {
       await firebase
         .database()
         .ref(`requests/${key}`)
-        .update({ starting: !starting });
+        .update({ starting: !starting, ready: false, cardSended: false });
       await firebase
         .database()
         .ref(`user/${uid}/requests/${key}`)
-        .update({ starting: !starting });
-      if (starting) {
-        alert("Se ha cancelado el inicio de la peticion");
-      } else {
-        alert("Se ha actualizado la peticion a INICIADA");
-      }
+        .update({ starting: !starting, ready: false, cardSended: false });
     } catch (err) {
       alert(err.message);
     }
@@ -60,17 +56,14 @@ const AdminPanel: React.FC = (): JSX.Element => {
     ready: boolean
   ) => {
     try {
-      if (!starting) handleStart(uid, key, starting);
       await firebase
         .database()
         .ref(`requests/${key}`)
-        .update({ ready: !ready });
+        .update({ ready: !ready, starting: true, cardSended: false });
       await firebase
         .database()
         .ref(`user/${uid}/requests/${key}`)
-        .update({ ready: !ready });
-      if (ready) alert("Se ha cancelado el pedido LISTO");
-      else alert("Se ha notificado el pedido a LISTO");
+        .update({ ready: !ready, starting: true, cardSended: false });
     } catch (err) {
       alert(err.message);
     }
@@ -79,22 +72,18 @@ const AdminPanel: React.FC = (): JSX.Element => {
   const handleSend: Function = async (
     uid: string,
     key: string,
-    starting: boolean,
-    ready: boolean,
+
     cardSended: boolean
   ) => {
     try {
-      if (!ready) handleFinish(uid, key, starting, ready);
       await firebase
         .database()
         .ref(`requests/${key}`)
-        .update({ cardSended: !cardSended });
+        .update({ cardSended: !cardSended, starting: true, ready: true });
       await firebase
         .database()
         .ref(`user/${uid}/requests/${key}`)
-        .update({ cardSended: !cardSended });
-      if (ready) alert("Se ha cancelado el pedido LISTO");
-      else alert("Se ha notificado el pedido a LISTO");
+        .update({ cardSended: !cardSended, starting: true, ready: true });
     } catch (err) {
       alert(err.message);
     }
@@ -104,8 +93,8 @@ const AdminPanel: React.FC = (): JSX.Element => {
     (r: Request, key: number): JSX.Element => {
       return (
         <PaperBG key={key}>
-          <Col>
-            <Row>fecha: {r.date}</Row>
+          <Col className="ml-3">
+            <Row>fecha: {dateFormat(new Date(r.date))}</Row>
             <Row>codigo de compra: {r.key}</Row>
             <Row>email: {r.email}</Row>
             <Row>uid: {r.uid}</Row>
@@ -135,9 +124,7 @@ const AdminPanel: React.FC = (): JSX.Element => {
               Finalizado: <BooleanIcons value={r.ready} />
             </Row>
             <Row
-              onClick={() =>
-                handleSend(r.uid, r.key, r.starting, r.ready, r.cardSended)
-              }
+              onClick={() => handleSend(r.uid, r.key, r.cardSended)}
               className="align-items-center"
             >
               enviado: <BooleanIcons value={r.cardSended} />
@@ -150,10 +137,12 @@ const AdminPanel: React.FC = (): JSX.Element => {
 
   return (
     <Container>
-      <Row>
-        <h4>Pedidos de tarjetas</h4>
-      </Row>
-      <Row>{requestDisplay}</Row>
+      <Col>
+        <Row className="justify-content-center my-4">
+          <h4>Pedidos de tarjetas</h4>
+        </Row>
+        <Row>{requestDisplay}</Row>
+      </Col>
     </Container>
   );
 };

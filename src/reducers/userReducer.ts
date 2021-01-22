@@ -108,7 +108,6 @@ const userReducer = (state: User = initialState, action: any) => {
             }
           )
         : [];
-      console.log(payload);
       return {
         ...state,
         ...payload,

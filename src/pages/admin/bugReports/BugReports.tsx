@@ -5,6 +5,7 @@ import PaperBG from "../../../components/paperBG";
 import { firebase } from "../../../firebase";
 import "./bugReports.css";
 import Comment from "./comment";
+import { dateFormat } from "../../../helpers/dateFormat";
 
 type BugReport = {
   anonymous: boolean;
@@ -17,17 +18,6 @@ type BugReport = {
   user: string;
   key: string;
   uid: string;
-};
-
-const dateFormat: Function = (date: Date): string => {
-  const year: number = date.getFullYear();
-  const month: number = date.getMonth() + 1;
-  const day: number = date.getDate();
-  const hour: number = date.getHours();
-  const minutes: number = date.getMinutes();
-  return `${hour}:${minutes < 10 ? 0 : ""}${minutes} - ${day}/${
-    month < 10 ? 0 : ""
-  }${month}/${year}`;
 };
 
 const BugReports: React.FC = (): JSX.Element => {

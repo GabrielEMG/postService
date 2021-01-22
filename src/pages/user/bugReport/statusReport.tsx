@@ -3,7 +3,7 @@ import { firebase } from "../../../firebase";
 import { useSelector } from "react-redux";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatDate } from "../../../helpers/dateHelper";
+import { dateFormat } from "../../../helpers/dateFormat";
 import {
   faCheckCircle,
   faExclamationTriangle,
@@ -81,18 +81,19 @@ const StatusReport: React.FC = (): JSX.Element => {
                 }}
               />
               <Row>
-                <Col>
-                  <p>Codigo: {r.key}</p>
-                  <p>Fecha: {formatDate(new Date(r.date))}</p>
-                  <p>Leido: {r.read ? "Si" : "No"}</p>
-                  <p>Resuelto: {r.solved ? "Si" : "No"}</p>
-                  <p>{r.response && r.response}</p>
-                  <p>
+                <Col className="ml-3">
+                  <Row>Codigo: {r.key}</Row>
+                  <Row>Fecha: {dateFormat(new Date(r.date))}</Row>
+                  <Row>Tipo: {r.type}</Row>
+                  <Row>Leido: {r.read ? "Si" : "No"}</Row>
+                  <Row>Resuelto: {r.solved ? "Si" : "No"}</Row>
+                  <Row>{r.response && r.response}</Row>
+                  <Row>
                     Reporte:
                     {` ${r.text.substring(0, 200)}${
                       r.text.length > 200 ? "..." : ""
                     }`}
-                  </p>
+                  </Row>
                 </Col>
               </Row>
             </Col>

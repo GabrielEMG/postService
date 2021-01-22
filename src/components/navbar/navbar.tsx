@@ -2,13 +2,54 @@ import React from "react";
 import CompanyLogo from "../companyLogo";
 import NavbarButton from "./navbarButton";
 import { useSelector } from "react-redux";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
+import Sidebar from "../sidebar";
+import NavigationButton from "../navigationButton";
+import {
+  faSignOutAlt,
+  faSignInAlt,
+  faBug,
+  faUserAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import useLogout from "../../hooks/useLogout";
 
 const Navbar: React.FC = (): JSX.Element => {
   const isLogin = useSelector(
     (selector: any): boolean => selector.user.isLogin
   );
+  const logout: Function = useLogout();
+  const wdim = useWindowDimensions();
 
-  return (
+  const navbarBreak = 980;
+
+  const colapsedNavbar = () => (
+    <Sidebar colapseWidth={navbarBreak}>
+      <NavigationButton
+        path="/acerca_de_nosotros"
+        icon={faBug}
+        label="Acerca de nosotros"
+      />
+      {isLogin ? <>
+        <NavigationButton path="/user" icon={faUserAlt} label="Ingresar" />
+        <NavigationButton
+              path="/login"
+              icon={faSignOutAlt}
+              label="Salir"
+              action={logout}
+            /></>
+      :(<>
+      <NavigationButton path="/login" icon={faUserAlt} label="Login" />
+      <NavigationButton
+        path="/register"
+        icon={faSignInAlt}
+        label="Registrarse"
+      /></>)}
+    </Sidebar>
+  );
+
+  return wdim.width <= navbarBreak ? (
+    colapsedNavbar()
+  ) : (
     <div
       style={{
         position: "relative",

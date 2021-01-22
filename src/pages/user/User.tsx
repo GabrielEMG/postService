@@ -4,15 +4,6 @@ import ChartSelector from "./charts";
 import CreateSurvey from "./createSurvey";
 import EditSurvey from "./editSurvey/editSurvey";
 import NavigationButton from "../../components/navigationButton";
-import {
-  faChartBar,
-  faPlusSquare,
-  faEdit,
-  faSignOutAlt,
-  faUser,
-  faBug,
-  faTasks,
-} from "@fortawesome/free-solid-svg-icons";
 import CompanyLogo from "../../components/companyLogo";
 import useLogout from "../../hooks/useLogout";
 import { useSelector } from "react-redux";
@@ -23,6 +14,17 @@ import BugReport from "./bugReport";
 import Sidebar from "../../components/sidebar";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Request from "./request";
+import TestCode from "./testCode";
+import {
+  faChartBar,
+  faPlusSquare,
+  faEdit,
+  faSignOutAlt,
+  faUser,
+  faBug,
+  faTasks,
+  faQrcode,
+} from "@fortawesome/free-solid-svg-icons";
 
 const User: React.FC = (): JSX.Element => {
   const history = useHistory();
@@ -56,6 +58,11 @@ const User: React.FC = (): JSX.Element => {
               path="/user"
               icon={faChartBar}
               label="Encuestas"
+            />
+            <NavigationButton
+              path="/user/crear-qr"
+              icon={faQrcode}
+              label="Crear codigo qr"
             />
             <NavigationButton
               path="/user/crear-encuesta"
@@ -98,6 +105,7 @@ const User: React.FC = (): JSX.Element => {
             }}
           >
             <Route exact path="/user" children={<ChartSelector />} />
+            <Route path="/user/crear-qr" children={<TestCode />} />
             <Route path="/user/crear-encuesta" children={<CreateSurvey />} />
             <Route path="/user/editar-encuesta" children={<EditSurvey />} />
             <Route path="/user/perfil" children={<Profile />} />

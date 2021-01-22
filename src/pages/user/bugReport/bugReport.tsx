@@ -128,10 +128,12 @@ const BugReport: React.FC = (): JSX.Element => {
                 label="Selecciona una opción"
               >
                 <option value="error">Reportar un error</option>
-                <option value="complain">Reportar una queja</option>
-                <option value="comentary">Dejanos un comentario</option>
-                <option value="feature">Solicitar nueva funcionalidad</option>
-                <option value="other">Otros</option>
+                <option value="queja">Reportar una queja</option>
+                <option value="comentario">Dejanos un comentario</option>
+                <option value="nueva funcionalidad">
+                  Solicitar nueva funcionalidad
+                </option>
+                <option value="otros">Otros</option>
               </CustomSelector>
             </Row>
             <Row className="align-items-center my-4">

@@ -4,14 +4,15 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import PaperBG from "../../../components/paperBG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatDate } from "../../../helpers/dateHelper";
+import { dateFormat } from "../../../helpers/dateFormat";
 import {
   faCheckDouble,
   faCheck,
   faPaperPlane,
   faClock,
-  faStop,
+  faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import BooleanIcons from "../../../components/booleanIcons";
 
 type Request = {
   quantity: number;
@@ -25,6 +26,7 @@ type Request = {
   date: Date;
   key: string;
   ready: boolean;
+  paid: boolean;
 };
 
 const RequestStatus: React.FC = (): JSX.Element => {
@@ -60,28 +62,40 @@ const RequestStatus: React.FC = (): JSX.Element => {
         key={i}
         style={{
           backgroundColor: r.cardSended
-            ? "rgba(0,255,0,0.1)"
+            ? "rgba(0,255,0,0.5)"
             : r.ready
-            ? "rgba(50,200,0,0.1)"
-            : "rgba(100,100,0,0.1)",
+            ? "rgba(0,255,0,0.3)"
+            : r.starting
+            ? "rgba(0,255,0,0.1)"
+            : "rgba(0,200,0,0.1)",
         }}
       >
         <Col xs={12} className="p-2">
+          {!r.starting && (
+            <FontAwesomeIcon
+              onClick={() => handleDeleteRequest(r.key)}
+              icon={faTimesCircle}
+              style={{
+                cursor: "pointer",
+                height: 30,
+                width: 30,
+                position: "absolute",
+                top: -20,
+                right: -20,
+                color: "red",
+              }}
+            />
+          )}
           <FontAwesomeIcon
-            onClick={() => handleDeleteRequest(r.key)}
-            icon={faStop}
-            style={{
-              cursor: "pointer",
-              height: 30,
-              width: 30,
-              position: "absolute",
-              top: -20,
-              right: -20,
-              color: "grey",
-            }}
-          />
-          <FontAwesomeIcon
-            icon={r.cardSended ? faCheckDouble : r.ready ? faCheck : faClock}
+            icon={
+              r.cardSended
+                ? faPaperPlane
+                : r.ready
+                ? faCheckDouble
+                : r.starting
+                ? faCheck
+                : faClock
+            }
             style={{
               color: "green",
               position: "absolute",
@@ -92,15 +106,26 @@ const RequestStatus: React.FC = (): JSX.Element => {
             }}
           />
           <Row>
-            <Col>
-              <p>Fecha de pedido: {formatDate(r.date)}</p>
-              <p>Cantidad de tarjetas pedidas: {r.quantity}</p>
-              <p>Codigo de Pedido: {r.key}</p>
-              <p>Nombre de encuesta: {r.surveyTitle}</p>
-              <p>En produccion: {r.starting ? "Si" : "No"}</p>
-              <p>Listo para envio: {r.ready ? "Si" : "No"}</p>
-              <p>Enviado: {r.cardSended ? "Si" : "No"}</p>
-              {r.responseComment && <p>{`Comentario: ${r.responseComment}`}</p>}
+            <Col className="ml-3">
+              <Row>Fecha de pedido: {dateFormat(new Date(r.date))}</Row>
+              <Row>Cantidad de tarjetas pedidas: {r.quantity}</Row>
+              <Row>Codigo de Pedido: {r.key}</Row>
+              <Row>Nombre de encuesta: {r.surveyTitle}</Row>
+              <Row>
+                Pagado: <BooleanIcons value={r.paid} />
+              </Row>
+              <Row className="align-items-center">
+                En produccion: <BooleanIcons value={r.starting} />
+              </Row>
+              <Row className="align-items-center">
+                Listo para envio: <BooleanIcons value={r.ready} />
+              </Row>
+              <Row className="align-items-center">
+                Enviado: <BooleanIcons value={r.cardSended} />
+              </Row>
+              {r.responseComment && (
+                <Row>{`Comentario: ${r.responseComment}`}</Row>
+              )}
             </Col>
           </Row>
         </Col>

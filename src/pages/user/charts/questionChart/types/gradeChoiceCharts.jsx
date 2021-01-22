@@ -51,8 +51,6 @@ const GradeChoiceCharts = (props) => {
     datasets: linearDataset,
   };
 
-  console.log(linearData);
-
   const chartData = {
     labels: barLabel,
     datasets: [

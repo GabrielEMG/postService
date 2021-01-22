@@ -9,16 +9,29 @@ import User from "./pages/user";
 import Admin from "./pages/admin";
 import useFirebase from "./hooks/useFirebase";
 import Register from "./pages/register/register";
+import ContactUs from "./pages/contactUs";
 
 const App = () => {
   useFirebase();
   return (
-    <>
+    <div className="app-colors" style={{ width: "100%", minHeight: "100vh" }}>
       <BrowserRouter>
         <Switch>
           <Route exact path="/">
             <Navbar />
             <Home />
+          </Route>
+          <Route exact path="/about">
+            <Navbar />
+            <Home />
+          </Route>
+          <Route exact path="/prices">
+            <Navbar />
+            <Home />
+          </Route>
+          <Route exact path="/contact_us">
+            <Navbar />
+            <ContactUs />
           </Route>
           <Route exact path="/login">
             <Navbar />
@@ -39,7 +52,7 @@ const App = () => {
           </Route>
         </Switch>
       </BrowserRouter>
-    </>
+    </div>
   );
 };
 

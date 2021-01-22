@@ -76,7 +76,14 @@ const Charts: React.FC<{ ind: number }> = (props): JSX.Element => {
         <>
           <PaperBG>
             <Row>
-              <Col>
+              <Col
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <h4>Votos durante fechas: {data ? data.length : 0}</h4>
               </Col>
               <Col>

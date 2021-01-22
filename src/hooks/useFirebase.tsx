@@ -25,7 +25,6 @@ const useFirebase: Function = (): void => {
           .ref(`user/${u.uid}`)
           .on("value", (snapshot) => {
             const newPayload = snapshot.val();
-            console.log(newPayload);
             newPayload &&
               dispatch({
                 type: "LOGIN_USER",

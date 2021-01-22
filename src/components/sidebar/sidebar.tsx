@@ -6,17 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 type Props = {
   style?: React.CSSProperties;
   children: any;
+  colapseWidth?: number;
 };
 
 const Sidebar: React.FC<Props> = (props): JSX.Element => {
   const [colapse, setColapse] = React.useState<boolean>(true);
   const [actived, setActived] = React.useState<boolean>(false);
   const wdim = useWindowDimensions();
-
+  const wc = props.colapseWidth ? props.colapseWidth : 768;
   React.useEffect(() => {
-    if (wdim.width <= 768 && !colapse) {
+    if (wdim.width <= wc && !colapse) {
       setColapse(true);
-    } else if (wdim.width > 768 && colapse) {
+    } else if (wdim.width > wc && colapse) {
       setColapse(false);
     }
   }, [wdim.width]);
@@ -28,6 +29,7 @@ const Sidebar: React.FC<Props> = (props): JSX.Element => {
         <div
           onClick={() => setActived(true)}
           style={{
+            cursor: "pointer",
             position: "fixed",
             width: 50,
             height: 50,
