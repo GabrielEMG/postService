@@ -64,11 +64,14 @@ const About: React.FC = (): JSX.Element => {
                   <Col>
                     <Row className="justify-content-center">Base de datos</Row>
                     <ul>
+                      <li>Serverless:</li>
+                      <ul>
+                        <li>Firebase</li>
+                      </ul>
                       <li>
                         NoSQL:
                         <ul>
                           <li>MongoDB</li>
-                          <li>Firebase</li>
                         </ul>
                       </li>
                       <li>
