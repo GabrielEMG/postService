@@ -23,51 +23,10 @@ const Home: React.FC = (): JSX.Element => {
             realizar un estudio de mercado y saber la opinion de sus clientes de
             forma precisa y en tiempo real
           </Row>
-          <Row>
-            <PaperBG>
-              <Row className="justify-content-center py-3">
-                <h4>Como funciona</h4>
-              </Row>
-              <Row className="justify-content-center">
-                <Col xs={6} md={3} style={{ height: 300 }}>
-                  <PaperBG style={{ height: "90%" }}>
-                    <Col>
-                      1. Crea una encuesta con la informacion que necesites
-                      saber de tus clientes
-                    </Col>
-                  </PaperBG>
-                </Col>
-                <Col xs={6} md={3} style={{ height: 300 }}>
-                  <PaperBG style={{ height: "90%" }}>
-                    <Col>
-                      2. Solicita tarjetas con claves unicas (Codigo QR)
-                    </Col>
-                  </PaperBG>
-                </Col>
-                <Col xs={6} md={3} style={{ height: 300 }}>
-                  <PaperBG style={{ height: "90%" }}>
-                    <Col>
-                      3. por cada venta o despacho que hagas entrega una tarjeta
-                      al cliente para que respondan la encuesta
-                    </Col>
-                  </PaperBG>
-                </Col>
-                <Col xs={6} md={3} style={{ height: 300 }}>
-                  <PaperBG style={{ height: "90%" }}>
-                    <Col>
-                      4. observa en las respuestas de tus clientes en tiempo
-                      real para disenar y administrar tu empresa en base a la
-                      opinion de tus clientes
-                    </Col>
-                  </PaperBG>
-                </Col>
-              </Row>
-            </PaperBG>
-          </Row>
           <Row className="justify-content-center">
             <PaperBG>
               <Row className="justify-content-center py-3">
-                <h4>TESTEA MI APP</h4>
+                <h4>CÓMO TESTEA MI APP</h4>
               </Row>
               <Row className="justify-content-center">
                 <Col xs={10} md={6} lg={6}>
@@ -180,6 +139,48 @@ const Home: React.FC = (): JSX.Element => {
                           borderWidth: "thin",
                         }}
                       />
+                    </Col>
+                  </PaperBG>
+                </Col>
+              </Row>
+            </PaperBG>
+          </Row>
+
+          <Row>
+            <PaperBG>
+              <Row className="justify-content-center py-3">
+                <h4>CÓMO FUNCIONA</h4>
+              </Row>
+              <Row className="justify-content-center">
+                <Col xs={6} md={3} style={{ height: 300 }}>
+                  <PaperBG style={{ height: "90%" }}>
+                    <Col>
+                      1. Crea una encuesta con la informacion que necesites
+                      saber de tus clientes
+                    </Col>
+                  </PaperBG>
+                </Col>
+                <Col xs={6} md={3} style={{ height: 300 }}>
+                  <PaperBG style={{ height: "90%" }}>
+                    <Col>
+                      2. Solicita tarjetas con claves unicas (Codigo QR)
+                    </Col>
+                  </PaperBG>
+                </Col>
+                <Col xs={6} md={3} style={{ height: 300 }}>
+                  <PaperBG style={{ height: "90%" }}>
+                    <Col>
+                      3. por cada venta o despacho que hagas entrega una tarjeta
+                      al cliente para que respondan la encuesta
+                    </Col>
+                  </PaperBG>
+                </Col>
+                <Col xs={6} md={3} style={{ height: 300 }}>
+                  <PaperBG style={{ height: "90%" }}>
+                    <Col>
+                      4. observa en las respuestas de tus clientes en tiempo
+                      real para disenar y administrar tu empresa en base a la
+                      opinion de tus clientes
                     </Col>
                   </PaperBG>
                 </Col>
