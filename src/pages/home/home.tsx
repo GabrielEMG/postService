@@ -127,8 +127,8 @@ const Home: React.FC = (): JSX.Element => {
                             paddingBottom: 20,
                           }}
                         >
-                          Observa como se adaptan los graficos luego de enviar
-                          tu respuesta
+                          Observa como responden en tiempo real los graficos
+                          luego de enviar tu respuesta
                         </h5>
                       </Row>
                       <img
