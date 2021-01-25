@@ -44,12 +44,8 @@ const TestCode: React.FC = (): JSX.Element => {
       setState((prev) => ({ ...prev, isLoading: true, error: "" }));
       if (survey.title === "" || survey.key === "")
         throw new Error("No has elegido una encuesta");
-      const key: string =
-        firebase
-          .database()
-          .ref("keys/" + survey.owner)
-          .push().key || "";
-      await firebase.database().ref(`keys/${survey.owner}/${key}`).set({
+      const key: string = firebase.database().ref("keys").push().key || "";
+      await firebase.database().ref(`keys/${key}`).set({
         key: key,
         owner: survey.owner,
         survey: survey.key,
@@ -65,8 +61,11 @@ const TestCode: React.FC = (): JSX.Element => {
   return (
     <Container>
       <Col>
-        <Row className="justify-content-center my-4">
+        <Row className="justify-content-center mt-4">
           <h4>Crea un codigo QR para testear tu Encuesta!</h4>
+        </Row>
+        <Row className="justify-content-center my-4">
+          Selecciona una encuesta y crea un codigo QR con el boton de abajo.
         </Row>
         <Row className="justify-content-center">
           <Col xs={11} md={6} lg={4}>
@@ -100,6 +99,9 @@ const TestCode: React.FC = (): JSX.Element => {
             <Row className="justify-content-center">
               Escanea el codigo QR para direccionarte a la encuesta y
               responderla!!!
+            </Row>
+            <Row className="justify-content-center">
+              {`https://survey-realtime.web.app/survey/${state.key}`}
             </Row>
             <Row className="justify-content-center">
               <QRCode

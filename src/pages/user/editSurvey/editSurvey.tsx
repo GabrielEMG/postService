@@ -1,10 +1,19 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const EditSurvey: React.FC = (): JSX.Element => {
   return (
     <Container>
-      <h1>AÚN NO SE PUEDEN EDITAR ENCUESTAS...</h1>
+      <Row>
+        <Col style={{ height: "100vh" }}>
+          <Row
+            className="justify-content-center align-items-center"
+            style={{ height: "100%" }}
+          >
+            <h4>EN CONSTRUCCION...</h4>
+          </Row>
+        </Col>
+      </Row>
     </Container>
   );
 };

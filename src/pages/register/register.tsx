@@ -77,7 +77,7 @@ const Register: React.FC = (): JSX.Element => {
 
   return (
     <Container>
-      <Row className="justify-content-center" style={{ paddingTop: 100 }}>
+      <Row className="justify-content-center" style={{ paddingTop: 20 }}>
         <Col xs={12} sm={11} md={11} lg={7} xl={6}>
           <PaperBG>
             <Col>

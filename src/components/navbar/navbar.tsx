@@ -8,8 +8,10 @@ import NavigationButton from "../navigationButton";
 import {
   faSignOutAlt,
   faSignInAlt,
-  faBug,
   faUserAlt,
+  faHome,
+  faMailBulk,
+  faInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import useLogout from "../../hooks/useLogout";
 
@@ -24,26 +26,33 @@ const Navbar: React.FC = (): JSX.Element => {
 
   const colapsedNavbar = () => (
     <Sidebar colapseWidth={navbarBreak}>
+      <NavigationButton path="/" icon={faHome} label="Hogar" />
       <NavigationButton
-        path="/acerca_de_nosotros"
-        icon={faBug}
-        label="Acerca de nosotros"
+        path="/contact_us"
+        icon={faMailBulk}
+        label="Contactame!"
       />
-      {isLogin ? <>
-        <NavigationButton path="/user" icon={faUserAlt} label="Ingresar" />
-        <NavigationButton
-              path="/login"
-              icon={faSignOutAlt}
-              label="Salir"
-              action={logout}
-            /></>
-      :(<>
-      <NavigationButton path="/login" icon={faUserAlt} label="Login" />
-      <NavigationButton
-        path="/register"
-        icon={faSignInAlt}
-        label="Registrarse"
-      /></>)}
+      <NavigationButton path="/about" icon={faInfo} label="Acerca de mi" />
+      {isLogin ? (
+        <>
+          <NavigationButton path="/user" icon={faUserAlt} label="Ingresar" />
+          <NavigationButton
+            path="/login"
+            icon={faSignOutAlt}
+            label="Salir"
+            action={logout}
+          />
+        </>
+      ) : (
+        <>
+          <NavigationButton path="/login" icon={faUserAlt} label="Login" />
+          <NavigationButton
+            path="/register"
+            icon={faSignInAlt}
+            label="Registrarse"
+          />
+        </>
+      )}
     </Sidebar>
   );
 
@@ -68,9 +77,9 @@ const Navbar: React.FC = (): JSX.Element => {
         style={{ marginRight: 20, marginLeft: 20 }}
       />
       <div style={{ position: "relative", display: "inline-flex" }}>
-        <NavbarButton link="/about" label="Acerca de nosotros" />
-        <NavbarButton link="/prices" label="Precios" />
-        <NavbarButton link="/contact_us" label="Contactanos" />
+        <NavbarButton link="/" label="Hogar" />
+        <NavbarButton link="/about" label="Acerca de mi!" />
+        <NavbarButton link="/contact_us" label="Contactame!" />
       </div>
       <div
         style={{

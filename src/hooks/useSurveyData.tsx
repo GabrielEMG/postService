@@ -34,6 +34,8 @@ const useSurveyData = (): [SurveyState, Function] => {
     responded: false,
   });
 
+  console.log(state);
+
   //checking data from route
   React.useEffect(() => {
     try {

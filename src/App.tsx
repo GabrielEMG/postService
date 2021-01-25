@@ -10,6 +10,8 @@ import Admin from "./pages/admin";
 import useFirebase from "./hooks/useFirebase";
 import Register from "./pages/register/register";
 import ContactUs from "./pages/contactUs";
+import Prices from "./pages/prices";
+import About from "./pages/about";
 
 const App = () => {
   useFirebase();
@@ -23,11 +25,11 @@ const App = () => {
           </Route>
           <Route exact path="/about">
             <Navbar />
-            <Home />
+            <About />
           </Route>
           <Route exact path="/prices">
             <Navbar />
-            <Home />
+            <Prices />
           </Route>
           <Route exact path="/contact_us">
             <Navbar />

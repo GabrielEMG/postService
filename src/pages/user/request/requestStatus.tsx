@@ -141,7 +141,11 @@ const RequestStatus: React.FC = (): JSX.Element => {
         </Row>
 
         <Row>
-          <Col>{display}</Col>
+          {arrDisplay.length === 0 ? (
+            "aun no se han hecho solicitudes"
+          ) : (
+            <Col>{display}</Col>
+          )}
         </Row>
       </Col>
     </Container>

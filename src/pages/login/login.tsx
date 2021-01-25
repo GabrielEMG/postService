@@ -63,7 +63,7 @@ const Login: React.FC = (): JSX.Element => {
 
   return (
     <Container>
-      <Row className="justify-content-center" style={{ paddingTop: 100 }}>
+      <Row className="justify-content-center" style={{ paddingTop: 20 }}>
         <Col xs={12} sm={11} md={11} lg={7} xl={6}>
           <PaperBG>
             <Col>
@@ -73,6 +73,14 @@ const Login: React.FC = (): JSX.Element => {
               >
                 <h2>Iniciar sesion con tu cuenta</h2>
               </Row>
+              <Col>
+                <Row className="justify-content-center">
+                  usuario de prueba: gabrielmolina@gmail.com
+                </Row>
+                <Row className="justify-content-center">
+                  contrasena: 5k2ii9rf
+                </Row>
+              </Col>
 
               <CustomInputGroup
                 icon={faEnvelope}
@@ -129,9 +137,6 @@ const Login: React.FC = (): JSX.Element => {
               >
                 <Link style={{ marginTop: 20 }} to="/register">
                   No tienes una cuenta? crea una aquí
-                </Link>
-                <Link style={{ marginTop: 10 }} to="/recuperar_contraseña">
-                  Olvidaste tu contraseña? recupérala aquí
                 </Link>
               </div>
               <Row

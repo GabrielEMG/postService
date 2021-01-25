@@ -63,6 +63,21 @@ const Profile: React.FC = (): JSX.Element => {
       <Row className="justify-content-center my-4">
         <h4>Perfil de usuario</h4>
       </Row>
+      <ul>
+        <li>Edita tu perfil de usuario haciendo click en editar</li>
+        <li>Haz click fuera del input o presiona Enter para guardar</li>
+        <li>Presiona ESC para cancelar la edicion</li>
+        <ul>
+          <li>
+            deb note: Los valores mostrados son los actuales de la base de datos
+          </li>
+          <li>
+            flow: edit -{">"} db -{">"} socket -{">"} redux -{">"} react -{">"}{" "}
+            render
+          </li>
+        </ul>
+      </ul>
+
       <Row>
         <ChangeInput
           title="Email"
