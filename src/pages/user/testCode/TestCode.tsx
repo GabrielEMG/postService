@@ -102,12 +102,12 @@ const TestCode: React.FC = (): JSX.Element => {
               responderla!!! (o ingresa al link de abajo)
             </Row>
             <Row className="justify-content-center">
-              <Link to="https://survey-realtime.web.app/survey/${state.key}">
-                ENLACE DE ENCUESTA
-              </Link>
+              <Link to="/survey/${state.key}">ENLACE DE ENCUESTA</Link>
             </Row>
             <Row className="justify-content-center">
-              <QRCode value={`survey-realtime.web.app/survey/${state.key}`} />
+              <QRCode
+                value={`https://survey-realtime.web.app/survey/${state.key}`}
+              />
             </Row>
           </>
         )}
