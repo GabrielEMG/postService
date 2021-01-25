@@ -107,9 +107,7 @@ const TestCode: React.FC = (): JSX.Element => {
               </Link>
             </Row>
             <Row className="justify-content-center">
-              <QRCode
-                value={`https://survey-realtime.web.app/survey/${state.key}`}
-              />
+              <QRCode value={`survey-realtime.web.app/survey/${state.key}`} />
             </Row>
           </>
         )}
