@@ -102,7 +102,7 @@ const TestCode: React.FC = (): JSX.Element => {
               responderla!!! (o ingresa al link de abajo)
             </Row>
             <Row className="justify-content-center">
-              <Link href="https://survey-realtime.web.app/survey/${state.key}">
+              <Link to="https://survey-realtime.web.app/survey/${state.key}">
                 ENLACE DE ENCUESTA
               </Link>
             </Row>
