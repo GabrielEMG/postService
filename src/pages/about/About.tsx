@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import PaperBG from "../../components/paperBG";
+import jspro from "./jspro.png";
 
 const About: React.FC = (): JSX.Element => {
   return (
@@ -96,6 +97,12 @@ const About: React.FC = (): JSX.Element => {
                   </Col>
                 </PaperBG>
               </Col>
+            </Row>
+            <Row className="justify-content-center mt-4 pt-4">
+              <h5>Also, weird flex but...</h5>
+            </Row>
+            <Row className="justify-content-center">
+              <img src={jspro} />
             </Row>
           </Col>
         </PaperBG>
