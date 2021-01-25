@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import CustomSelector from "../../../components/customSelector";
 import { firebase } from "../../../firebase";
 import ButtonWithLoad from "../../../components/buttonWithLoad";
+import { Link } from "react-router-dom";
 
 type Survey = {
   title: string;
@@ -98,10 +99,12 @@ const TestCode: React.FC = (): JSX.Element => {
           <>
             <Row className="justify-content-center">
               Escanea el codigo QR para direccionarte a la encuesta y
-              responderla!!!
+              responderla!!! (o ingresa al link de abajo)
             </Row>
             <Row className="justify-content-center">
-              {`https://survey-realtime.web.app/survey/${state.key}`}
+              <Link href="https://survey-realtime.web.app/survey/${state.key}">
+                ENLACE DE ENCUESTA
+              </Link>
             </Row>
             <Row className="justify-content-center">
               <QRCode
