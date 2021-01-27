@@ -26,7 +26,7 @@ const Home: React.FC = (): JSX.Element => {
           <Row className="justify-content-center">
             <PaperBG>
               <Row className="justify-content-center py-3">
-                <h4>CÓMO TESTEA MI APP</h4>
+                <h4>TESTEA MI APP!!</h4>
               </Row>
               <Row className="justify-content-center">
                 <Col xs={10} md={6} lg={6}>
